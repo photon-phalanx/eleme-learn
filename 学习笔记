@@ -1,0 +1,7 @@
+学习过程中的一些笔记
+1.设备像素比devicePixelRatio简单介绍 http://www.zhangxinxu.com/wordpress/2012/08/window-devicepixelratio/
+2.2017.2.19遇到 开发时,在index.html里写的link,img等href,src的全部get不到,在app.vue里可以get到（后面这句是废话）
+3.eslint的配置,报错时如果要取消eslint可以设置XXX:0
+4.css 先写布局（display），再写影响重绘的（width，height），然后再写可继承的
+5.关于手机调试:保证手机和电脑在同一个局域网，ipconfig找到对应的ip地址，吧ip替换localhost，新url复制到草料二维码上转成二维码，手机扫一扫即可
+6.由于像素比的存在，设定的1px并不是真正的1px（如在iphone6上为2px），解决方法见middle组件

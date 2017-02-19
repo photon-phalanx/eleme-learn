@@ -26,12 +26,11 @@ var app = express()
 var compiler = webpack(webpackConfig)
 
 // 这是测试的路由，只在前端独立开发时做测试
-var router = express.Router();
+
 var appData = require('../src/assets/others/data.json');
 var seller = appData.seller;
 var goods = appData.goods;
 var ratings = appData.ratings;
-
 var apiRoutes = express.Router();
 
 apiRoutes.get('/seller', function (req, res) {
@@ -55,7 +54,7 @@ apiRoutes.get('/ratings', function (req, res) {
   });
 });
 
-app.use(router);
+app.use(apiRoutes);
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
