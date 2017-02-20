@@ -1,0 +1,37 @@
+/*只有vue组件里的是有post-css辅助加上webkit等前缀的，所以这里要手动加前缀*/
+
+/*为了使得移动端有适应缩放的border*/
+
+/* TODO
+  .border-1px {
+    &:after {
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+      height: 20px;
+      background-color: #0b97c4;
+    }
+  }
+
+  不知道为什么形如这样的scss是不行的
+*/
+@media (-webkit-device-pixel-ratio: 1.5), (device-pixel-ratio: 1.5) {
+  .border-1px:after {
+    -webkit-transform: scaleY(0.7);
+    transform: scaleY(0.7);
+  }
+}
+
+@media (-webkit-device-pixel-ratio: 2), (device-pixel-ratio: 2) {
+  .border-1px:after {
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+}
+
+@media (-webkit-device-pixel-ratio: 3), (device-pixel-ratio: 3) {
+  .border-1px:after {
+    -webkit-transform: scaleY(0.3);
+    transform: scaleY(0.3);
+  }
+}
+

@@ -25,7 +25,7 @@ export default new Router({
     },
     {
       path: '/',
-      redirect: '/b'
+      redirect: 'goods'
     }
   ]
 })
