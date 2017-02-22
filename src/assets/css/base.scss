@@ -14,11 +14,13 @@
 
   不知道为什么形如这样的scss是不行的
 */
+
 @media (-webkit-device-pixel-ratio: 1.5), (device-pixel-ratio: 1.5) {
   .border-1px:after {
     -webkit-transform: scaleY(0.7);
     transform: scaleY(0.7);
   }
+
 }
 
 @media (-webkit-device-pixel-ratio: 2), (device-pixel-ratio: 2) {
@@ -26,6 +28,7 @@
     -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
   }
+
 }
 
 @media (-webkit-device-pixel-ratio: 3), (device-pixel-ratio: 3) {
