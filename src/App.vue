@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <error-handler v-if="getErrMsg" :msg="getErrMsg"></error-handler>
-    <app-header></app-header>
+    <app-header :seller="seller"></app-header>
     <app-middle></app-middle>
     <router-view></router-view>
   </div>
@@ -17,7 +17,9 @@
     name: 'app',
     data () {
       return {
-        seller: ''
+        seller: '',
+        goods: '',
+        star: ''
       }
     },
     computed: {
@@ -26,7 +28,7 @@
       ])
     },
     async mounted () {
-      this.seller = await this.$get('seller')
+      [this.seller, this.goods, this.star] = await Promise.all([this.$get('seller'), this.$get('goods'), this.$get('ratings')])
     },
     components: {
       appHeader: header,

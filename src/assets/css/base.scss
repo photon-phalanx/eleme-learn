@@ -15,6 +15,13 @@
   不知道为什么形如这样的scss是不行的
 */
 
+body {
+  line-height: 1;
+  font-weight: 200;
+  font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light',Arial, sans-serif;
+}
+
+
 @media (-webkit-device-pixel-ratio: 1.5), (device-pixel-ratio: 1.5) {
   .border-1px:after {
     -webkit-transform: scaleY(0.7);
