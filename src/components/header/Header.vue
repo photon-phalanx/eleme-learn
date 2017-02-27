@@ -14,7 +14,7 @@
         <div class="description">
           {{seller.description}}/{{seller.deliveryTime}}分钟送达
         </div>
-        <div class="support" v-if="seller.supports">
+        <div class="support" v-if="seller.supports" @click="toggleDetail">
           <i class="icon" :class="supportIcon[seller.supports[0].type]"></i>
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
@@ -27,6 +27,17 @@
     <div class="bulletin">
       <i class="pic"></i><span class="text">{{seller.bulletin}}</span>
       <i class="icon icon-keyboard_arrow_right"></i>
+    </div>
+    <div class="detail" v-if="isDetailShow">
+      <div class="detail-wrapper clearfix">
+        <div class="content">
+          <div class="name">{{seller.name}}</div>
+          <Star :size="48" :score="seller.score" :len="5"></Star>
+        </div>
+      </div>
+      <div class="detail-close">
+        <i class="icon-close" @click="toggleDetail"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -172,18 +183,58 @@
       }
 
     }
+    .detail {
+      position: fixed;
+      z-index: 200;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(7,17,27,0.8);
+      .detail-wrapper {
+        min-height: 100%;
+        width: 100%;
+        .content {
+          margin-top: 64px;
+          padding-bottom: 64px;  //padding重要
+          .name {
+            line-height: 16px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+          }
+        }
+      }
+      .detail-close {
+        position: relative;
+        width: 32px;
+        height: 32px;
+        margin: -64px auto 0;
+        clear: both;
+        font-size: 32px;
+      }
+    }
   }
 
 </style>
 <script type="text/ecmascript-6">
+  import Star from '../star/Star.vue'
   export default{
     data () {
       return {
-        t: 'red',
+        isDetailShow: false,
         supportIcon: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
       }
     },
+    methods: {
+      toggleDetail () {
+        this.isDetailShow = !this.isDetailShow
+      }
+    },
     props: ['seller'],
-    components: {}
+    components: {
+      Star
+    }
   }
 </script>

@@ -45,3 +45,13 @@ body {
   }
 }
 
+.clearfix {
+  display: inline-block;
+  &:after {
+    display: block;
+    height: 0;
+    content: ' ';
+    visibility: hidden;
+    clear: both;
+  }
+}

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Goods from '../components/goods/Goods.vue'
-import Star from '../components/star/Star.vue'
+import Comment from '../components/comment/Comment.vue'
 import Sellers from '../components/sellers/Sellers.vue'
 
 Vue.use(Router)
@@ -14,9 +14,9 @@ export default new Router({
       component: Goods
     },
     {
-      path: '/star',
-      name: 'star',
-      component: Star
+      path: '/comment',
+      name: 'comment',
+      component: Comment
     },
     {
       path: '/sellers',
