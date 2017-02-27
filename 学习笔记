@@ -1,11 +1,64 @@
 学习过程中的一些笔记
 1.设备像素比devicePixelRatio简单介绍 http://www.zhangxinxu.com/wordpress/2012/08/window-devicepixelratio/
+
 2.2017.2.19遇到 开发时,在index.html里写的link,img等href,src的全部get不到,在app.vue里可以get到（后面这句是废话）
+
 3.eslint的配置,报错时如果要取消eslint可以设置XXX:0
+
 4.css 先写布局（display），再写影响重绘的（width，height），然后再写可继承的
+
 5.关于手机调试:保证手机和电脑在同一个局域网，ipconfig找到对应的ip地址，吧ip替换localhost，新url复制到草料二维码上转成二维码，手机扫一扫即可
+
 6.由于像素比的存在，设定的1px并不是真正的1px（如在iphone6上为2px），解决方法见middle组件,mixin和base，思路是有一个绝对定位的after伪类，border画出边框，利用媒体查询做缩放
+
 7.只有vue组件里的是有post-css辅助加上webkit等前缀的，所以全局的需要手动加前缀
+
 8.    .bulletin {white-space: nowrap; text-overflow: ellipsis; overflow: hidden; font-size: 0; }
+
   取自header里，当font-size为0时，超出的ellipsis的...也会看不见
   解决空白间隙的方法除了可以让父元素的font-size设为0外，还可以在html里让2个span之间无空隙（负值margin也可以吧……）
+
+9. 粘性底部布局
+   <div class="main">
+     <div class="wrapper">
+       <div class="content">
+         123123
+       </div>
+     </div>
+     <div class="bottom">
+       <button>我会跑哦~~</button>
+     </div>
+   </div>
+
+       .main {
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         z-index: 10;
+         background-color: #eee;
+         overflow: auto;  //重要
+       }
+       .main .wrapper {
+         min-height: 100%;
+         width: 100%;
+       }
+
+       .main .wrapper .content {
+         padding-bottom: 30px; //重要
+       }
+
+       .main .bottom {
+         position: relative;
+         //top:-100px;
+         width: 50px;
+         margin: -100px auto 0 ;
+       }
+
+   在position里的粘性没有兼容前，这是一种优秀的粘性布局的写法
+   其做法是:
+   1.最外层设置position:fixed; 然后overflow:auto;
+   2.中间层有2个，1个是包裹层，包裹页面内容，另一个是要固定在底部的东西，包裹层设定min-height:100%保证占全页。固定部分再说
+   3.包裹层里面有真正的内容，必须设置padding-bottom 来留出空位
+   4. 2中的固定部分设定负margin上去到padding的空白处（用margin和用relative的负top的区别是，relative还是占据文档流原本位置，所以页面还是那么高，但是负边距，内容就上去了，原来的固定部分的位置就没有东西了）

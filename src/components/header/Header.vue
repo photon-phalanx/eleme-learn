@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="more" v-if="seller.supports">
-        <span class="count">{{seller.supports.length}}个</span>
+        <span class="count" @click="toggleDetail" >{{seller.supports.length}}个</span>
         <i class="icon icon-keyboard_arrow_right"></i>
       </div>
     </div>
@@ -28,17 +28,36 @@
       <i class="pic"></i><span class="text">{{seller.bulletin}}</span>
       <i class="icon icon-keyboard_arrow_right"></i>
     </div>
-    <div class="detail" v-if="isDetailShow">
-      <div class="detail-wrapper clearfix">
-        <div class="content">
-          <div class="name">{{seller.name}}</div>
-          <Star :size="48" :score="seller.score" :len="5"></Star>
+    <transition name="fade">
+      <div class="detail" v-if="isDetailShow">
+        <div class="detail-wrapper clearfix">
+          <div class="content">
+            <div class="name">{{seller.name}}</div>
+            <div class="star-wrapper">
+              <Star :size="48" :score="seller.score" :len="5"></Star>
+            </div>
+            <div class="sub-title-wrapper">
+              <SubTitle title="优惠信息"></SubTitle>
+            </div>
+            <ul v-if="seller.supports" class="supports">
+              <li class="support-item" v-for="(item, index) in seller.supports">
+                <i class="icon" :class="supportIcon[seller.supports[index].type]"></i>
+                <span class="text">{{seller.supports[index].description}}</span>
+              </li>
+            </ul>
+            <div class="sub-title-wrapper">
+              <SubTitle title="商家公告"></SubTitle>
+            </div>
+            <div class="bulletin">
+              <div class="content">{{seller.bulletin}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="detail-close">
+          <i class="icon-close" @click="toggleDetail"></i>
         </div>
       </div>
-      <div class="detail-close">
-        <i class="icon-close" @click="toggleDetail"></i>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -154,7 +173,7 @@
         }
       }
     }
-    .bulletin {
+    >.bulletin {
       position: relative;
       height: 28px;
       line-height: 28px;
@@ -192,10 +211,17 @@
       height: 100%;
       overflow: auto;
       background-color: rgba(7,17,27,0.8);
+      -webkit-backdrop-filter: blur(10px);  //只对ios有效
+      &.fade-enter-active,.fade-leave-active {
+        transition: all .5s;
+      }
+      &.fade-enter,&.fade-leave-to {
+        background-color: rgba(7,17,27,0);
+      }
       .detail-wrapper {
         min-height: 100%;
         width: 100%;
-        .content {
+        >.content {
           margin-top: 64px;
           padding-bottom: 64px;  //padding重要
           .name {
@@ -204,6 +230,63 @@
             font-size: 16px;
             font-weight: bold;
           }
+          .star-wrapper {
+            margin-top: 18px;
+            padding: 2px 0;
+            text-align: center;
+          }
+          .sub-title-wrapper {
+            margin: 28px auto 24px;
+          }
+          .supports {
+            width: 80%;
+            margin: 0 auto;
+            .support-item {
+              padding: 0 12px;
+              margin-bottom: 12px;
+              font-size: 0;
+              &:last-child {
+                margin-bottom: 0;
+              }
+              .icon {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                vertical-align: top;
+                margin-right: 6px;
+                background-size: cover;
+                &.decrease {
+                  @include bg-image('decrease_2');
+                }
+                &.discount {
+                  @include bg-image('discount_2');
+                }
+                &.guarantee {
+                  @include bg-image('guarantee_2');
+                }
+                &.invoice {
+                  @include bg-image('invoice_2');
+                }
+                &.special {
+                  @include bg-image('special_2');
+                }
+              }
+              .text {
+                line-height: 16px;
+                font-size: 12px;
+              }
+            }
+          }
+          .bulletin {
+            width: 80%;
+            margin: 0 auto;
+            .content {
+              padding: 0 12px;
+              line-height: 24px;
+              font-size: 12px;
+            }
+          }
         }
       }
       .detail-close {
@@ -211,6 +294,8 @@
         width: 32px;
         height: 32px;
         margin: -64px auto 0;
+        //top: -64px;
+        //margin: auto;
         clear: both;
         font-size: 32px;
       }
@@ -220,6 +305,7 @@
 </style>
 <script type="text/ecmascript-6">
   import Star from '../star/Star.vue'
+  import SubTitle from '../subTitle/SubTitle.vue'
   export default{
     data () {
       return {
@@ -234,7 +320,8 @@
     },
     props: ['seller'],
     components: {
-      Star
+      Star,
+      SubTitle
     }
   }
 </script>

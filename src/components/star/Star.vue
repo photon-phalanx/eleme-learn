@@ -1,6 +1,6 @@
 <template>
   <div class="star" :class="starType">
-    <span v-for="item in items" :class="item" class="star-item"></span>
+    <span v-for="item in items" :class="item" :key="item" class="star-item"></span>
   </div>
 </template>
 <style scoped lang="scss" rel="stylesheet/scss">
