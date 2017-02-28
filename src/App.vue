@@ -2,7 +2,7 @@
   <div id="app">
     <error-handler v-if="getErrMsg" :msg="getErrMsg"></error-handler>
     <app-header :seller="seller"></app-header>
-    <app-middle></app-middle>
+    <app-middle :goods="goods"></app-middle>
     <router-view></router-view>
   </div>
 </template>

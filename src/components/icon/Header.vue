@@ -15,7 +15,7 @@
           {{seller.description}}/{{seller.deliveryTime}}分钟送达
         </div>
         <div class="support" v-if="seller.supports" @click="toggleDetail">
-          <Icon :typeNum="seller.supports[0].type" :sizeNum="1"></Icon>
+          <i class="icon" :class="supportIcon[seller.supports[0].type]"></i>
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
       </div>
@@ -41,7 +41,7 @@
             </div>
             <ul v-if="seller.supports" class="supports">
               <li class="support-item" v-for="(item, index) in seller.supports">
-                <Icon :typeNum="seller.supports[index].type" :sizeNum="2"></Icon>
+                <i class="icon" :class="supportIcon[seller.supports[index].type]"></i>
                 <span class="text">{{seller.supports[index].description}}</span>
               </li>
             </ul>
@@ -122,7 +122,29 @@
           margin-bottom: 10px;
         }
         .support {
-          line-height: 12px;
+          .icon {
+            display: inline-block;
+            margin-right: 4px;
+            width: 12px;
+            height: 12px;
+            background-size: cover;
+            vertical-align: middle; //还是middle好看……
+            &.decrease {
+              @include bg-image('decrease_1');
+            }
+            &.discount {
+              @include bg-image('discount_1');
+            }
+            &.guarantee {
+              @include bg-image('guarantee_1');
+            }
+            &.invoice {
+              @include bg-image('invoice_1');
+            }
+            &.special {
+              @include bg-image('special_1');
+            }
+          }
           .text {
             line-height: 12px;
             font-size: 10px;
@@ -226,6 +248,30 @@
               &:last-child {
                 margin-bottom: 0;
               }
+              .icon {
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                vertical-align: top;
+                margin-right: 6px;
+                background-size: cover;
+                &.decrease {
+                  @include bg-image('decrease_2');
+                }
+                &.discount {
+                  @include bg-image('discount_2');
+                }
+                &.guarantee {
+                  @include bg-image('guarantee_2');
+                }
+                &.invoice {
+                  @include bg-image('invoice_2');
+                }
+                &.special {
+                  @include bg-image('special_2');
+                }
+              }
               .text {
                 line-height: 16px;
                 font-size: 12px;
@@ -259,7 +305,6 @@
 </style>
 <script type="text/ecmascript-6">
   import Star from '../star/Star.vue'
-  import Icon from '../icon/Icon.vue'
   import SubTitle from '../subTitle/SubTitle.vue'
   export default{
     data () {
@@ -276,8 +321,7 @@
     props: ['seller'],
     components: {
       Star,
-      SubTitle,
-      Icon
+      SubTitle
     }
   }
 </script>
