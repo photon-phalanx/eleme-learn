@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="more" v-if="seller.supports">
-        <span class="count" @click="toggleDetail" >{{seller.supports.length}}个</span>
+        <span class="count" @click="toggleDetail">{{seller.supports.length}}个</span>
         <i class="icon icon-keyboard_arrow_right"></i>
       </div>
     </div>
@@ -62,14 +62,15 @@
 </template>
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../assets/css/mixin.scss";
+
   .header {
     position: relative;
     color: #ffffff;
-    background-color: rgba(7,17,27,0.5);
-    overflow: hidden;//用于解决滤镜超出header部分的阴影问题
+    background-color: rgba(7, 17, 27, 0.5);
+    overflow: hidden; //用于解决滤镜超出header部分的阴影问题
     .background {
       position: absolute;
-      top:0;
+      top: 0;
       left: 0;
       right: 0;
       bottom: 0;
@@ -137,7 +138,7 @@
         line-height: 24px;
         height: 24px;
         border-radius: 14px;
-        background-color: rgba(0,0,0,0.2);
+        background-color: rgba(0, 0, 0, 0.2);
         text-align: center;
         .count {
           font-size: 10px;
@@ -151,7 +152,7 @@
         }
       }
     }
-    >.bulletin {
+    > .bulletin {
       position: relative;
       height: 28px;
       line-height: 28px;
@@ -159,7 +160,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
-      background-color: rgba(7,17,27,0.2);
+      background-color: rgba(7, 17, 27, 0.2);
       .pic {
         display: inline-block;
         width: 22px;
@@ -188,20 +189,20 @@
       width: 100%;
       height: 100%;
       overflow: auto;
-      background-color: rgba(7,17,27,0.8);
-      -webkit-backdrop-filter: blur(10px);  //只对ios有效
-      &.fade-enter-active,.fade-leave-active {
+      background-color: rgba(7, 17, 27, 0.8);
+      -webkit-backdrop-filter: blur(10px); //只对ios有效
+      &.fade-enter-active, .fade-leave-active {
         transition: all .5s;
       }
-      &.fade-enter,&.fade-leave-to {
-        background-color: rgba(7,17,27,0);
+      &.fade-enter, &.fade-leave-to {
+        background-color: rgba(7, 17, 27, 0);
       }
       .detail-wrapper {
         min-height: 100%;
         width: 100%;
-        >.content {
+        > .content {
           margin-top: 64px;
-          padding-bottom: 64px;  //padding重要
+          padding-bottom: 64px; //padding重要
           .name {
             line-height: 16px;
             text-align: center;
@@ -264,16 +265,19 @@
   export default{
     data () {
       return {
+        seller: '',
         isDetailShow: false,
         supportIcon: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
       }
+    },
+    async mounted () {
+      this.seller = await this.$get('seller')
     },
     methods: {
       toggleDetail () {
         this.isDetailShow = !this.isDetailShow
       }
     },
-    props: ['seller'],
     components: {
       Star,
       SubTitle,

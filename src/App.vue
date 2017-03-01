@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <error-handler v-if="getErrMsg" :msg="getErrMsg"></error-handler>
-    <app-header :seller="seller"></app-header>
-    <app-middle :goods="goods"></app-middle>
+    <app-header></app-header>
+    <app-middle></app-middle>
     <router-view></router-view>
   </div>
 </template>
@@ -17,18 +17,12 @@
     name: 'app',
     data () {
       return {
-        seller: '',
-        goods: '',
-        star: ''
       }
     },
     computed: {
       ...mapGetters([
         'getErrMsg'
       ])
-    },
-    async mounted () {
-      [this.seller, this.goods, this.star] = await Promise.all([this.$get('seller'), this.$get('goods'), this.$get('ratings')])
     },
     components: {
       appHeader: header,
