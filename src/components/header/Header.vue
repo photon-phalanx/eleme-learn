@@ -75,7 +75,7 @@
       right: 0;
       bottom: 0;
       z-index: -1;
-      filter: blur(10px);
+      filter: blur(10px);  // TODO 滤镜的使用还需要学习~
       -webkit-filter: blur(10px);
       //postcss没有加上filter吗……
       img {
