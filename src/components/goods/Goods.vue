@@ -30,13 +30,20 @@
                 <div class="price">
                   <span class="now-price">￥{{food.price}}</span><span class="old-price" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
+                <div class="cart-control-wrapper">
+                  <!--设置index1,2是为了快速的更新,我觉得还是有些必要的233
+                  其实父子的通信还是清晰的……所以不用vuex了，只会加大复杂度
+                  -->
+                  <CartControl :food="food" @increase="increase(food)" @decrease="decrease(food)"></CartControl>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <ShopCart :delivery-price = "seller.deliveryPrice" :min-price = "seller.minPrice" :select-foods="[{price:15,count:2}]"></ShopCart>
+    <ShopCart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"
+              :select-foods="selectFoods"></ShopCart>
   </div>
 </template>
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -147,6 +154,11 @@
               color: rgb(147, 153, 159);
             }
           }
+          .cart-control-wrapper {
+            position: absolute;
+            right: 0;
+            bottom: 12px;
+          }
         }
       }
     }
@@ -156,6 +168,7 @@
   import BScroll from 'better-scroll'
   import Icon from '../icon/Icon.vue'
   import ShopCart from '../shopCart/ShopCart.vue'
+  import CartControl from '../cartControl/CartControl.vue'
   export default{
     data () {
       return {
@@ -179,6 +192,7 @@
           click: true
         })
         this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+          click: true,
           probeType: 3
         })
         this.foodsScroll.on('scroll', (pos) => {
@@ -203,6 +217,12 @@
         let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
         let el = foodList[index]
         this.foodsScroll.scrollToElement(el, 300)
+      },
+      increase (food) {
+        food.count ? food.count++ : this.$set(food, 'count', 1)
+      },
+      decrease (food) {
+        food.count--
       }
     },
     computed: {
@@ -215,11 +235,23 @@
           }
         }
         return 0
+      },
+      selectFoods () {
+        let foods = []
+        this.goods.forEach((good) => {
+          good.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food)
+            }
+          })
+        })
+        return foods
       }
     },
     components: {
       Icon,
-      ShopCart
+      ShopCart,
+      CartControl
     }
   }
 </script>
