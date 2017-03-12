@@ -19,11 +19,10 @@
     </div>
     <div class="ball-container">
       <div v-for="ball in balls">
-        <transition name="drop"
-                    v-on:before-enter="beforeEnter"
-                    v-on:enter="enter"
-                    v-on:after-enter="afterEnter">
-          <div class="ball" v-show="ball.show"></div>
+        <transition name="drop" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+          <div class="ball" v-show="ball.show">
+            <div class="inner inner-hook"></div>
+          </div>
         </transition>
       </div>
     </div>
@@ -135,12 +134,13 @@
         left: 32px;
         bottom: 22px;
         z-index: 50;
-        width: 16px;
-        height: 16px;
-        transition: all 0.4s;
-        border-radius: 50%;
-        background-color: rgb(0, 160, 220);
-        &.drop-transition {
+        transition: all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41);
+        .inner {
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background-color: rgb(0, 160, 220);
+          transition: all 0.4s linear;
         }
       }
     }
@@ -148,6 +148,7 @@
 </style>
 <script type="text/ecmascript-6">
   import {mapGetters} from 'vuex'
+  let total = 0
   export default{
     data () {
       return {
@@ -193,33 +194,44 @@
     },
     methods: {
       beforeEnter (el) {
-        console.log('before')
         let count = this.balls.length
         while (count--) {
           let ball = this.balls[count]
           if (ball.show) {
-            el.style.left = ball.pos.left + 'px'
-            el.style.bottom = window.innerHeight - ball.pos.top - 25 + 'px'
+            let rect = ball.pos
+            let x = rect.left - 32
+            let y = -(window.innerHeight - rect.top - 22)
+            // el.style.display = ''
+            el.style.webkitTransform = `translate3d(0,${y}px,0)`
+            el.style.transform = `translate3d(0,${y}px,0)`
+            let inner = el.getElementsByClassName('inner-hook')[0]
+            inner.style.webkitTransform = `translate3d(${x}px,0,0)`
+            inner.style.transform = `translate3d(${x}px,0,0)`
           }
         }
       },
       enter (el, done) {
-        console.log('enter')
         // offsetHeight 触发浏览器重绘
         /* eslint-disable no-unused-vars */
-        // let rf = el.offsetHeight
+        // let rf = el.offsetHeight 似乎没有必要？？
         this.$nextTick(() => {
-          el.style.left = '35px'
-          el.style.bottom = '25px'
+          el.style.webkitTransform = 'translate3d(0,0,0)'
+          el.style.transform = 'translate3d(0,0,0)'
+          let inner = el.getElementsByClassName('inner-hook')[0]
+          inner.style.webkitTransform = 'translate3d(0,0,0)'
+          inner.style.transform = 'translate3d(0,0,0)'
+          el.addEventListener('transitionend', done)
         })
-        // 对done存在疑问,然后offsetHeight似乎不需要
       },
       afterEnter (el) {
-        console.log('after')
+        console.log(el)
+        total++
+        console.log(total)
         let ball = this.dropBalls.shift()
         if (ball) {
           ball.show = false
           el.style.display = 'none'
+          // TODO 未解决的问题，这个神奇的display
         }
       }
     },
@@ -227,12 +239,13 @@
       getDrop (rect) {
         for (let i = 0; i < this.balls.length; i++) {
           let ball = this.balls[i]
-          if (!ball.show) {
-            ball.show = true
-            ball.pos = rect
-            this.dropBalls.push(ball)
-            return
+          if (ball.show) {
+            continue
           }
+          ball.show = true
+          ball.pos = rect
+          this.dropBalls.push(ball)
+          return
         }
       }
     }

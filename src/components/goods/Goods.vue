@@ -31,9 +31,6 @@
                   <span class="now-price">￥{{food.price}}</span><span class="old-price" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
                 <div class="cart-control-wrapper">
-                  <!--设置index1,2是为了快速的更新,我觉得还是有些必要的233
-                  其实父子的通信还是清晰的……所以不用vuex了，只会加大复杂度
-                  -->
                   <CartControl :food="food" @increase="increase(food)" @decrease="decrease(food)"></CartControl>
                 </div>
               </div>
