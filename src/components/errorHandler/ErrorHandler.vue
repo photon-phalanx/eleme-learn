@@ -1,7 +1,7 @@
 <template>
-  <div class="err" @click.native="closeMsg">
+  <div class="err" @click="closeMsg">
     <div class="msg-left">
-      <i class="msg-icon">.</i>
+      <i class="msg-icon">!</i>
     </div>
     <div class="msg-content">
       <div class="msg">{{msg}}</div>
@@ -11,35 +11,42 @@
 <style scoped lang="scss" rel="stylesheet/scss">
   .err {
     position: absolute;
-    z-index: 100;
-    width: 80%;
-    height: 80px;
-    line-height: 80px;
+    display: flex;
+    z-index: 999;
     left: 0;
     right: 0;
+    top: 45%;
     margin: 20px auto;
     border: 1px solid #ccc;
-    background-color: rgb(0, 130, 240);
-    font-size: 0;
-    color: #ffffff;
-    * {
-      font-size: 14px;
-    }
+    width: 70%;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 10px;
+    background-color: rgb(0, 180, 240);
+    color: #fff;
     .msg-left {
-      display: inline-block;
-      width: 20%;
+      flex: 0 0 20%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.247059);
+      line-height: 80px;
+      font-size: 60px;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.147059);
     }
     .msg-content {
-      width: 80%;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    .msg {
-      padding-left: 5px;
-      display: inline-block;
-      word-wrap: break-word;
+      flex: 1;
+      height: 100%;
+      display: table-cell;
+      overflow: hidden;
+      text-align: center;
+      .msg {
+        display: inline-block;
+        padding: 0 5px;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 20px;
+        vertical-align: middle;
+        word-wrap: break-word;
+      }
     }
   }
 </style>
@@ -72,7 +79,7 @@
         clearTimeout(timeOut)
         timeOut = setTimeout(function () {
           that.closeMsg()
-        }, 5000)
+        }, 2500)
         this.flag = 1
       }
     },
