@@ -17,6 +17,16 @@
         </div>
       </div>
     </div>
+    <div class="ball-container">
+      <div v-for="ball in balls">
+        <transition name="drop"
+                    v-on:before-enter="beforeEnter"
+                    v-on:enter="enter"
+                    v-on:after-enter="afterEnter">
+          <div class="ball" v-show="ball.show"></div>
+        </transition>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -119,16 +129,44 @@
         }
       }
     }
+    .ball-container {
+      .ball {
+        position: fixed;
+        left: 32px;
+        bottom: 22px;
+        z-index: 50;
+        width: 16px;
+        height: 16px;
+        transition: all 0.4s;
+        border-radius: 50%;
+        background-color: rgb(0, 160, 220);
+        &.drop-transition {
+        }
+      }
+    }
   }
 </style>
 <script type="text/ecmascript-6">
+  import {mapGetters} from 'vuex'
   export default{
     data () {
-      return {}
+      return {
+        balls: [
+          {show: false},
+          {show: false},
+          {show: false},
+          {show: false},
+          {show: false}
+        ],
+        dropBalls: []
+      }
     },
     props: ['deliveryPrice', 'minPrice', 'selectFoods'],
     components: {},
     computed: {
+      ...mapGetters([
+        'getDrop'
+      ]),
       totalPrice () {
         let total = 0
         this.selectFoods.forEach((food) => {
@@ -150,6 +188,51 @@
           return '还差' + (this.minPrice - this.totalPrice) + '元起送'
         } else {
           return '去结算'
+        }
+      }
+    },
+    methods: {
+      beforeEnter (el) {
+        console.log('before')
+        let count = this.balls.length
+        while (count--) {
+          let ball = this.balls[count]
+          if (ball.show) {
+            el.style.left = ball.pos.left + 'px'
+            el.style.bottom = window.innerHeight - ball.pos.top - 25 + 'px'
+          }
+        }
+      },
+      enter (el, done) {
+        console.log('enter')
+        // offsetHeight 触发浏览器重绘
+        /* eslint-disable no-unused-vars */
+        // let rf = el.offsetHeight
+        this.$nextTick(() => {
+          el.style.left = '35px'
+          el.style.bottom = '25px'
+        })
+        // 对done存在疑问,然后offsetHeight似乎不需要
+      },
+      afterEnter (el) {
+        console.log('after')
+        let ball = this.dropBalls.shift()
+        if (ball) {
+          ball.show = false
+          el.style.display = 'none'
+        }
+      }
+    },
+    watch: {
+      getDrop (rect) {
+        for (let i = 0; i < this.balls.length; i++) {
+          let ball = this.balls[i]
+          if (!ball.show) {
+            ball.show = true
+            ball.pos = rect
+            this.dropBalls.push(ball)
+            return
+          }
         }
       }
     }

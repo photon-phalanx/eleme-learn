@@ -57,6 +57,7 @@
           return
         }
         this.$emit('increase')
+        this.$store.commit('dropEmit', event.target.getBoundingClientRect())
       },
       decreaseCart (event) {
         if (!event._constructed) {

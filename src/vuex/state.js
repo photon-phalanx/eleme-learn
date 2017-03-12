@@ -4,7 +4,8 @@
 import getters from './getters.js'
 const store = {
   state: {
-    errmsg: ''
+    errmsg: '',
+    dropPos: {}
   },
   mutations: {
     commitMsg (state, msg) {
@@ -12,6 +13,9 @@ const store = {
     },
     clearMsg (state) {
       state.errmsg = ''
+    },
+    dropEmit (state, rect) {
+      state.dropPos = rect
     }
   },
   getters

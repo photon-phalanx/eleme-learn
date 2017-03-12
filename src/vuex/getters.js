@@ -5,6 +5,9 @@
 const getters = {
   getErrMsg: state => {
     return state.errmsg
+  },
+  getDrop: state => {
+    return state.dropPos
   }
 }
 
