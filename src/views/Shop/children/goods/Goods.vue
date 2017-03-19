@@ -17,7 +17,7 @@
           <div class="title">{{item.name}}</div>
           <ul>
             <li v-for="food in item.foods" class="food-item border-1px">
-              <i class="icon">
+              <i class="icon-self">
                 <img :src="food.icon"/>
               </i>
               <div class="content">
@@ -44,7 +44,7 @@
   </div>
 </template>
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../assets/css/mixin.scss";
+  @import "../../../../assets/css/mixin";
 
   .goods {
     display: flex;
@@ -104,7 +104,7 @@
         &:last-child {
           @include border-none();
         }
-        .icon {
+        .icon-self {
           flex: 0 0 57px;
           height: 57px;
           margin-right: 10px;
@@ -163,9 +163,9 @@
 </style>
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
-  import Icon from '../icon/Icon.vue'
-  import ShopCart from '../shopCart/ShopCart.vue'
-  import CartControl from '../cartControl/CartControl.vue'
+  import Icon from '../../../../components/icon/Icon.vue'
+  import ShopCart from '../../../../components/shopCart/ShopCart.vue'
+  import CartControl from '../../../../components/cartControl/CartControl.vue'
   export default{
     data () {
       return {

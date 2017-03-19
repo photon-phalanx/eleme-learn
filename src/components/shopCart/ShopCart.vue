@@ -261,7 +261,6 @@
   import CartControl from '../cartControl/CartControl.vue'
   import BScroll from 'better-scroll'
 
-  let total = 0
   export default{
     data () {
       return {
@@ -345,7 +344,7 @@
       enter (el, done) {
         // offsetHeight 触发浏览器重绘
         /* eslint-disable no-unused-vars */
-        // let rf = el.offsetHeight 似乎没有必要？？
+        let rf = el.offsetHeight // 非常重要
         this.$nextTick(() => {
           el.style.webkitTransform = 'translate3d(0,0,0)'
           el.style.transform = 'translate3d(0,0,0)'
@@ -356,14 +355,10 @@
         })
       },
       afterEnter (el) {
-        console.log(el)
-        total++
-        console.log(total)
         let ball = this.dropBalls.shift()
         if (ball) {
           ball.show = false
-          el.style.display = 'none'
-          // TODO 未解决的问题，这个神奇的display
+          el.style.display = 'none' // 目前认为这个display是手动置v-show vue要到下一周期更新，多次点击就会出现问题
         }
       },
       toggleList () {

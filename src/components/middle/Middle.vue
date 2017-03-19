@@ -1,13 +1,13 @@
 <template>
   <div class="item border-1px">
     <div class="tab-item">
-      <router-link to="/goods">商品</router-link>
+      <router-link to="goods">商品</router-link>
     </div>
     <div class="tab-item">
-      <router-link to="/comment">评论</router-link>
+      <router-link to="comment">评论</router-link>
     </div>
     <div class="tab-item">
-      <router-link to="/sellers">商家</router-link>
+      <router-link to="sellers">商家</router-link>
     </div>
   </div>
 </template>

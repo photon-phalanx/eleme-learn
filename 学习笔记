@@ -66,3 +66,6 @@
 10. 关于编程习惯，如给定food-list-hook类，用hook来表示这个要给js访问，但是没什么css内容
 
 11.如果多个动画一起执行比较卡的话，可以用nexttick变成异步执行
+
+12.大多数浏览器通过队列化修改并批量执行来优化重排过程，但是当获取一些属性时，浏览器为取得正确的值也会触发重排。这样就使得浏览器的优化失效了。这些属性包括：offsetTop、offsetLeft、 offsetWidth、offsetHeight、scrollTop、scrollLeft、scrollWidth、scrollHeight、clientTop、clientLeft、clientWidth、clientHeight、getComputedStyle() (currentStyle in IE)。所以，在多次使用这些值时应进行缓存。
+在本例中，在shopcart里为了保证及时，手动触发了重排

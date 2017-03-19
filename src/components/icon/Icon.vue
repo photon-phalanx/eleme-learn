@@ -1,9 +1,9 @@
 <template>
-  <i class="icon" :class="[supportIcon[typeNum], size]"></i>
+  <i class="icon-self" :class="[supportIcon[typeNum], size]"></i>
 </template>
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../assets/css/mixin.scss";
-  .icon {
+  .icon-self {
     display: inline-block;
     background-size: cover;
     vertical-align: top;
