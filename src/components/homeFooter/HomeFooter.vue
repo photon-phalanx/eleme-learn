@@ -5,15 +5,15 @@
       <div class="text">外卖</div>
     </router-link>
     <router-link to="find" class="find-wrapper">
-      <i class="iconfont icon-icon"></i>
+      <i class="iconfont icon-faxian"></i>
       <div class="text">发现</div>
     </router-link>
     <router-link to="order-list" class="order-list-wrapper">
-      <i class="iconfont icon-icon"></i>
+      <i class="iconfont icon-cshy-orders"></i>
       <div class="text">订单</div>
     </router-link>
     <router-link to="my" class="my-wrapper">
-      <i class="iconfont icon-icon"></i>
+      <i class="iconfont icon-wode"></i>
       <div class="text">我的</div>
     </router-link>
   </div>
@@ -33,15 +33,17 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  $blue: #3190e8;
+  @import "../../assets/css/color.scss";
   .container {
     display: flex;
     position: fixed;
     width: 100%;
     height: 50px;
+    padding-top: 10px;
     bottom: 0;
     left: 0;
     z-index: 30;
+    background-color: #fff;
     > * {
       flex: 1;
       > * {

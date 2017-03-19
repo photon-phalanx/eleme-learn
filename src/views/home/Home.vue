@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <div>dsaadas</div>
     <router-view></router-view>
     <home-footer></home-footer>
   </div>
