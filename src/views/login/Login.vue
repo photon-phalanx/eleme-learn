@@ -2,35 +2,70 @@
   <div class="container">
     <div class="header">
       <div class="title">
-        <i class="iconfont icon-iconfontnaoling"></i>
+        <i class="iconfont icon-iconcha" @click="$router.go(-1)"></i>
         <div class="text">登录</div>
-        <div class="password">密码登录</div>
+        <router-link :to="{name: 'pwLogin'}" class="password">密码登录</router-link>
       </div>
     </div>
     <div class="main">
       <div class="phone-line">
-        <input type="text" class="telephone" placeholder="手机号"/>
-        <button class="auth-button">获取验证码</button>
+        <input type="text" class="telephone" v-model="obj.phoneNumber" placeholder="手机号"/>
+        <button class="auth-button" :disabled="disabled" :class="{disabled:disabled}" @click="getAuth">{{comText}}
+        </button>
       </div>
-      <input type="password" class="password" placeholder="验证码"/>
+      <input type="text" class="password" v-model="obj.vCode" placeholder="验证码"/>
     </div>
     <div class="info">温馨提示，未注册饿了么的手机号，登陆时将自动注册，切代表您已同意《<a>用户服务协议</a>》</div>
     <div class="button-wrapper">
       <button class="login-button">登录</button>
     </div>
+    <div class="remind">没收到短信验证码？请尝试获取<a>语音验证码</a></div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   export default {
     data () {
-      return {}
+      return {
+        obj: {
+          phoneNumber: '',
+          vCode: ''
+        },
+        count: -2,
+        disabled: false
+      }
+    },
+    computed: {
+      comText () {
+        if (this.count === -2) {
+          return '获取验证码'
+        } else if (this.count === -1) {
+          return '重新获取'
+        } else {
+          return `已发送(${this.count}s)`
+        }
+      }
     },
     mounted () {
 
     },
     props: [],
-    methods: {}
+    methods: {
+      getAuth () {
+        if (this.disabled) return
+        let that = this
+        this.disabled = true
+        // ajax
+        this.count = 30
+        let timeCount = setInterval(function () {
+          that.count--
+          if (that.count < 0) {
+            clearInterval(timeCount)
+            that.disabled = false
+          }
+        }, 1000)
+      }
+    }
   }
 </script>
 
@@ -49,7 +84,7 @@
       background-color: $blue;
       width: 100%;
       color: #fff;
-      font-size: 22px;
+      font-size: 21px;
       .title {
         display: flex;
         height: 40px;
@@ -60,6 +95,7 @@
           text-align: center;
           font-size: 24px;
           line-height: 32px;
+          padding: 4px;
         }
         .text {
           flex: 1;
@@ -68,6 +104,7 @@
         .password {
           flex: 0 0 90px;
           font-size: 18px;
+          color: #fff;
         }
       }
     }
@@ -86,16 +123,27 @@
         }
         .auth-button {
           flex: 1;
-          margin-right: 5px;
-          line-height: 40px;
-          height: 40px;
+          margin: 4px 5px 0 0;
+          line-height: 32px;
+          font-size: 20px;
+          height: 32px;
           border-radius: 8px;
           border: none;
-          background-color: #ccc; // 这个的样式要动态绑定了，现在只是暂时做一个测试罢了
+          vertical-align: middle;
+          background-color: blue;
+          color: #fff;
+          &.disabled {
+            background-color: #bbb;
+            cursor: not-allowed;
+          }
+          &:active {
+            border: none;
+          }
         }
       }
       .password {
         width: 100%;
+        box-sizing: border-box;
         line-height: 40px;
         height: 40px;
         padding: 0 10px;
@@ -104,7 +152,7 @@
     }
     .info {
       width: 90%;
-      margin: 10px auto ;
+      margin: 10px auto;
       line-height: 14px;
       font-size: 12px;
       color: #666;
@@ -125,6 +173,14 @@
         border-radius: 8px;
         border: none;
         text-align: center;
+      }
+    }
+    .remind {
+      font-size: 10px;
+      text-align: center;
+      margin: 10px;
+      a {
+        color: $blue;
       }
     }
   }

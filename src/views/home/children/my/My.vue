@@ -6,6 +6,14 @@
         <div class="text">我的</div>
         <i class="iconfont icon-shezhi"></i>
       </div>
+      <router-link :to="{name: 'login'}" v-if="!getUid" class="no-login-wrapper">
+        <i class="iconfont icon-moshengren"></i>
+        <div class="content">
+          <div class="main-text">立刻登录</div>
+          <div class="info">登录后可享受更多特权</div>
+        </div>
+        <i class="iconfont icon-you"></i>
+      </router-link>
     </div>
     <div class="service">
       <div class="remain-wrapper">
@@ -25,53 +33,64 @@
       <div class="line address ">
         <i class="iconfont icon-dizhi"></i>
         <span class="text">收货地址</span>
-        <i class="iconfont icon-dizhi"></i>
+        <i class="iconfont icon-you"></i>
       </div>
       <div class="line favorite ">
         <i class="iconfont icon-weibiaoti2"></i>
         <span class="text">我的收藏</span>
+        <i class="iconfont icon-you"></i>
       </div>
       <div class="line album ">
         <i class="iconfont icon-icon"></i>
         <span class="text">美食相册</span>
+        <i class="iconfont icon-you"></i>
       </div>
     </div>
     <div class="block2">
       <div class="line shop">
         <i class="iconfont icon-shangcheng-copy-copy"></i>
         <span class="text">积分商城</span>
-        <i class="iconfont icon-dizhi"></i>
+        <i class="iconfont icon-you"></i>
       </div>
       <div class="line mem-card ">
         <i class="iconfont icon-huangguan"></i>
         <span class="text">饿了么会员卡</span>
+        <i class="iconfont icon-you"></i>
       </div>
     </div>
     <div class="block3">
       <div class="line address ">
         <i class="iconfont icon-dizhi"></i>
         <span class="text">服务中心</span>
-        <i class="iconfont icon-dizhi"></i>
+        <i class="iconfont icon-you"></i>
       </div>
       <div class="line favorite ">
         <i class="iconfont icon-weibiaoti2"></i>
         <span class="text">欢迎评分</span>
+        <i class="iconfont icon-you"></i>
       </div>
       <div class="line album ">
         <i class="iconfont icon-icon"></i>
         <span class="text">加盟合作</span>
+        <i class="iconfont icon-you"></i>
       </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import {mapGetters} from 'vuex'
   export default {
     data () {
       return {}
     },
     mounted () {
 
+    },
+    computed: {
+      ...mapGetters([
+        'getUid'
+      ])
     },
     props: [],
     methods: {}
@@ -108,6 +127,40 @@
         .text {
           flex: 1;
           text-align: center;
+        }
+      }
+      .no-login-wrapper {
+        display: flex;
+        height: 80px;
+        color: #fff;
+        .icon-moshengren {
+          flex: 0 0 100px;
+          font-size: 60px;
+          line-height: 80px;
+          border-radius: 50%;
+          background-color: #3190e8;
+          margin: -10px 0 0 10px;
+        }
+        .content {
+          flex: 1;
+          padding: 12px 0;
+          .main-content {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 40px;
+          }
+          .info {
+            margin-top: 3px;
+            font-size: 10px;
+            line-height: 20px;
+          }
+        }
+        .icon-you {
+          flex: 0 0 30px;
+          margin: -5px 5px 0 0;
+          font-size: 25px;
+          line-height: 80px;
+          font-weight: 500;
         }
       }
     }
@@ -182,6 +235,11 @@
           color: $blue;
         }
       }
+      .iconfont.icon-you {
+        float: right;
+        margin: 12px 10px;
+        color: #ccc;
+      }
     }
     .block2 {
       margin-top: 10px;
@@ -208,6 +266,11 @@
           color: gold;
         }
       }
+      .iconfont.icon-you {
+        float: right;
+        margin: 12px 10px;
+        color: #ccc;
+      }
     }
     .block3 {
       margin-top: 10px;
@@ -225,6 +288,11 @@
       }
       .text {
         font-size: 18px;
+      }
+      .iconfont.icon-you {
+        float: right;
+        margin: 12px 10px;
+        color: #ccc;
       }
     }
   }

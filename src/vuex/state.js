@@ -5,7 +5,8 @@ import getters from './getters.js'
 const store = {
   state: {
     errmsg: '',
-    dropPos: {}
+    dropPos: {},
+    uid: undefined
   },
   mutations: {
     commitMsg (state, msg) {
@@ -16,6 +17,9 @@ const store = {
     },
     dropEmit (state, rect) {
       state.dropPos = rect
+    },
+    updateUid (state, uid) {
+      state.uid = uid
     }
   },
   getters

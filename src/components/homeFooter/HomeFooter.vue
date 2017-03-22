@@ -1,18 +1,18 @@
 <template>
   <div  class="container">
-    <router-link to="order" class="order-wrapper">
+    <router-link :to="{name: 'order'}" class="order-wrapper">
       <i class="iconfont icon-icon"></i>
       <div class="text">外卖</div>
     </router-link>
-    <router-link to="find" class="find-wrapper">
+    <router-link :to="{name: 'find'}" class="find-wrapper">
       <i class="iconfont icon-faxian"></i>
       <div class="text">发现</div>
     </router-link>
-    <router-link to="order-list" class="order-list-wrapper">
+    <router-link :to="{name: 'take-away'}" class="order-list-wrapper"> <!--take-away是order-list里面的，但是orderlist已经没有名字了-->
       <i class="iconfont icon-cshy-orders"></i>
       <div class="text">订单</div>
     </router-link>
-    <router-link to="my" class="my-wrapper">
+    <router-link :to="{name: 'my'}" class="my-wrapper">
       <i class="iconfont icon-wode"></i>
       <div class="text">我的</div>
     </router-link>

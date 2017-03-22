@@ -8,6 +8,9 @@ const getters = {
   },
   getDrop: state => {
     return state.dropPos
+  },
+  getUid: state => {
+    return state.uid
   }
 }
 

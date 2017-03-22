@@ -10,6 +10,9 @@ import OrderList from '../views/home/children/orderList/OrderList.vue'
 import Find from '../views/home/children/find/Find.vue'
 import Shop from '../views/Shop/Shop.vue'
 import Login from '../views/login/Login.vue'
+import PwLogin from '../views/pwLogin/PwLogin.vue'
+import Breakfast from '../views/home/children/orderList/children/breakfast/Breakfast.vue'
+import TakeAway from '../views/home/children/orderList/children/takeAway/TakeAway.vue'
 
 Vue.use(Router)
 
@@ -56,8 +59,23 @@ export default new Router({
         },
         {
           path: 'order-list',
-          name: 'order-list',
-          component: OrderList
+          component: OrderList,
+          children: [
+            {
+              path: 'take-away',
+              name: 'take-away',
+              component: TakeAway
+            },
+            {
+              path: 'breakfast',
+              name: 'breakfast',
+              component: Breakfast
+            },
+            {
+              path: '',
+              redirect: 'take-away'
+            }
+          ]
         },
         {
           path: 'find',
@@ -74,6 +92,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/pwLogin',
+      name: 'pwLogin',
+      component: PwLogin
     },
     {
       path: '/',

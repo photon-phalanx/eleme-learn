@@ -8,12 +8,24 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import {host} from 'api/http.js'
   import errorHandler from './components/errorHandler/ErrorHandler.vue'
   import {mapGetters} from 'vuex'
   export default {
     name: 'app',
     data () {
       return {}
+    },
+    async mounted () {
+      try {
+        let res = await axios.post(host + 'login')
+        console.log(res)
+        if (!res.data.r) {
+          this.$store.commit(res.data.data)
+        }
+      } catch (e) {
+      }
     },
     computed: {
       ...mapGetters([

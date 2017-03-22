@@ -79,7 +79,7 @@
         clearTimeout(timeOut)
         timeOut = setTimeout(function () {
           that.closeMsg()
-        }, 2500)
+        }, 2000)
         this.flag = 1
       }
     },
