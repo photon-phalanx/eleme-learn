@@ -14,6 +14,18 @@
         </div>
         <i class="iconfont icon-you"></i>
       </router-link>
+      <router-link :to="{name: 'detail'}" v-else class="login-wrapper">
+        <i class="iconfont icon-moshengren" v-if="getUid.avatar"></i>
+        <i v-else></i>
+        <div class="content">
+          <div class="uid">{{getUid.uid}}</div>
+          <div class="tel">
+            <i></i>
+            <span class="tel-number">{{getUid.phoneNumber}}</span>
+          </div>
+        </div>
+        <i class="iconfont icon-you"></i>
+      </router-link>
     </div>
     <div class="service">
       <div class="remain-wrapper">

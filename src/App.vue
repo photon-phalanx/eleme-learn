@@ -22,7 +22,7 @@
         let res = await axios.post(host + 'login')
         console.log(res)
         if (!res.data.r) {
-          this.$store.commit(res.data.data)
+          this.$store.commit('updateUid', res.data.data)
         }
       } catch (e) {
       }

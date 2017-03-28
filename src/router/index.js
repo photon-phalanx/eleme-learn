@@ -13,11 +13,17 @@ import Login from '../views/login/Login.vue'
 import PwLogin from '../views/pwLogin/PwLogin.vue'
 import Breakfast from '../views/home/children/orderList/children/breakfast/Breakfast.vue'
 import TakeAway from '../views/home/children/orderList/children/takeAway/TakeAway.vue'
+import Detail from '../views/detail/Detail.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/detail',
+      name: 'detail',
+      component: Detail
+    },
     {
       path: '/shop',
       component: Shop,

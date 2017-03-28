@@ -55,6 +55,7 @@
         if (this.disabled) return
         let that = this
         this.disabled = true
+        this.$store.commit('updateUid', {uid: 12324})
         // ajax
         this.count = 30
         let timeCount = setInterval(function () {
@@ -114,7 +115,7 @@
       .phone-line {
         display: flex;
         .telephone {
-          flex: 2;
+          flex: 5;
           margin-right: 10px;
           line-height: 40px;
           height: 40px;
@@ -122,7 +123,7 @@
           border-bottom: 1px solid $bg;
         }
         .auth-button {
-          flex: 1;
+          flex: 3;
           margin: 4px 5px 0 0;
           line-height: 32px;
           font-size: 20px;

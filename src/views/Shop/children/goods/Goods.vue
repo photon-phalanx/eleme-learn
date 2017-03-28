@@ -16,7 +16,7 @@
         <li v-for="item in goods" class="food-list food-list-hook">
           <div class="title">{{item.name}}</div>
           <ul>
-            <li v-for="food in item.foods" class="food-item border-1px">
+            <li v-for="food in item.foods" @click="selectDetailFood(food,$event)" class="food-item border-1px">
               <i class="icon-self">
                 <img :src="food.icon"/>
               </i>
@@ -41,6 +41,7 @@
     </div>
     <ShopCart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"
               :select-foods="selectFoods"></ShopCart>
+    <Food :food="propSelectedFood" v-if="propSelectedFood" @hide="hide" @increase="increase(propSelectedFood)" @decrease="decrease(propSelectedFood)"></Food>
   </div>
 </template>
 <style scoped lang="scss" rel="stylesheet/scss">
@@ -166,13 +167,15 @@
   import Icon from '../../../../components/icon/Icon.vue'
   import ShopCart from '../../../../components/shopCart/ShopCart.vue'
   import CartControl from '../../../../components/cartControl/CartControl.vue'
+  import Food from '../../../../components/food/Food.vue'
   export default{
     data () {
       return {
         goods: [],
         listHeight: [],
         scrollY: 0,
-        seller: ''
+        seller: '',
+        propSelectedFood: null
       }
     },
     async mounted () {
@@ -220,6 +223,13 @@
       },
       decrease (food) {
         food.count--
+      },
+      selectDetailFood (food, event) {
+        if (!event._constructed) return
+        this.propSelectedFood = food
+      },
+      hide () {
+        this.propSelectedFood = null
       }
     },
     computed: {
@@ -248,7 +258,8 @@
     components: {
       Icon,
       ShopCart,
-      CartControl
+      CartControl,
+      Food
     }
   }
 </script>

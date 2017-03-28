@@ -43,24 +43,15 @@ app.all('*', function(req, res, next) {
 });
 
 apiRoutes.get('/seller', function (req, res) {
-  res.json({
-    r: 0,
-    data: seller
-  });
+  res.json(seller);
 });
 
 apiRoutes.get('/goods', function (req, res) {
-  res.json({
-    r: 0,
-    data: goods
-  });
+  res.json(goods);
 });
 
 apiRoutes.get('/ratings', function (req, res) {
-  res.json({
-    r: 0,
-    data: ratings
-  });
+  res.json(ratings);
 });
 
 app.use(apiRoutes);
