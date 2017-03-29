@@ -14,6 +14,7 @@ import PwLogin from '../views/pwLogin/PwLogin.vue'
 import Breakfast from '../views/home/children/orderList/children/breakfast/Breakfast.vue'
 import TakeAway from '../views/home/children/orderList/children/takeAway/TakeAway.vue'
 import Detail from '../views/detail/Detail.vue'
+import Fit from '../views/fit/Fit.vue'
 
 Vue.use(Router)
 
@@ -103,6 +104,11 @@ export default new Router({
       path: '/pwLogin',
       name: 'pwLogin',
       component: PwLogin
+    },
+    {
+      path: '/fit',
+      name: 'fit',
+      component: Fit
     },
     {
       path: '/',

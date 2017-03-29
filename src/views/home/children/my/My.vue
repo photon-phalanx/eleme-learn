@@ -7,7 +7,9 @@
         <i class="iconfont icon-shezhi"></i>
       </div>
       <router-link :to="{name: 'login'}" v-if="!getUid" class="no-login-wrapper">
-        <i class="iconfont icon-moshengren"></i>
+        <div class="avatar-wrapper">
+          <i class="iconfont icon-moshengren"></i>
+        </div>
         <div class="content">
           <div class="main-text">立刻登录</div>
           <div class="info">登录后可享受更多特权</div>
@@ -15,12 +17,14 @@
         <i class="iconfont icon-you"></i>
       </router-link>
       <router-link :to="{name: 'detail'}" v-else class="login-wrapper">
-        <i class="iconfont icon-moshengren" v-if="getUid.avatar"></i>
-        <i v-else></i>
+        <div class="avatar-wrapper">
+          <i class="iconfont icon-moshengren" v-if="!getUid.avatar"></i>
+          <img class="avatar" v-else :src="getUid.avatar"/>
+        </div>
         <div class="content">
-          <div class="uid">{{getUid.uid}}</div>
-          <div class="tel">
-            <i></i>
+          <div class="main-text">{{getUid.uid}}</div>
+          <div class="info">
+            <i v-if="getUid.phoneNumber" class="iconfont icon-shezhi"></i>
             <span class="tel-number">{{getUid.phoneNumber}}</span>
           </div>
         </div>
@@ -59,6 +63,11 @@
       </div>
     </div>
     <div class="block2">
+      <div class="line recommend" v-if="getUid">
+        <i class="iconfont icon-shangcheng-copy-copy"></i>
+        <span class="text">推荐有奖</span>
+        <i class="iconfont icon-you"></i>
+      </div>
       <div class="line shop">
         <i class="iconfont icon-shangcheng-copy-copy"></i>
         <span class="text">积分商城</span>
@@ -141,21 +150,27 @@
           text-align: center;
         }
       }
-      .no-login-wrapper {
+      .no-login-wrapper, .login-wrapper {
         display: flex;
         height: 80px;
         color: #fff;
-        .icon-moshengren {
-          flex: 0 0 100px;
-          font-size: 60px;
+        .avatar-wrapper {
+          flex: 0 0 80px;
+          text-align: center;
           line-height: 80px;
+        }
+        .avatar {
+        }
+        .icon-moshengren {
+          font-size: 40px;
+          padding: 10px;
           border-radius: 50%;
-          background-color: #3190e8;
-          margin: -10px 0 0 10px;
+          background-color: #66ccff;
         }
         .content {
           flex: 1;
           padding: 12px 0;
+          vertical-align: middle;
           .main-content {
             font-size: 16px;
             font-weight: 500;
@@ -173,6 +188,14 @@
           font-size: 25px;
           line-height: 80px;
           font-weight: 500;
+        }
+      }
+      .login-wrapper {
+        .info {
+          margin-top: 5px !important;
+          .iconfont {
+            margin: 3px;
+          }
         }
       }
     }
@@ -267,6 +290,11 @@
       }
       .text {
         font-size: 18px;
+      }
+      .recommend {
+        .iconfont {
+          color: #ee0000;
+        }
       }
       .shop {
         .iconfont {

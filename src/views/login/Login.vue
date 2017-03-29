@@ -55,7 +55,8 @@
         if (this.disabled) return
         let that = this
         this.disabled = true
-        this.$store.commit('updateUid', {uid: 12324})
+        // todo 这里只是和后台对接前的测试
+        this.$store.commit('updateUid', {uid: 12324, phoneNumber: 17816161616})
         // ajax
         this.count = 30
         let timeCount = setInterval(function () {

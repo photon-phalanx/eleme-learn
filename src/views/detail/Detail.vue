@@ -16,6 +16,58 @@
         <i class="iconfont icon-you"></i>
       </div>
     </div>
+    <div class="bind" @click="remind()">
+      <div class="title">账号绑定</div>
+      <div class="line phone">
+        <i class="iconfont icon-shezhi"></i>
+        <div class="text">手机</div>
+        <div class="data">未绑定</div>
+        <i class="iconfont icon-you"></i>
+      </div>
+      <div class="line weixin">
+        <i class="iconfont icon-shezhi"></i>
+        <div class="text">微信</div>
+        <div class="data">未绑定</div>
+        <i class="iconfont icon-you"></i>
+      </div>
+      <div class="line qq">
+        <i class="iconfont icon-shezhi"></i>
+        <div class="text">QQ</div>
+        <div class="data">未绑定</div>
+        <i class="iconfont icon-you"></i>
+      </div>
+      <div class="line weibo">
+        <i class="iconfont icon-shezhi"></i>
+        <div class="text">微博</div>
+        <div class="data">未绑定</div>
+        <i class="iconfont icon-you"></i>
+      </div>
+      <div class="line taobao">
+        <i class="iconfont icon-shezhi"></i>
+        <div class="text">淘宝</div>
+        <div class="data">未绑定</div>
+        <i class="iconfont icon-you"></i>
+      </div>
+    </div>
+    <div class="secure">
+      <div class="title">安全设置</div>
+      <div class="line login">
+        <i class="iconfont icon-shezhi"></i>
+        <div class="text">登录密码</div>
+        <div class="data">未设置</div>
+        <i class="iconfont icon-you"></i>
+      </div>
+      <div class="line pay">
+        <i class="iconfont icon-shezhi"></i>
+        <div class="text">支付密码</div>
+        <div class="data">未设置</div>
+        <i class="iconfont icon-you"></i>
+      </div>
+      <div class="line no-pw">
+        <div class="small-pay">小额免密支付</div>
+        <i class="iconfont icon-you"></i>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -39,7 +91,11 @@
       ])
     },
     props: [],
-    methods: {}
+    methods: {
+      remind () {
+        this.$store.commit('commitMsg', '感谢使用，暂未实现')
+      }
+    }
   }
 </script>
 
@@ -54,29 +110,45 @@
     width: 100%;
     height: 100%;
     background-color: $bg;
+    .title {
+      background-color: transparent;
+      padding: 10px 0 10px 20px;
+      font-size: 14px;
+    }
     .line {
       display: flex;
+      padding-right: 10px;
       height: 45px;
       line-height: 45px;
-      padding: 0 10px 0 20px;
       //@include border-1px($bg);
       border-bottom: 1px solid $bg;
-      .iconfont {
-        margin: 0 10px;
-        font-size: 20px;
-      }
+      background-color: #fff;
+    }
+    .text {
+      font-size: 18px;
+      flex: 0 0 100px;
+    }
+    .data {
+      font-size: 18px;
+      flex: 1;
+      text-align: right;
+      color: $blue;
+    }
+    .iconfont.icon-you {
+      flex: 0 0 20px;
+      margin: 12px 0 0 5px;
+      color: #ccc;
     }
     .infomation {
       margin-top: 10px;
-      background-color: #fff;
-      .text {
-        font-size: 18px;
-        flex: 0 0 100px;
+      .line {
+        padding-left: 20px;
       }
       .avatar-wrapper {
         flex: 1;
         text-align: right;
         .icon-moshengren {
+          margin: 0 10px;
           border-radius: 50%;
           font-size: 25px;
           vertical-align: middle;
@@ -84,10 +156,21 @@
           background-color: #66ccff;
         }
       }
-      .iconfont.icon-you {
-        flex: 0 0 15px;
-        margin: 12px 0;
-        color: #ccc;
+      .uid {
+        flex: 1;
+        text-align: right;
+      }
+    }
+    .bind,.secure {
+      .icon-shezhi {
+        flex: 0 0 50px;
+        text-align: center;
+        margin-top: 14px;
+      }
+      .small-pay {
+        flex: 1;
+        background-color: #fff;
+        margin-left: 20px;
       }
     }
   }
