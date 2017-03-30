@@ -10,69 +10,28 @@
         </div>
         <i class="iconfont icon-you"></i>
       </div>
-      <div class="line user">
-        <span class="text">用户名</span>
-        <span class="uid">{{getUid.uid}}</span>
-        <i class="iconfont icon-you"></i>
-      </div>
+      <EasyLine title="用户名" :info="getUid.uid"></EasyLine>
     </div>
     <div class="bind" @click="remind()">
       <div class="title">账号绑定</div>
-      <div class="line phone">
-        <i class="iconfont icon-shezhi"></i>
-        <div class="text">手机</div>
-        <div class="data">未绑定</div>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line weixin">
-        <i class="iconfont icon-shezhi"></i>
-        <div class="text">微信</div>
-        <div class="data">未绑定</div>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line qq">
-        <i class="iconfont icon-shezhi"></i>
-        <div class="text">QQ</div>
-        <div class="data">未绑定</div>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line weibo">
-        <i class="iconfont icon-shezhi"></i>
-        <div class="text">微博</div>
-        <div class="data">未绑定</div>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line taobao">
-        <i class="iconfont icon-shezhi"></i>
-        <div class="text">淘宝</div>
-        <div class="data">未绑定</div>
-        <i class="iconfont icon-you"></i>
-      </div>
+      <EasyLine icon="icon-shezhi" color="#3190e8" title="手机" info="未绑定"></EasyLine>
+      <EasyLine icon="icon-shezhi" color="#3190e8" title="微信" info="未绑定"></EasyLine>
+      <EasyLine icon="icon-shezhi" color="#3190e8" title="QQ" info="未绑定"></EasyLine>
+      <EasyLine icon="icon-shezhi" color="#3190e8" title="微博" info="未绑定"></EasyLine>
+      <EasyLine icon="icon-shezhi" color="#3190e8" title="淘宝" info="未绑定"></EasyLine>
     </div>
     <div class="secure">
       <div class="title">安全设置</div>
-      <div class="line login">
-        <i class="iconfont icon-shezhi"></i>
-        <div class="text">登录密码</div>
-        <div class="data">未设置</div>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line pay">
-        <i class="iconfont icon-shezhi"></i>
-        <div class="text">支付密码</div>
-        <div class="data">未设置</div>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line no-pw">
-        <div class="small-pay">小额免密支付</div>
-        <i class="iconfont icon-you"></i>
-      </div>
+      <EasyLine icon="icon-shezhi" color="#3190e8" title="登录密码" info="未设置"></EasyLine>
+      <EasyLine icon="icon-shezhi" color="#3190e8" title="支付密码" info="未设置"></EasyLine>
+      <EasyLine title="小额免密支付"></EasyLine>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
+  import EasyLine from '../../components/easyLine/EasyLine.vue'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -83,7 +42,8 @@
 
     },
     components: {
-      EasyHeader
+      EasyHeader,
+      EasyLine
     },
     computed: {
       ...mapGetters([
@@ -128,21 +88,17 @@
       font-size: 18px;
       flex: 0 0 100px;
     }
-    .data {
-      font-size: 18px;
-      flex: 1;
-      text-align: right;
-      color: $blue;
-    }
     .iconfont.icon-you {
-      flex: 0 0 20px;
-      margin: 12px 0 0 5px;
+      flex: 0 0 30px;
+      font-size: 25px;
+      line-height: 45px;
       color: #ccc;
+      text-align: right;
     }
     .infomation {
       margin-top: 10px;
       .line {
-        padding-left: 20px;
+        padding-left: 10px;
       }
       .avatar-wrapper {
         flex: 1;
@@ -159,18 +115,6 @@
       .uid {
         flex: 1;
         text-align: right;
-      }
-    }
-    .bind,.secure {
-      .icon-shezhi {
-        flex: 0 0 50px;
-        text-align: center;
-        margin-top: 14px;
-      }
-      .small-pay {
-        flex: 1;
-        background-color: #fff;
-        margin-left: 20px;
       }
     }
   }

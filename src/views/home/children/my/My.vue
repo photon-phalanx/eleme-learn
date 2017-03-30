@@ -45,62 +45,27 @@
         <div class="text">积分</div>
       </div>
     </div>
-    <div class="block1">
-      <div class="line address ">
-        <i class="iconfont icon-dizhi"></i>
-        <span class="text">收货地址</span>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line favorite ">
-        <i class="iconfont icon-weibiaoti2"></i>
-        <span class="text">我的收藏</span>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line album ">
-        <i class="iconfont icon-icon"></i>
-        <span class="text">美食相册</span>
-        <i class="iconfont icon-you"></i>
-      </div>
+    <div class="block">
+      <EasyLine icon="icon-dizhi" color="#3190e8" title="收货地址"></EasyLine>
+      <EasyLine icon="icon-weibiaoti2" color="#ff5f3e" title="我的收藏"></EasyLine>
+      <EasyLine icon="icon-icon" color="#3190e8" title="美食相册"></EasyLine>
     </div>
-    <div class="block2">
-      <div class="line recommend" v-if="getUid">
-        <i class="iconfont icon-shangcheng-copy-copy"></i>
-        <span class="text">推荐有奖</span>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line shop">
-        <i class="iconfont icon-shangcheng-copy-copy"></i>
-        <span class="text">积分商城</span>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line mem-card ">
-        <i class="iconfont icon-huangguan"></i>
-        <span class="text">饿了么会员卡</span>
-        <i class="iconfont icon-you"></i>
-      </div>
+    <div class="block">
+      <EasyLine  v-if="getUid" icon="icon-shangcheng-copy-copy" color="#ee0000" title="推荐有奖"></EasyLine>
+      <EasyLine icon="icon-shangcheng-copy-copy" color="#4cd964" title="积分商城"></EasyLine>
+      <EasyLine icon="icon-huangguan" color="#ffd700" title="饿了么会员卡"></EasyLine>
     </div>
-    <div class="block3">
-      <div class="line address ">
-        <i class="iconfont icon-dizhi"></i>
-        <span class="text">服务中心</span>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line favorite ">
-        <i class="iconfont icon-weibiaoti2"></i>
-        <span class="text">欢迎评分</span>
-        <i class="iconfont icon-you"></i>
-      </div>
-      <div class="line album ">
-        <i class="iconfont icon-icon"></i>
-        <span class="text">加盟合作</span>
-        <i class="iconfont icon-you"></i>
-      </div>
+    <div class="block">
+      <EasyLine icon="icon-dizhi" color="#3190e8" title="服务中心"></EasyLine>
+      <EasyLine icon="icon-weibiaoti2" color="#3190e8" title="欢迎评分"></EasyLine>
+      <EasyLine icon="icon-icon" color="#3190e8" title="加盟合作"></EasyLine>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import {mapGetters} from 'vuex'
+  import EasyLine from '../../../../components/easyLine/EasyLine.vue'
   export default {
     data () {
       return {}
@@ -114,7 +79,10 @@
       ])
     },
     props: [],
-    methods: {}
+    methods: {},
+    components: {
+      EasyLine
+    }
   }
 </script>
 
@@ -239,101 +207,9 @@
         }
       }
     }
-    .block1 {
+    .block {
       margin-top: 10px;
       background-color: #fff;
-      .line {
-        height: 45px;
-        line-height: 45px;
-        //@include border-1px($bg);
-        border-bottom: 1px solid $bg;
-        .iconfont {
-          margin: 0 10px;
-          font-size: 20px;
-        }
-      }
-      .text {
-        font-size: 18px;
-      }
-      .address {
-        .iconfont {
-          color: $blue;
-        }
-      }
-      .favorite {
-        .iconfont {
-          color: #ff5f3e;
-        }
-      }
-      .album {
-        .iconfont {
-          color: $blue;
-        }
-      }
-      .iconfont.icon-you {
-        float: right;
-        margin: 12px 10px;
-        color: #ccc;
-      }
-    }
-    .block2 {
-      margin-top: 10px;
-      background-color: #fff;
-      .line {
-        height: 45px;
-        line-height: 45px;
-        border-bottom: 1px solid $bg;
-        .iconfont {
-          margin: 0 10px;
-          font-size: 20px;
-        }
-      }
-      .text {
-        font-size: 18px;
-      }
-      .recommend {
-        .iconfont {
-          color: #ee0000;
-        }
-      }
-      .shop {
-        .iconfont {
-          color: $green;
-        }
-      }
-      .mem-card {
-        .iconfont {
-          color: gold;
-        }
-      }
-      .iconfont.icon-you {
-        float: right;
-        margin: 12px 10px;
-        color: #ccc;
-      }
-    }
-    .block3 {
-      margin-top: 10px;
-      background-color: #fff;
-      .line {
-        height: 45px;
-        line-height: 45px;
-        //@include border-1px($bg);
-        border-bottom: 1px solid $bg;
-        .iconfont {
-          margin: 0 10px;
-          font-size: 20px;
-          color: $blue;
-        }
-      }
-      .text {
-        font-size: 18px;
-      }
-      .iconfont.icon-you {
-        float: right;
-        margin: 12px 10px;
-        color: #ccc;
-      }
     }
   }
 </style>
