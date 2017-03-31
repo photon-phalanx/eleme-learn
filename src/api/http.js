@@ -44,7 +44,7 @@ async function get (url, params) {
   } catch (e) {
     this.$store.commit('commitMsg', '请求数据失败')
   }
-  return {}
+  return null
 }
 
 async function post (url, params) {
@@ -59,7 +59,7 @@ async function post (url, params) {
   } catch (e) {
     this.$store.commit('commitMsg', '请求数据失败')
   }
-  return {}
+  return null
 }
 
 export {get, post, host}

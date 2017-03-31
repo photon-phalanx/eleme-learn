@@ -26,6 +26,35 @@
             </div>
           </transition>
         </div>
+        <split v-show="food.info"></split>
+        <div class="info" v-show="food.info">
+          <div class="title">商品信息</div>
+          <p class="text">{{food.info}}</p>
+        </div>
+        <split></split>
+        <div class="rating">
+          <div class="title">商品评价</div>
+          <rating-select @select="select" @toggleContent="toggleContent" :selectType="selectType" :desc="desc"
+                         :onlyContent="onlyContent"
+                         :ratings="food.ratings"></rating-select>
+          <div class="rating-wrapper">
+            <ul v-if="food.ratings && food.ratings.length">
+              <li v-show="needShow(rating.rateType,rating.text)" v-for="(rating,index) in food.ratings"
+                  class="rating-item border-1px">
+                <div class="user">
+                  <span class="name">{{rating.username}}</span>
+                  <img class="avatar" width="12" height="12" :src="rating.avatar"/>
+                </div>
+                <div class="time">{{rating.rateTime | formatDate}}</div>
+                <div class="text">
+                  <i :class="{'icon-thumb_up': rating.rateType===0, 'icon-thumb_down':rating.rateType===1}"></i>
+                  <span>{{rating.text}}</span>
+                </div>
+              </li>
+            </ul>
+            <div class="no-rating" v-else>暂无评价</div>
+          </div>
+        </div>
       </div>
     </div>
   </transition>
@@ -35,9 +64,22 @@
 <script type="text/ecmascript-6">
   import BScoll from 'better-scroll'
   import CartControl from '../../components/cartControl/CartControl.vue'
+  import Split from '../../components/split/Split.vue'
+  import RatingSelect from '../../components/ratingSelect/RatingSelect.vue'
+  import {formatDate} from '../../api/date'
+  // const POSITIVE = 0, NEGATIVE = 1, ALL = 2
+  const ALL = 2
   export default {
     data () {
-      return {}
+      return {
+        selectType: ALL,
+        onlyContent: true,
+        desc: {
+          all: '全部',
+          positive: '推荐',
+          negative: '吐槽'
+        }
+      }
     },
     mounted () {
       this.$nextTick(() => {
@@ -51,6 +93,11 @@
       })
     },
     props: ['food'],
+    filters: {
+      formatDate (rateTime) {
+        return formatDate(new Date(rateTime), 'YYYY-MM-DD hh:mm')
+      }
+    },
     methods: {
       hide () {
         this.$emit('hide')
@@ -66,15 +113,40 @@
       },
       decrease () {
         this.$emit('decrease')
+      },
+      select (type) {
+        this.selectType = type
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      },
+      toggleContent () {
+        this.onlyContent = !this.onlyContent
+        this.$nextTick(() => {
+          this.scroll.refresh()
+        })
+      },
+      needShow (type, text) {
+        if (this.onlyContent && !text) {
+          return false
+        } else if (this.selectType === ALL) {
+          return true
+        } else {
+          return type === this.selectType
+        }
       }
     },
     components: {
-      CartControl
+      CartControl,
+      Split,
+      RatingSelect
     }
   }
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../assets/css/mixin";
+
   .food {
     position: fixed;
     left: 0;
@@ -171,11 +243,87 @@
         color: #fff;
         background-color: rgb(0, 160, 220);
         transition: all .2s linear;
-        &.fade-leave,&.fade-enter-to {
+        &.fade-leave, &.fade-enter-to {
           opacity: 1;
         }
-        &.fade-leave-to,&.fade-enter {
+        &.fade-leave-to, &.fade-enter {
           opacity: 0;
+        }
+      }
+    }
+    .info {
+      padding: 18px;
+      .title {
+        line-height: 14px;
+        margin-bottom: 6px;
+        font-size: 14px;
+        color: rgb(7, 17, 27);
+      }
+      .text {
+        line-height: 24px;
+        padding: 0 8px;
+        font-size: 12px;
+        color: rgb(77, 85, 93);
+      }
+    }
+    .rating {
+      padding-top: 18px;
+      .title {
+        line-height: 14px;
+        font-size: 14px;
+        margin-left: 18px;
+        color: rgb(7, 17, 27);
+      }
+      .rating-wrapper {
+        padding: 0 18px;
+        .rating-item {
+          position: relative;
+          padding: 16px 0;
+          @include border-1px(rgba(7, 17, 27, 0.1));
+          .user {
+            position: absolute;
+            right: 0;
+            top: 16px;
+            line-height: 12px;
+            font-size: 0;
+            .name {
+              display: inline-block;
+              margin-right: 6px;
+              vertical-align: top;
+              font-size: 10px;
+              color: rgb(147, 153, 159);
+            }
+            .avatar {
+              border-radius: 50%;
+            }
+          }
+          .time {
+            margin-bottom: 6px;
+            line-height: 12px;
+            font-size: 10px;
+            color: rgb(147, 153, 159);
+          }
+          .text {
+            line-height: 16px;
+            font-size: 12px;
+            color: rgb(7, 17, 27);
+            .icon-thumb_up, .icon-thumb_down {
+              margin-right: 4px;
+              line-height: 16px;
+              font-size: 12px;
+            }
+            .icon-thumb_up {
+              color: rgb(0, 160, 220);
+            }
+            .icon-thumb_down {
+              color: rgb(147, 153, 159);
+            }
+          }
+        }
+        .no-rating {
+          padding: 16px 0;
+          font-size: 12px;
+          color: rgb(147, 153, 159);
         }
       }
     }
