@@ -74,12 +74,19 @@
   import RatingSelect from '../../../../components/ratingSelect/RatingSelect.vue'
   import Icon from '../../../../components/icon/Icon.vue'
   import {formatDate} from '../../../../api/date'
+  import {parseUrl} from '../../../../api/utils'
+  import {sellerSaveToLocal, sellerLoadFromLocal} from '../../../../api/store'
 
   export default{
     data () {
       return {
-        seller: {},
-        favorite: false
+        seller: {
+          id: (() => {
+            let queryParam = parseUrl()
+            return queryParam.id
+          })()
+        },
+        favorite: undefined
       }
     },
     computed: {
@@ -98,12 +105,14 @@
           return
         } else {
           this.favorite = !this.favorite
+          sellerSaveToLocal(this.seller.id, 'favorite', this.favorite)
         }
       }
     },
     async mounted () {
-      let seller = await this.$get('seller')
-      if (seller) this.seller = seller
+      this.favorite = sellerLoadFromLocal(this.seller.id, 'favorite', false)
+      let seller = await this.$get('seller?id=' + this.seller.id)
+      if (seller) this.seller = Object.assign({}, this.seller, seller)
       if (this.seller.pics) {
         let picWidth = 120
         let margin = 6
