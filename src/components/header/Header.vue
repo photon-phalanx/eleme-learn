@@ -41,8 +41,8 @@
             </div>
             <ul v-if="seller.supports" class="supports">
               <li class="support-item" v-for="(item, index) in seller.supports">
-                <Icon :typeNum="seller.supports[index].type" :sizeNum="2"></Icon>
-                <span class="text">{{seller.supports[index].description}}</span>
+                <Icon :typeNum="item.type" :sizeNum="2"></Icon>
+                <span class="text">{{item.description}}</span>
               </li>
             </ul>
             <div class="sub-title-wrapper">
@@ -266,8 +266,7 @@
     data () {
       return {
         seller: '',
-        isDetailShow: false,
-        supportIcon: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+        isDetailShow: false
       }
     },
     async mounted () {

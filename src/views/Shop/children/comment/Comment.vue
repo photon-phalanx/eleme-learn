@@ -261,7 +261,7 @@
               display: inline-block;
               margin: 0 8px 4px 0;
               font-size: 9px;
-              color: rgb(0,160,220);
+              color: rgb(0, 160, 220);
             }
             .item {
               display: inline-block;
@@ -269,7 +269,7 @@
               padding: 0 4px;
               border: 1px solid $border;
               border-radius: 1px;
-              color: rgb(147,153,159);
+              color: rgb(147, 153, 159);
               background-color: #fff;
               font-size: 9px;
             }
@@ -277,10 +277,10 @@
           .time {
             position: absolute;
             top: 0;
-            right:0;
+            right: 0;
             line-height: 12px;
             font-size: 10px;
-            color: rgb(147,153,159);
+            color: rgb(147, 153, 159);
           }
         }
       }
