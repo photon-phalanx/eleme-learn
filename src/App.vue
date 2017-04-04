@@ -3,6 +3,7 @@
     <transition name="fade">
       <error-handler class="error-headler" v-if="getErrMsg" :msg="getErrMsg"></error-handler>
     </transition>
+    <loading></loading>
     <router-view></router-view>
   </div>
 </template>
@@ -10,7 +11,9 @@
 <script>
   import axios from 'axios'
   import {host} from 'api/http.js'
-  import errorHandler from './components/errorHandler/ErrorHandler.vue'
+  import ErrorHandler from './components/errorHandler/ErrorHandler.vue'
+  import Loading from './components/loading/Loading.vue'
+
   import {mapGetters} from 'vuex'
   export default {
     name: 'app',
@@ -33,7 +36,8 @@
       ])
     },
     components: {
-      errorHandler
+      ErrorHandler,
+      Loading
     }
   }
 </script>

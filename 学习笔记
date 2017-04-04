@@ -73,3 +73,5 @@
 13. w3c标准描述，padding设为100%的时候相对于width计算，做一个正方形的图片的办法
 
 14.iphone5的宽度，可以稍微加一点媒体查询
+
+15.loading 尝试使用transform translateY 控制弹跳效果失败，因为还有一个跟在后面的不弹跳的阴影
