@@ -1,7 +1,6 @@
 <template>
   <div class="img-wrapper">
-    <input type="file" class="real-logic" @change="dealUpload($event)" ref="file"/>
-    <img v-if="imgData" :src="imgData"/>
+    <input type="file" class="real-logic" accept="image/*" capture="camera" @change="dealUpload($event)" ref="file"/>
     <div class="img-chosen" v-if="openFlag" ref="imgChosen">
       <canvas class="image" ref="image"></canvas>
       <canvas class="cover" ref="cover" @touchmove="touchmove($event)" @touchstart="touchstart($event)"
@@ -45,7 +44,8 @@
   function drawImageIOSFix (ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
     const vertSquashRatio = detectVerticalSquash(img)
     ctx.drawImage(img, sx * vertSquashRatio, sy * vertSquashRatio,
-      sw * vertSquashRatio, sh * vertSquashRatio, dx, dy, dw, dh)
+      sw * vertSquashRatio, sh * vertSquashRatio,
+      dx, dy, dw, dh)
   }
   export default {
     data () {
@@ -145,13 +145,15 @@
       touchmove (event) {
         if (this.dragFlag) {
           if (this.selectHeight === this.imgHeight) {
-            let offsetX = event.touches[0].pageX - this.dragStartX
+            // 除以5来减少滑动速度,下同
+            let offsetX = (event.touches[0].pageX - this.dragStartX) / 5
+            console.log('offset!' + offsetX)
             this.selectX = this.selectX + offsetX
             if (this.selectX <= 0) this.selectX = 0
             if (this.selectX > this.imgWidth - this.selectWidth) this.selectX = this.imgWidth - this.selectWidth
           } else {
             let startY = this.selectY
-            let offsetY = event.touches[0].pageY - this.dragStartY
+            let offsetY = (event.touches[0].pageY - this.dragStartY) / 5
             this.selectY = startY + offsetY
             if (this.selectY <= 0) this.selectY = 0
             if (this.selectY > this.imgHeight - this.selectHeight) this.selectY = this.imgHeight - this.selectHeight
@@ -173,17 +175,27 @@
       },
       submit () {
         let self = this
-        let cover = self.$refs.cover
-        let coverContext = cover.getContext('2d')
-        cover.width = 100
-        cover.height = 100
-        let img = new Image()
-        img.src = self.imgData
-        img.onload = function () {
-          drawImageIOSFix(coverContext, img, self.selectX, self.selectY,
-            self.selectWidth, self.selectHeight, 0, 0, 100, 100)
-          self.imgData = cover.toDataURL()
+        let width = 60
+        let height = 60
+        let c = document.createElement('canvas')
+        c.width = width
+        c.height = height
+        let ctx = c.getContext('2d')
+        let images = new Image()
+        images.src = self.imgData
+        images.onload = function () {
+          let scale = window.innerWidth === self.imgWidth ? images.width / window.innerWidth : images.height / window.innerHeight
+          console.log('scale' + scale)
+          console.log('submit' + images.width + ' ' + images.height)
+          console.log('clip:' + self.selectX + ' ' + self.selectY)
+          console.log('clipwidth' + self.selectWidth + ' ' + self.selectHeight)
+          drawImageIOSFix(ctx, images, scale * self.selectX, scale * self.selectY,
+            scale * self.selectWidth, scale * self.selectHeight, 0, 0, width, height)
+          self.imgData = c.toDataURL('image/jpeg', 0.7)
           console.log(self.imgData)
+          // test
+          self.$store.commit('commitMsg', '上传成功')
+          self.$store.commit('updateAvatar', self.imgData)
           self.openFlag = false
         }
       }
@@ -192,6 +204,7 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
+  @import "../../assets/css/color.scss";
   .img-wrapper {
     .real-logic {
       opacity: 0;
@@ -220,18 +233,23 @@
         left: 0;
         bottom: 10px;
         width: 100%;
-        height: 30px;
+        height: 35px;
         z-index: 802;
         * {
           display: inline-block;
           box-sizing: border-box;
           width: 49%;
           height: 100%;
+          border: none;
+          border-radius: 10px;
+          font-size: 20px;
+          color: #fff;
         }
         .submitButton {
-
+          background-color: $green;
         }
         .resetButton {
+          background-color: $grey;
         }
       }
     }

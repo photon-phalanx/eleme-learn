@@ -128,6 +128,11 @@
           line-height: 80px;
         }
         .avatar {
+          display: inline-block;
+          width: 60px;
+          height: 60px;
+          line-height: 60px;
+          border-radius: 50%;
         }
         .icon-moshengren {
           font-size: 40px;

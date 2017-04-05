@@ -6,7 +6,7 @@
         <span class="text">头像</span>
         <div class="avatar-wrapper">
           <i v-if="!getUid.avatar" class="iconfont icon-moshengren"></i>
-          <img v-else src="" class="avatar"/>
+          <img v-else :src="getUid.avatar" class="avatar"/>
         </div>
         <i class="iconfont icon-you"></i>
         <div class="real-logic">
@@ -115,6 +115,13 @@
             vertical-align: middle;
             color: white;
             background-color: #66ccff;
+          }
+          .avatar {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            border-radius: 50%;
           }
         }
         .real-logic {
