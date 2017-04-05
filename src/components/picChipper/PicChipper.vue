@@ -1,6 +1,6 @@
 <template>
   <div class="img-wrapper">
-    <input type="file" class="real-logic" accept="image/*" capture="camera" @change="dealUpload($event)" ref="file"/>
+    <input type="file" class="real-logic" @change="dealUpload($event)" ref="file"/>
     <div class="img-chosen" v-if="openFlag" ref="imgChosen">
       <canvas class="image" ref="image"></canvas>
       <canvas class="cover" ref="cover" @touchmove="touchmove($event)" @touchstart="touchstart($event)"
@@ -41,6 +41,7 @@
     const ratio = (py / ih)
     return (ratio === 0) ? 1 : ratio
   }
+  // http://stackoverflow.com/questions/11929099/html5-canvas-drawimage-ratio-bug-ios
   function drawImageIOSFix (ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
     const vertSquashRatio = detectVerticalSquash(img)
     ctx.drawImage(img, sx * vertSquashRatio, sy * vertSquashRatio,
@@ -116,6 +117,7 @@
             self.selectHeight = self.imgHeight
           }
           console.log(img.width)
+          // 会有模糊的问题，所以统一使用2倍，详情可以百度
           canvas.height = 2 * self.imgHeight
           canvas.width = 2 * self.imgWidth
           canvas.style.width = self.imgWidth + 'px'
@@ -192,7 +194,7 @@
           drawImageIOSFix(ctx, images, scale * self.selectX, scale * self.selectY,
             scale * self.selectWidth, scale * self.selectHeight, 0, 0, width, height)
           self.imgData = c.toDataURL('image/jpeg', 0.7)
-          console.log(self.imgData)
+          console.log(self.imgData.length)
           // test
           self.$store.commit('commitMsg', '上传成功')
           self.$store.commit('updateAvatar', self.imgData)
