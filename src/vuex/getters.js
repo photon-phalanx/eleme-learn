@@ -11,6 +11,9 @@ const getters = {
   },
   getUid: state => {
     return state.uid
+  },
+  getLoadingState: state => {
+    return state.isLoadingUnfinished
   }
 }
 

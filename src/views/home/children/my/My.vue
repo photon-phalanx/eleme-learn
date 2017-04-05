@@ -48,10 +48,10 @@
     <div class="block">
       <EasyLine icon="icon-dizhi" color="#3190e8" title="收货地址"></EasyLine>
       <EasyLine icon="icon-weibiaoti2" color="#ff5f3e" title="我的收藏"></EasyLine>
-      <EasyLine icon="icon-icon" color="#3190e8" title="美食相册"></EasyLine>
+      <EasyLine v-if="!getUid" icon="icon-icon" color="#3190e8" title="美食相册"></EasyLine>
     </div>
     <div class="block">
-      <EasyLine  v-if="getUid" icon="icon-shangcheng-copy-copy" color="#ee0000" title="推荐有奖"></EasyLine>
+      <EasyLine  v-if="getUid" icon="icon-liwu" color="#ee0000" title="推荐有奖"></EasyLine>
       <EasyLine icon="icon-shangcheng-copy-copy" color="#4cd964" title="积分商城"></EasyLine>
       <EasyLine icon="icon-huangguan" color="#ffd700" title="饿了么会员卡"></EasyLine>
     </div>

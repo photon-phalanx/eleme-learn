@@ -9,21 +9,24 @@
           <img v-else src="" class="avatar"/>
         </div>
         <i class="iconfont icon-you"></i>
+        <div class="real-logic">
+          <pic-chipper></pic-chipper>
+        </div>
       </div>
       <EasyLine title="用户名" :info="getUid.uid"></EasyLine>
     </div>
     <div class="bind" @click="remind()">
       <div class="title">账号绑定</div>
-      <EasyLine icon="icon-shezhi" color="#3190e8" title="手机" info="未绑定"></EasyLine>
-      <EasyLine icon="icon-shezhi" color="#3190e8" title="微信" info="未绑定"></EasyLine>
-      <EasyLine icon="icon-shezhi" color="#3190e8" title="QQ" info="未绑定"></EasyLine>
-      <EasyLine icon="icon-shezhi" color="#3190e8" title="微博" info="未绑定"></EasyLine>
-      <EasyLine icon="icon-shezhi" color="#3190e8" title="淘宝" info="未绑定"></EasyLine>
+      <EasyLine icon="icon-shouji" color="#3190e8" title="手机" info="未绑定"></EasyLine>
+      <EasyLine icon="icon-weixin" color="#62b900" title="微信" info="未绑定" infoColor="#3190e8"></EasyLine>
+      <EasyLine icon="icon-111" color="#000000" title="QQ" info="未绑定" infoColor="#3190e8"></EasyLine>
+      <EasyLine icon="icon-unie61d" color="#ee0000" title="微博" info="未绑定" infoColor="#3190e8"></EasyLine>
+      <EasyLine icon="icon-taobao" color="#FF6600" title="淘宝" info="未绑定" infoColor="#3190e8"></EasyLine>
     </div>
     <div class="secure">
       <div class="title">安全设置</div>
-      <EasyLine icon="icon-shezhi" color="#3190e8" title="登录密码" info="未设置"></EasyLine>
-      <EasyLine icon="icon-shezhi" color="#3190e8" title="支付密码" info="未设置"></EasyLine>
+      <EasyLine title="登录密码" info="未设置" infoColor="#3190e8"></EasyLine>
+      <EasyLine title="支付密码" info="未设置" infoColor="#3190e8"></EasyLine>
       <EasyLine title="小额免密支付"></EasyLine>
     </div>
   </div>
@@ -32,6 +35,7 @@
 <script type="text/ecmascript-6">
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
   import EasyLine from '../../components/easyLine/EasyLine.vue'
+  import PicChipper from '../../components/picChipper/PicChipper.vue'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -43,7 +47,8 @@
     },
     components: {
       EasyHeader,
-      EasyLine
+      EasyLine,
+      PicChipper
     },
     computed: {
       ...mapGetters([
@@ -97,19 +102,27 @@
     }
     .infomation {
       margin-top: 10px;
-      .line {
+      .avatar-line {
+        position: relative;
         padding-left: 10px;
-      }
-      .avatar-wrapper {
-        flex: 1;
-        text-align: right;
-        .icon-moshengren {
-          margin: 0 10px;
-          border-radius: 50%;
-          font-size: 25px;
-          vertical-align: middle;
-          color: white;
-          background-color: #66ccff;
+        .avatar-wrapper {
+          flex: 1;
+          text-align: right;
+          .icon-moshengren {
+            margin: 0 10px;
+            border-radius: 50%;
+            font-size: 25px;
+            vertical-align: middle;
+            color: white;
+            background-color: #66ccff;
+          }
+        }
+        .real-logic {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
         }
       }
       .uid {

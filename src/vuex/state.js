@@ -6,7 +6,8 @@ const store = {
   state: {
     errmsg: '',
     dropPos: {},
-    uid: undefined
+    uid: undefined,
+    isLoadingUnfinished: false
   },
   mutations: {
     commitMsg (state, msg) {
@@ -20,6 +21,9 @@ const store = {
     },
     updateUid (state, uid) {
       state.uid = uid
+    },
+    updateLoadingState (state, flag = false) {
+      state.isLoadingUnfinished = flag
     }
   },
   getters

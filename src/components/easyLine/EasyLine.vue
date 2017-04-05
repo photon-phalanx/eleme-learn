@@ -2,7 +2,7 @@
   <div class="line">
     <i class="iconfont left-icon" v-if="icon" :class="icon" :style="{color: color}"></i>
     <span class="title">{{title}}</span>
-    <span class="info" v-if="info">{{info}}</span>
+    <span class="info" v-if="info" :style="{color: infoColor}">{{info}}</span>
     <i class="iconfont icon-you"></i>
   </div>
 </template>
@@ -16,7 +16,7 @@
     mounted () {
 
     },
-    props: ['title', 'color', 'info', 'icon'],
+    props: ['title', 'color', 'info', 'icon', 'infoColor'],
     methods: {}
   }
 </script>
@@ -45,6 +45,7 @@
     .info {
       flex: 0 0 100px;
       text-align: right;
+      margin-top: 3px;
     }
     .icon-you {
       flex: 0 0 30px;
