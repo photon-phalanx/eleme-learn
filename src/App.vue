@@ -22,7 +22,7 @@
     },
     async mounted () {
       try {
-        let res = await axios.post(host + 'login')
+        let res = await axios.post(host + 'login', {confirm: 'confirm'})
         console.log(res)
         if (!res.data.r) {
           this.$store.commit('updateUid', res.data.data)

@@ -37,7 +37,7 @@
     }
     .left-icon {
       flex: 0 0 35px;
-      margin-top: 10px;
+      line-height:45px;
     }
     .title {
       flex: 1;

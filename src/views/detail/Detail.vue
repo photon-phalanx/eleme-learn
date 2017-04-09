@@ -17,7 +17,8 @@
     </div>
     <div class="bind" @click="remind()">
       <div class="title">账号绑定</div>
-      <EasyLine icon="icon-shouji" color="#3190e8" title="手机" info="未绑定"></EasyLine>
+      <EasyLine icon="icon-shouji" v-if="getUid.pNumber" title="手机" :info="getUid.pNumber"></EasyLine>
+      <EasyLine icon="icon-shouji" v-else color="#3190e8" title="手机" info="未绑定"></EasyLine>
       <EasyLine icon="icon-weixin" color="#62b900" title="微信" info="未绑定" infoColor="#3190e8"></EasyLine>
       <EasyLine icon="icon-111" color="#000000" title="QQ" info="未绑定" infoColor="#3190e8"></EasyLine>
       <EasyLine icon="icon-unie61d" color="#ee0000" title="微博" info="未绑定" infoColor="#3190e8"></EasyLine>

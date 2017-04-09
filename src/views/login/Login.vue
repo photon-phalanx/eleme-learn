@@ -9,7 +9,7 @@
     </div>
     <div class="main">
       <div class="phone-line">
-        <input type="text" class="telephone" v-model="obj.phoneNumber" placeholder="手机号"/>
+        <input type="text" class="telephone" v-model="obj.pNumber" placeholder="手机号"/>
         <button class="auth-button" :disabled="disabled" :class="{disabled:disabled}" @click="getAuth">{{comText}}
         </button>
       </div>
@@ -17,7 +17,7 @@
     </div>
     <div class="info">温馨提示，未注册饿了么的手机号，登陆时将自动注册，切代表您已同意《<a>用户服务协议</a>》</div>
     <div class="button-wrapper">
-      <button class="login-button">登录</button>
+      <button class="login-button" @click="login" :disabled="loginDisabled" :class="{disabled:disabled}">登录</button>
     </div>
     <div class="remind">没收到短信验证码？请尝试获取<a>语音验证码</a></div>
   </div>
@@ -28,11 +28,12 @@
     data () {
       return {
         obj: {
-          phoneNumber: '',
+          pNumber: '',
           vCode: ''
         },
         count: -2,
-        disabled: false
+        disabled: false,
+        loginDisabled: false
       }
     },
     computed: {
@@ -56,7 +57,7 @@
         let that = this
         this.disabled = true
         // todo 这里只是和后台对接前的测试
-        this.$store.commit('updateUid', {uid: 12324, phoneNumber: 17816161616})
+        this.$store.commit('updateUid', {uid: 12324, pNumber: 17816161616})
         // ajax
         this.count = 30
         let timeCount = setInterval(function () {
@@ -66,6 +67,20 @@
             that.disabled = false
           }
         }, 1000)
+      },
+      async login () {
+        if (this.loginDisabled) return
+        this.loginDisabled = true
+        if (!/^1[0-9]{10}$/.test(this.obj.pNumber)) {
+          this.$store.commit('commitMsg', '请正确填写手机号')
+          this.loginDisabled = false
+          return
+        }
+        let res = await this.$post('login', this.obj)
+        if (!res) this.loginDisabled = false
+        else {
+          // 这里做跳转逻辑
+        }
       }
     }
   }
@@ -175,6 +190,10 @@
         border-radius: 8px;
         border: none;
         text-align: center;
+        &.disabled {
+          background-color: #bbb;
+          cursor: not-allowed;
+        }
       }
     }
     .remind {
