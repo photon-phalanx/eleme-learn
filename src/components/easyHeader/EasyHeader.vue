@@ -18,7 +18,7 @@
     props: ['goBackClass', 'title'],
     methods: {
       goBack () {
-        this.$store.commit('changeSlideWay', 1)
+        this.$store.commit('changeSlideWay', 2)
         this.$router.go(-1)
       }
     }

@@ -194,7 +194,7 @@
           drawImageIOSFix(ctx, images, scale * self.selectX, scale * self.selectY,
             scale * self.selectWidth, scale * self.selectHeight, 0, 0, width, height)
           self.imgData = c.toDataURL('image/jpeg', 0.7)
-          console.log(self.imgData.length)
+          console.log(self.imgData)
           // test
           self.$store.commit('commitMsg', '上传成功')
           self.$store.commit('updateAvatar', self.imgData)
