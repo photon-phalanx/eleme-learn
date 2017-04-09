@@ -4,7 +4,7 @@
       <div class="title">
         <i class="iconfont icon-iconfontnaoling"></i>
         <div class="text">我的</div>
-        <i class="iconfont icon-shezhi"></i>
+        <router-link :to="{name: 'config'}" class="iconfont icon-shezhi"></router-link>
       </div>
       <router-link :to="{name: 'login'}" v-if="!getUid" class="no-login-wrapper">
         <div class="avatar-wrapper">
@@ -112,6 +112,7 @@
           text-align: center;
           font-size: 24px;
           line-height: 32px;
+          color: #fff;
         }
         .text {
           flex: 1;

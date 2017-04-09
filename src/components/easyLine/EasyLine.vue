@@ -32,6 +32,10 @@
     border-bottom: 1px solid $bg;
     padding: 0 10px;
     font-size: 18px;
+    background-color: #fff;
+    &:last-of-type {
+      border-bottom: none;
+    }
     .iconfont {
       font-size: 20px;
     }

@@ -15,11 +15,17 @@ import Breakfast from '../views/home/children/orderList/children/breakfast/Break
 import TakeAway from '../views/home/children/orderList/children/takeAway/TakeAway.vue'
 import Detail from '../views/detail/Detail.vue'
 import Fit from '../views/fit/Fit.vue'
+import Config from '../views/config/Config.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '/config',
+      name: 'config',
+      component: Config
+    },
     {
       path: '/detail',
       name: 'detail',
