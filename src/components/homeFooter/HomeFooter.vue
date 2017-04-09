@@ -1,18 +1,18 @@
 <template>
-  <div  class="container">
-    <router-link :to="{name: 'order'}" class="order-wrapper">
+  <div class="footer">
+    <router-link :to="{name: 'order'}" class="item order-wrapper">
       <i class="iconfont icon-icon"></i>
       <div class="text">外卖</div>
     </router-link>
-    <router-link :to="{name: 'find'}" class="find-wrapper">
+    <router-link :to="{name: 'find'}" class="item find-wrapper">
       <i class="iconfont icon-faxian"></i>
       <div class="text">发现</div>
     </router-link>
-    <router-link :to="{name: 'take-away'}" class="order-list-wrapper"> <!--take-away是order-list里面的，但是orderlist已经没有名字了-->
+    <router-link :to="{name: 'take-away'}" class="item order-list-wrapper"> <!--take-away是order-list里面的，但是orderlist已经没有名字了-->
       <i class="iconfont icon-cshy-orders"></i>
       <div class="text">订单</div>
     </router-link>
-    <router-link :to="{name: 'my'}" class="my-wrapper">
+    <router-link :to="{name: 'my'}" class="item my-wrapper">
       <i class="iconfont icon-wode"></i>
       <div class="text">我的</div>
     </router-link>
@@ -34,33 +34,31 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../assets/css/color.scss";
-  .container {
+  .footer {
     display: flex;
     position: fixed;
     width: 100%;
     height: 50px;
-    padding-top: 10px;
     bottom: 0;
     left: 0;
     z-index: 30;
     background-color: #fff;
-    > * {
+    .item {
       flex: 1;
-      > * {
-        text-align: center;
+      text-align: center;
+      color: #333;
+      .iconfont {
+        display: inline-block;
+        padding: 4px 0;
+        font-size: 24px;
       }
-      > .iconfont {
-        font-size: 20px;
+      .text {
+        font-size: 14px;
       }
-      > .text {
-        font-size: 10px;
-        margin: 5px 0;
-      }
-      .router-link-active {
+      &.router-link-active {
         color: $blue;
       }
     }
-
   }
 
 

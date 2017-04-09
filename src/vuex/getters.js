@@ -14,6 +14,12 @@ const getters = {
   },
   getLoadingState: state => {
     return state.isLoadingUnfinished
+  },
+  getBottomShow: state => {
+    return state.bottomShow
+  },
+  getSlideWay: state => {
+    return state.slideWay
   }
 }
 

@@ -2,9 +2,9 @@
   <div class="container">
     <div class="header">
       <div class="title">
-        <i class="iconfont icon-iconcha" @click="$router.go(-1)"></i>
+        <i class="iconfont icon-iconcha" @click="goBack"></i>
         <div class="text">登录</div>
-        <router-link :to="{name: 'pwLogin'}" class="password">密码登录</router-link>
+        <span @click="goPwLogin" class="password">密码登录</span>
       </div>
     </div>
     <div class="main">
@@ -48,10 +48,18 @@
       }
     },
     mounted () {
-
+      this.$store.commit('changeBottomShow', false)
     },
     props: [],
     methods: {
+      goBack () {
+        this.$store.commit('changeSlideWay', 2)
+        this.$router.go(-1)
+      },
+      goPwLogin () {
+        this.$store.commit('changeSlideWay', 1)
+        this.$router.push({name: 'pwLogin'})
+      },
       getAuth () {
         if (this.disabled) return
         let that = this
@@ -87,8 +95,8 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../assets/css/color.scss";
-  @import "../../assets/css/mixin.scss";
+  @import "../../../../assets/css/color.scss";
+  @import "../../../../assets/css/mixin.scss";
 
   .container {
     position: fixed;

@@ -8,7 +8,9 @@ const store = {
     errmsg: '',
     dropPos: {},
     uid: undefined,
-    isLoadingUnfinished: false
+    isLoadingUnfinished: false,
+    bottomShow: true, // 用来在home里表示显不显示foot
+    slideWay: 'slideRL'
   },
   mutations: {
     commitMsg (state, msg) {
@@ -28,6 +30,23 @@ const store = {
     },
     updateLoadingState (state, flag = false) {
       state.isLoadingUnfinished = flag
+    },
+    changeBottomShow (state, flag) {
+      state.bottomShow = flag
+    },
+    changeSlideWay (state, way) {
+      // 0不滚动, 1从右往左, 2从左往右
+      switch (way) {
+        case 0 :
+          state.slideWay = 'noSlide'
+              break
+        case 1 :
+          state.slideWay = 'slideRL'
+          break
+        case 2 :
+          state.slideWay = 'slideLR'
+          break
+      }
     }
   },
   getters

@@ -1,5 +1,6 @@
 <template>
   <div>find</div>
+
 </template>
 
 <script type="text/ecmascript-6">
@@ -8,7 +9,7 @@
       return {}
     },
     mounted () {
-
+      this.$store.commit('changeBottomShow', true)
     },
     props: [],
     methods: {}

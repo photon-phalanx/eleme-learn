@@ -16,7 +16,7 @@
       return {}
     },
     mounted () {
-
+      this.$store.commit('changeBottomShow', true)
     },
     components: {
       EasyHeader

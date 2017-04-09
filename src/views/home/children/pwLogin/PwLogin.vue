@@ -15,7 +15,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
+  import EasyHeader from '../../../../components/easyHeader/EasyHeader.vue'
 
   export default {
     data () {
@@ -27,6 +27,7 @@
       }
     },
     mounted () {
+      this.$store.commit('changeBottomShow', false)
     },
     components: {
       EasyHeader
@@ -46,8 +47,8 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../assets/css/color.scss";
-  @import "../../assets/css/mixin.scss";
+  @import "../../../../assets/css/color.scss";
+  @import "../../../../assets/css/mixin.scss";
 
   .container {
     position: fixed;

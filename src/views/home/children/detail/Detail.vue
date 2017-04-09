@@ -34,9 +34,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
-  import EasyLine from '../../components/easyLine/EasyLine.vue'
-  import PicChipper from '../../components/picChipper/PicChipper.vue'
+  import EasyHeader from '../../../../components/easyHeader/EasyHeader.vue'
+  import EasyLine from '../../../../components/easyLine/EasyLine.vue'
+  import PicChipper from '../../../../components/picChipper/PicChipper.vue'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -44,7 +44,7 @@
       return {}
     },
     mounted () {
-
+      this.$store.commit('changeBottomShow', false)
     },
     components: {
       EasyHeader,
@@ -66,8 +66,8 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../assets/css/color.scss";
-  @import "../../assets/css/mixin.scss";
+  @import "../../../../assets/css/color.scss";
+  @import "../../../../assets/css/mixin.scss";
 
   .container {
     position: fixed;

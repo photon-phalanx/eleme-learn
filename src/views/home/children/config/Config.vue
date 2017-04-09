@@ -16,15 +16,16 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
-  import EasyLine from '../../components/easyLine/EasyLine.vue'
-  import Split from '../../components/split/Split.vue'
+  import EasyHeader from '../../../../components/easyHeader/EasyHeader.vue'
+  import EasyLine from '../../../../components/easyLine/EasyLine.vue'
+  import Split from '../../../../components/split/Split.vue'
 
   export default {
     data () {
       return {}
     },
     mounted () {
+      this.$store.commit('changeBottomShow', false)
     },
     components: {
       EasyHeader,
@@ -45,7 +46,8 @@
 </script>
 
 <style scoped lang="scss" rel="stylesheet/scss">
-  @import "../../assets/css/color";
+  @import "../../../../assets/css/color";
+
   .container {
     position: fixed;
     left: 0;
@@ -54,7 +56,7 @@
     bottom: 0;
     background-color: $bg;
     .logout-button {
-      width:100%;
+      width: 100%;
       height: 45px;
       line-height: 45px;
       text-align: center;

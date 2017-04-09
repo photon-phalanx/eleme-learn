@@ -51,7 +51,7 @@
       <EasyLine v-if="!getUid" icon="icon-icon" color="#3190e8" title="美食相册"></EasyLine>
     </div>
     <div class="block">
-      <EasyLine  v-if="getUid" icon="icon-liwu" color="#ee0000" title="推荐有奖"></EasyLine>
+      <EasyLine v-if="getUid" icon="icon-liwu" color="#ee0000" title="推荐有奖"></EasyLine>
       <EasyLine icon="icon-shangcheng-copy-copy" color="#4cd964" title="积分商城"></EasyLine>
       <EasyLine icon="icon-huangguan" color="#ffd700" title="饿了么会员卡"></EasyLine>
     </div>
@@ -71,7 +71,7 @@
       return {}
     },
     mounted () {
-
+      this.$store.commit('changeBottomShow', true)
     },
     computed: {
       ...mapGetters([
@@ -82,6 +82,14 @@
     methods: {},
     components: {
       EasyLine
+    },
+    beforeRouteLeave ({name}, from, next) {
+      if (name === 'find' || name === 'order' || name === 'breakfast' || name === 'take-away') {
+        this.$store.commit('changeSlideWay', 0)
+      } else {
+        this.$store.commit('changeSlideWay', 1)
+      }
+      next()
     }
   }
 </script>
@@ -97,6 +105,7 @@
     width: 100%;
     height: 100%;
     background-color: $bg;
+    transition: all 0.4s linear;
     .header {
       background-color: $blue;
       width: 100%;

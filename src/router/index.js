@@ -9,28 +9,17 @@ import Order from '../views/home/children/order/Order.vue'
 import OrderList from '../views/home/children/orderList/OrderList.vue'
 import Find from '../views/home/children/find/Find.vue'
 import Shop from '../views/Shop/Shop.vue'
-import Login from '../views/login/Login.vue'
-import PwLogin from '../views/pwLogin/PwLogin.vue'
+import Login from '../views/home/children/login/Login.vue'
+import PwLogin from '../views/home/children/pwLogin/PwLogin.vue'
 import Breakfast from '../views/home/children/orderList/children/breakfast/Breakfast.vue'
 import TakeAway from '../views/home/children/orderList/children/takeAway/TakeAway.vue'
-import Detail from '../views/detail/Detail.vue'
-import Fit from '../views/fit/Fit.vue'
-import Config from '../views/config/Config.vue'
+import Detail from '../views/home/children/detail/Detail.vue'
+import Config from '../views/home/children/config/Config.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/config',
-      name: 'config',
-      component: Config
-    },
-    {
-      path: '/detail',
-      name: 'detail',
-      component: Detail
-    },
     {
       path: '/shop',
       component: Shop,
@@ -60,6 +49,16 @@ export default new Router({
       path: '/home',
       component: Home,
       children: [
+        {
+          path: '/config',
+          name: 'config',
+          component: Config
+        },
+        {
+          path: '/detail',
+          name: 'detail',
+          component: Detail
+        },
         {
           path: 'my',
           name: 'my',
@@ -96,25 +95,20 @@ export default new Router({
           component: Find
         },
         {
+          path: 'login',
+          name: 'login',
+          component: Login
+        },
+        {
+          path: '/pwLogin',
+          name: 'pwLogin',
+          component: PwLogin
+        },
+        {
           path: '',
           redirect: 'my'
         }
       ]
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
-    {
-      path: '/pwLogin',
-      name: 'pwLogin',
-      component: PwLogin
-    },
-    {
-      path: '/fit',
-      name: 'fit',
-      component: Fit
     },
     {
       path: '/',

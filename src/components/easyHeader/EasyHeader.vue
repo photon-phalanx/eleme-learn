@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="title">
-      <i class="iconfont" v-if="goBackClass" :class="[goBackClass]" @click="$router.go(-1)"></i>
+      <i class="iconfont" v-if="goBackClass" :class="[goBackClass]" @click="goBack"></i>
       <div class="text">{{title}}</div>
     </div>
   </div>
@@ -16,7 +16,12 @@
 
     },
     props: ['goBackClass', 'title'],
-    methods: {}
+    methods: {
+      goBack () {
+        this.$store.commit('changeSlideWay', 1)
+        this.$router.go(-1)
+      }
+    }
   }
 </script>
 
