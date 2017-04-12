@@ -139,15 +139,19 @@
       .phone-line {
         display: flex;
         .telephone {
-          flex: 5;
+          flex: 1;
           margin-right: 10px;
           line-height: 40px;
           height: 40px;
           padding: 0 10px;
           border-bottom: 1px solid $bg;
+          @media screen and (max-width: 370px) {
+            flex: none;
+            width: calc(100% - 150px)
+          }
         }
         .auth-button {
-          flex: 3;
+          flex: 1;
           margin: 4px 5px 0 0;
           line-height: 32px;
           font-size: 20px;
@@ -163,6 +167,10 @@
           }
           &:active {
             border: none;
+          }
+          @media screen and (max-width: 370px) {
+            flex: none;
+            width: 120px;
           }
         }
       }
