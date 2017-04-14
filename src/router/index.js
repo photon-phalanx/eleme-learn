@@ -57,7 +57,10 @@ export default new Router({
         {
           path: '/detail',
           name: 'detail',
-          component: Detail
+          component: Detail,
+          meta: {
+            requireAuth: true
+          }
         },
         {
           path: 'my',
@@ -97,12 +100,18 @@ export default new Router({
         {
           path: 'login',
           name: 'login',
-          component: Login
+          component: Login,
+          meta: {
+            noRequireAuth: true
+          }
         },
         {
           path: '/pwLogin',
           name: 'pwLogin',
-          component: PwLogin
+          component: PwLogin,
+          meta: {
+            noRequireAuth: true
+          }
         },
         {
           path: '',
@@ -112,6 +121,10 @@ export default new Router({
     },
     {
       path: '/',
+      redirect: 'home'
+    },
+    {
+      path: '*',
       redirect: 'home'
     }
   ]

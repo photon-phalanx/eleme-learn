@@ -164,6 +164,7 @@
 </style>
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
+  import {mapGetters} from 'vuex'
   import Icon from '../../../../components/icon/Icon.vue'
   import ShopCart from '../../../../components/shopCart/ShopCart.vue'
   import CartControl from '../../../../components/cartControl/CartControl.vue'
@@ -171,16 +172,12 @@
   export default{
     data () {
       return {
-        goods: [],
         listHeight: [],
         scrollY: 0,
-        seller: '',
         propSelectedFood: null
       }
     },
     async mounted () {
-      this.goods = await this.$get('goods')
-      this.seller = await this.$get('seller') // 其实用vuex会比较好，以及至少，这个完全不需要2个await 可以用promise.all一起进行，也算是小优化
       this.$nextTick(() => {  // vue更新组件是异步的，在下一个循环的时候再加
         this._initScroll()
         this._calHeight()
@@ -233,6 +230,10 @@
       }
     },
     computed: {
+      ...mapGetters({
+        seller: 'getSeller',
+        goods: 'getGoods'
+      }),
       currentIndex () {
         for (let i = 0; i < this.listHeight.length; i++) {
           let height = this.listHeight[i]

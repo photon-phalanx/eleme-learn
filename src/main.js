@@ -2,10 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router/index.js'
+import router from './router/out'
 import Vuex from 'vuex'
-import state from './vuex/state.js'
-import {get, post} from './api/http.js'
+import state from './vuex/state'
+import {get, post} from './api/http'
 /* 我希望引入vuex，这样可以在api里去提交错误信息，然后再app里的错误组件可以拿到它并作相应反应
    虽然脱离了饿了吗的样式，但这可以作为vuex的学习
 */

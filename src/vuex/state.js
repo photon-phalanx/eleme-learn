@@ -10,7 +10,11 @@ const store = {
     uid: undefined,
     isLoadingUnfinished: false,
     bottomShow: true, // 用来在home里表示显不显示foot
-    slideWay: 'slideRL'
+    slideWay: 'slideRL',
+    // 和商家有关的信息
+    seller: null,
+    goods: null,
+    ratings: null
   },
   mutations: {
     commitMsg (state, msg) {
@@ -47,6 +51,15 @@ const store = {
           state.slideWay = 'slideLR'
           break
       }
+    },
+    updateSeller (state, data) {
+      state.seller = data
+    },
+    updateGoods (state, data) {
+      state.goods = data
+    },
+    updateRatings (state, data) {
+      state.ratings = data
     }
   },
   getters
