@@ -6,7 +6,7 @@
       <input type="password" class="password" v-model="obj.password" placeholder="密码"/>
     </div>
     <div class="button-wrapper">
-      <button class="login-button" @click="login">登录</button>
+      <button class="login-button" @click="login"  :disabled="disabled" :class="{disabled:disabled}">登录</button>
     </div>
     <div class="forget-pw-wrapper">
       <a class="forget-pw">忘记密码？</a>
@@ -23,7 +23,8 @@
         obj: {
           uname: '',
           password: ''
-        }
+        },
+        disabled: false
       }
     },
     mounted () {
@@ -35,12 +36,16 @@
     props: [],
     methods: {
       async login () {
+        if (this.disabled) return
         if (!this.obj.uname || !this.obj.password) {
           this.$store.commit('commitMsg', '请填写完整')
           return
         }
         let res = await this.$post('loginU', this.obj)
-        if (res.point) this.$router.push('{name: my}')
+        if (res) this.$router.push('{name: my}')
+        else {
+          this.disabled = false
+        }
       }
     }
   }
@@ -91,6 +96,10 @@
         border-radius: 8px;
         border: none;
         text-align: center;
+        &.disabled {
+          background-color: #bbb;
+          cursor: not-allowed;
+        }
       }
     }
     .forget-pw-wrapper {

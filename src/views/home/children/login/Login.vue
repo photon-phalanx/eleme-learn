@@ -17,7 +17,7 @@
     </div>
     <div class="info">温馨提示，未注册饿了么的手机号，登陆时将自动注册，切代表您已同意《<a>用户服务协议</a>》</div>
     <div class="button-wrapper">
-      <button class="login-button" @click="login" :disabled="loginDisabled" :class="{disabled:disabled}">登录</button>
+      <button class="login-button" @click="login" :disabled="loginDisabled" :class="{disabled:loginDisabled}">登录</button>
     </div>
     <div class="remind">没收到短信验证码？请尝试获取<a>语音验证码</a></div>
   </div>
@@ -60,8 +60,17 @@
         this.$store.commit('changeSlideWay', 1)
         this.$router.push({name: 'pwLogin'})
       },
+      getPhoneAuth () {
+        if (!/^1[0-9]{10}$/.test(this.obj.pNumber)) {
+          this.$store.commit('commitMsg', '请正确填写手机号')
+          return false
+        } else {
+          return true
+        }
+      },
       getAuth () {
         if (this.disabled) return
+        if (!this.getPhoneAuth()) return
         let that = this
         this.disabled = true
         // todo 这里只是和后台对接前的测试
@@ -78,12 +87,8 @@
       },
       async login () {
         if (this.loginDisabled) return
+        if (!this.getPhoneAuth()) return
         this.loginDisabled = true
-        if (!/^1[0-9]{10}$/.test(this.obj.pNumber)) {
-          this.$store.commit('commitMsg', '请正确填写手机号')
-          this.loginDisabled = false
-          return
-        }
         let res = await this.$post('login', this.obj)
         if (!res) this.loginDisabled = false
         else {

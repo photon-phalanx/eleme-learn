@@ -69,27 +69,33 @@
 </template>
 <script type="text/ecmascript-6">
   import BScoll from 'better-scroll'
+  import {mapGetters} from 'vuex'
   import Star from '../../../../components/star/Star.vue'
   import Split from '../../../../components/split/Split.vue'
   import RatingSelect from '../../../../components/ratingSelect/RatingSelect.vue'
   import Icon from '../../../../components/icon/Icon.vue'
   import {formatDate} from '../../../../api/date'
-  import {parseUrl} from '../../../../api/utils'
-  import {sellerSaveToLocal, sellerLoadFromLocal} from '../../../../api/store'
-
+  // import {parseUrl} from '../../../../api/utils'
+  import {sellerSaveToLocal} from '../../../../api/store'
+  // , sellerLoadFromLocal
   export default{
     data () {
       return {
-        seller: {
-          id: (() => {
-            let queryParam = parseUrl()
-            return queryParam.id
-          })()
-        },
+        /*
+         seller: {
+         id: (() => {
+         let queryParam = parseUrl()
+         return queryParam.id
+         })()
+         },
+         */
         favorite: undefined
       }
     },
     computed: {
+      ...mapGetters({
+        seller: 'getSeller'
+      }),
       favoriteText () {
         return this.favorite ? '已收藏' : '收藏'
       }
@@ -110,9 +116,9 @@
       }
     },
     async mounted () {
-      this.favorite = sellerLoadFromLocal(this.seller.id, 'favorite', false)
-      let seller = await this.$get('seller?id=' + this.seller.id)
-      if (seller) this.seller = Object.assign({}, this.seller, seller)
+      // this.favorite = sellerLoadFromLocal(this.seller.id, 'favorite', false)
+      // let seller = await this.$get('seller?id=' + this.seller.id)
+      // if (seller) this.seller = Object.assign({}, this.seller, seller)
       if (this.seller.pics) {
         let picWidth = 120
         let margin = 6

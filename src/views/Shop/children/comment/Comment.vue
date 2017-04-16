@@ -55,17 +55,17 @@
 </template>
 <script type="text/ecmascript-6">
   import BScoll from 'better-scroll'
+  import {mapGetters} from 'vuex'
+  import {formatDate} from '../../../../api/date'
+
   import Star from '../../../../components/star/Star.vue'
   import Split from '../../../../components/split/Split.vue'
   import RatingSelect from '../../../../components/ratingSelect/RatingSelect.vue'
-  import {formatDate} from '../../../../api/date'
   const ALL = 2
 
   export default{
     data () {
       return {
-        seller: {},
-        ratings: [],
         selectType: ALL,
         onlyContent: true,
         desc: {
@@ -74,6 +74,12 @@
           negative: '不满意'
         }
       }
+    },
+    computed: {
+      ...mapGetters({
+        seller: 'getSeller',
+        ratings: 'getRatings'
+      })
     },
     filters: {
       formatDate (rateTime) {
@@ -104,9 +110,6 @@
       }
     },
     async mounted () {
-      let [seller, ratings] = await Promise.all([this.$get('seller'), this.$get('ratings')])
-      if (seller) this.seller = seller
-      if (ratings) this.ratings = ratings
       this.$nextTick(() => {
         if (!this.scroll) {
           this.scroll = new BScoll(this.$refs.ratings, {

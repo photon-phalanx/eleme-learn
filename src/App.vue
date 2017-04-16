@@ -21,6 +21,7 @@
       return {}
     },
     async mounted () {
+      window.VueRootComponent = this
       try {
         let res = await axios.post(host + 'login', {confirm: 'confirm'})
         console.log(res)

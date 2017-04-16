@@ -20,6 +20,15 @@ const getters = {
   },
   getSlideWay: state => {
     return state.slideWay
+  },
+  getSeller: state => {
+    return state.seller
+  },
+  getGoods: state => {
+    return state.goods
+  },
+  getRatings: state => {
+    return state.ratings
   }
 }
 

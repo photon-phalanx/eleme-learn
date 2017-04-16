@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="showFlag">
     <shop-header></shop-header>
     <shop-middle></shop-middle>
     <keep-alive>
@@ -9,16 +9,37 @@
 </template>
 
 <script type="text/ecmascript-6">
-  // TODO 虽然现在还没有写，但是因为用了keep-alive(似乎比我想的vuex要好），但是这样的话内部mounted只做一次，那么新商铺的消息要从外部拿进来，说实话这样bcroll估计都会炸
-  // how? 大概是要去watch props！！！
+  // TODO seller界面还有未完成事项，关于拿到url的，这个url的设计想放到vue router里
+  // 去watch 这个getter,prop什么的我在想什么…… 2017.4.14 watch需要吗？ 因为shop会被销毁呀，正常访问不存在改变地址跳转的情况吧
   import Header from '../../components/header/Header.vue'
   import Middle from '../../components/middle/Middle.vue'
+  import {mapGetters} from 'vuex'
+
   export default {
     data () {
-      return {}
+      return {
+        showFlag: false
+      }
     },
-    mounted () {
-
+    async mounted () {
+      this.$store.commit('updateLoadingState', true)
+      let [seller, goods, ratings] = await Promise.all([this.$get('seller'), this.$get('goods'), this.$get('ratings')])
+      this.$store.commit('updateSeller', seller)
+      this.$store.commit('updateGoods', goods)
+      this.$store.commit('updateRatings', ratings)
+      this.$store.commit('updateLoadingState', false)
+      this.showFlag = true
+    },
+    computed: {
+      ...mapGetters([
+        'getLoadingState'
+      ])
+    },
+    watch: {
+      getSeller () {
+        console.log(this)
+        console.log('change')
+      }
     },
     props: [],
     methods: {},
