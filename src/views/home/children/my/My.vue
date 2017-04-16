@@ -31,34 +31,38 @@
         <i class="iconfont icon-you"></i>
       </router-link>
     </div>
-    <div class="service">
-      <div class="remain-wrapper">
-        <i class="iconfont icon-yue"></i>
-        <div class="text">余额</div>
+    <div class="content-wrapper" ref="contentWrapper">
+      <div class="content">
+        <div class="service">
+          <div class="remain-wrapper">
+            <i class="iconfont icon-yue"></i>
+            <div class="text">余额</div>
+          </div>
+          <div class="discount-wrapper">
+            <i class="iconfont icon-hongbao"></i>
+            <div class="text">优惠</div>
+          </div>
+          <div class="point-wrapper">
+            <i class="iconfont icon-jifen"></i>
+            <div class="text">积分</div>
+          </div>
+        </div>
+        <div class="block">
+          <EasyLine icon="icon-dizhi" color="#3190e8" title="收货地址"></EasyLine>
+          <EasyLine icon="icon-weibiaoti2" color="#ff5f3e" title="我的收藏"></EasyLine>
+          <EasyLine v-if="!getUid" icon="icon-icon" color="#3190e8" title="美食相册"></EasyLine>
+        </div>
+        <div class="block">
+          <EasyLine v-if="getUid" icon="icon-liwu" color="#ee0000" title="推荐有奖"></EasyLine>
+          <EasyLine icon="icon-shangcheng-copy-copy" color="#4cd964" title="积分商城"></EasyLine>
+          <EasyLine icon="icon-huangguan" color="#ffd700" title="饿了么会员卡"></EasyLine>
+        </div>
+        <div class="block">
+          <EasyLine icon="icon-dizhi" color="#3190e8" title="服务中心"></EasyLine>
+          <EasyLine icon="icon-weibiaoti2" color="#3190e8" title="欢迎评分"></EasyLine>
+          <EasyLine icon="icon-icon" color="#3190e8" title="加盟合作"></EasyLine>
+        </div>
       </div>
-      <div class="discount-wrapper">
-        <i class="iconfont icon-hongbao"></i>
-        <div class="text">优惠</div>
-      </div>
-      <div class="point-wrapper">
-        <i class="iconfont icon-jifen"></i>
-        <div class="text">积分</div>
-      </div>
-    </div>
-    <div class="block">
-      <EasyLine icon="icon-dizhi" color="#3190e8" title="收货地址"></EasyLine>
-      <EasyLine icon="icon-weibiaoti2" color="#ff5f3e" title="我的收藏"></EasyLine>
-      <EasyLine v-if="!getUid" icon="icon-icon" color="#3190e8" title="美食相册"></EasyLine>
-    </div>
-    <div class="block">
-      <EasyLine v-if="getUid" icon="icon-liwu" color="#ee0000" title="推荐有奖"></EasyLine>
-      <EasyLine icon="icon-shangcheng-copy-copy" color="#4cd964" title="积分商城"></EasyLine>
-      <EasyLine icon="icon-huangguan" color="#ffd700" title="饿了么会员卡"></EasyLine>
-    </div>
-    <div class="block">
-      <EasyLine icon="icon-dizhi" color="#3190e8" title="服务中心"></EasyLine>
-      <EasyLine icon="icon-weibiaoti2" color="#3190e8" title="欢迎评分"></EasyLine>
-      <EasyLine icon="icon-icon" color="#3190e8" title="加盟合作"></EasyLine>
     </div>
   </div>
 </template>
@@ -66,12 +70,18 @@
 <script type="text/ecmascript-6">
   import {mapGetters} from 'vuex'
   import EasyLine from '../../../../components/easyLine/EasyLine.vue'
+  import BScroll from 'better-scroll'
   export default {
     data () {
       return {}
     },
     mounted () {
       this.$store.commit('changeBottomShow', true)
+      this.$nextTick(() => {
+        this.contentScroll = new BScroll(this.$refs.contentWrapper, {
+          click: true
+        })
+      })
     },
     computed: {
       ...mapGetters([
@@ -182,49 +192,59 @@
         }
       }
     }
-    .service {
-      display: flex;
-      padding: 15px 10px;
-      background-color: #fff;
-      .iconfont {
-        border-radius: 50%;
-        padding: 8px;
-        color: #fff;
-        line-height: 40px;
-      }
-      .text {
-        font-size: 13px;
-        line-height: 25px;
-        height: 25px;
-      }
-      .remain-wrapper {
-        flex: 1;
-        text-align: center;
-        .iconfont {
-          font-size: 20px;
-          background-color: #f90;
+    .content-wrapper {
+      position: absolute;
+      left: 0;
+      top: 120px;
+      width: 100%;
+      bottom: 50px;
+      overflow: hidden;
+      .content {
+        .service {
+          display: flex;
+          padding: 15px 10px;
+          background-color: #fff;
+          .iconfont {
+            border-radius: 50%;
+            padding: 8px;
+            color: #fff;
+            line-height: 40px;
+          }
+          .text {
+            font-size: 13px;
+            line-height: 25px;
+            height: 25px;
+          }
+          .remain-wrapper {
+            flex: 1;
+            text-align: center;
+            .iconfont {
+              font-size: 20px;
+              background-color: #f90;
+            }
+          }
+          .discount-wrapper {
+            flex: 1;
+            text-align: center;
+            .iconfont {
+              font-size: 20px;
+              background-color: #ff5f3e;
+            }
+          }
+          .point-wrapper {
+            flex: 1;
+            text-align: center;
+            .iconfont {
+              font-size: 20px;
+              background-color: $green;
+            }
+          }
+        }
+        .block {
+          margin-top: 10px;
+          background-color: #fff;
         }
       }
-      .discount-wrapper {
-        flex: 1;
-        text-align: center;
-        .iconfont {
-          font-size: 20px;
-          background-color: #ff5f3e;
-        }
-      }
-      .point-wrapper {
-        flex: 1;
-        text-align: center;
-        .iconfont {
-          font-size: 20px;
-          background-color: $green;
-        }
-      }
-    }
-    .block {
-      margin-top: 10px;
-      background-color: #fff;
     }
   }
 </style>
