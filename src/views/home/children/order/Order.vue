@@ -30,79 +30,104 @@
         </ul>
       </div>
     </div>
-    <div class="classify-box-wrapper">
+    <div class="classify-box-wrapper" ref="classifyBoxWrapper">
       <div class="classify-box">
         <div class="page-wrapper">
           <div class="line">
-            <div class="item">
-              <div class="pic-wrapper">
-                <img src="./1.jpeg" class="pic"/>
-              </div>
-              <div class="text">美食</div>
+            <div class="item-wrapper">
+              <easy-pic-item text="美食" :picNum="1"></easy-pic-item>
             </div>
-            <div class="item">
-              <div class="pic-wrapper">
-                <img src="./2.jpeg" class="pic"/>
-              </div>
-              <div class="text">甜品饮品</div>
+            <div class="item-wrapper">
+              <easy-pic-item text="甜品饮品" :picNum="2"></easy-pic-item>
             </div>
-            <div class="item">
-              <div class="pic-wrapper">
-                <img src="./3.jpeg" class="pic"/>
-              </div>
-              <div class="text">商超便利</div>
+            <div class="item-wrapper">
+              <easy-pic-item text="商超便利" :picNum="3"></easy-pic-item>
             </div>
-            <div class="item">
-              <div class="pic-wrapper">
-                <img src="./4.jpeg" class="pic"/>
-              </div>
-              <div class="text">预定早餐</div>
+            <div class="item-wrapper">
+              <easy-pic-item text="预定早餐" :picNum="4"></easy-pic-item>
             </div>
           </div>
           <div class="line">
-            <div class="item">
-              <div class="pic-wrapper">
-                <img src="./1.jpeg" class="pic"/>
-              </div>
-              <div class="text">美食</div>
+            <div class="item-wrapper">
+              <easy-pic-item text="果蔬生鲜" :picNum="5"></easy-pic-item>
             </div>
-            <div class="item">
-              <div class="pic-wrapper">
-                <img src="./2.jpeg" class="pic"/>
-              </div>
-              <div class="text">甜品饮品</div>
+            <div class="item-wrapper">
+              <easy-pic-item text="新店特惠" :picNum="6"></easy-pic-item>
             </div>
-            <div class="item">
-              <div class="pic-wrapper">
-                <img src="./3.jpeg" class="pic"/>
-              </div>
-              <div class="text">商超便利</div>
+            <div class="item-wrapper">
+              <easy-pic-item text="准时达" :picNum="7"></easy-pic-item>
             </div>
-            <div class="item">
-              <div class="pic-wrapper">
-                <img src="./4.jpeg" class="pic"/>
-              </div>
-              <div class="text">预定早餐</div>
+            <div class="item-wrapper">
+              <easy-pic-item text="简餐" :picNum="8"></easy-pic-item>
             </div>
           </div>
         </div>
-        <div class="page-wrapper"></div>
+        <div class="page-wrapper">
+          <div class="line">
+            <div class="item-wrapper">
+              <easy-pic-item text="土豪推荐" :picNum="9"></easy-pic-item>
+            </div>
+            <div class="item-wrapper">
+              <easy-pic-item text="鲜花蛋糕" :picNum="10"></easy-pic-item>
+            </div>
+            <div class="item-wrapper">
+              <easy-pic-item text="汉堡" :picNum="11"></easy-pic-item>
+            </div>
+            <div class="item-wrapper">
+              <easy-pic-item text="日韩料理" :picNum="12"></easy-pic-item>
+            </div>
+          </div>
+          <div class="line">
+            <div class="item-wrapper">
+              <easy-pic-item text="麻辣烫" :picNum="13"></easy-pic-item>
+            </div>
+            <div class="item-wrapper">
+              <easy-pic-item text="披萨意面" :picNum="14"></easy-pic-item>
+            </div>
+            <div class="item-wrapper">
+              <easy-pic-item text="川湘菜" :picNum="15"></easy-pic-item>
+            </div>
+            <div class="item-wrapper">
+              <easy-pic-item text="包子粥店" :picNum="16"></easy-pic-item>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="show-page">
+        <div class="ball" :class="{active: ballNum === 1}"></div>
+        <div class="ball" :class="{active: ballNum === 2}"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import BScroll from 'better-scroll'
+  import EasyPicItem from '../../../../components/easyPicItem/EasyPicItem.vue'
   export default {
     data () {
-      return {}
+      return {
+        ballNum: 1
+      }
     },
     mounted () {
+      let that = this
       this.$store.commit('changeBottomShow', true)
+      this.foodsScroll = new BScroll(this.$refs.classifyBoxWrapper, {
+        click: true,
+        scrollX: true,
+        snap: '.page-wrapper'
+      })
+      this.foodsScroll.on('scrollEnd', function () {
+        if (this.x === 0) that.ballNum = 1
+        else that.ballNum = 2
+      })
     },
     props: [],
     methods: {},
-    components: {}
+    components: {
+      EasyPicItem
+    }
   }
 </script>
 
@@ -202,29 +227,33 @@
       top: 130px;
       left: 0;
       width: 100%;
-      height: 300px;
-      background-color: #ee0000;
+      height: 200px;
       .classify-box {
+        width: calc(200% + 5px);
         .page-wrapper {
+          display: inline-block;
+          box-sizing: border-box;
+          width: calc((100% - 5px) / 2);
           .line {
             display: flex;
             padding: 10px 0;
-            .item {
+            .item-wrapper {
               flex: 1;
-              text-align: center;
-              .pic-wrapper {
-                width: 100%;
-                text-align: center;
-                .pic {
-                  width: 50px;
-                  height: 50px;
-                }
-              }
-              .text {
-                display: block;
-                font-size: 14px;
-              }
             }
+          }
+        }
+      }
+      .show-page {
+        width: 100%;
+        text-align: center;
+        .ball {
+          display: inline-block;
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background-color: #eee;
+          &.active {
+            background-color: $grey;
           }
         }
       }

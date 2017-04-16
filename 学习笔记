@@ -75,3 +75,9 @@
 14.iphone5的宽度，可以稍微加一点媒体查询
 
 15.loading 尝试使用transform translateY 控制弹跳效果失败，因为还有一个跟在后面的不弹跳的阴影
+
+16.https://segmentfault.com/q/1010000006743502/a-1020000006745711
+在做easyPicItem组件的时候，尝试使用      <img :src="./' + this.picNum + '.jpeg'" class="pic"/> 的写法失败
+因为webpack会编译后改名，写成<img src="./1.jpeg"/>是不会出问题的，在页面里也能看到编译后改的新名字
+但是动态生成的东西不可以，事实上甚至用这种写法，1.jpeg并不会被编译进去
+解决办法可以用require来做
