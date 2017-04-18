@@ -102,8 +102,12 @@
   export default{
     data () {
       return {
-        supportIcon: ['decrease', 'discount', 'special', 'invoice', 'guarantee'],
-        size: 'size' + this.sizeNum
+        supportIcon: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+      }
+    },
+    computed: {
+      size () {
+        return 'size' + this.sizeNum
       }
     },
     props: ['typeNum', 'sizeNum'], // sizeNum是后缀的1和2,typeNum是对应supportIcon的

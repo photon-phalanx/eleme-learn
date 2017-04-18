@@ -28,7 +28,6 @@
             <span class="tel-number">{{getUid.pNumber}}</span>
           </div>
         </div>
-        <i class="iconfont icon-you"></i>
       </router-link>
     </div>
     <div class="content-wrapper" ref="contentWrapper">

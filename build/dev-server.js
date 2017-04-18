@@ -31,6 +31,7 @@ var appData = require('../src/assets/others/data.json');
 var seller = appData.seller;
 var goods = appData.goods;
 var ratings = appData.ratings;
+var recommend = appData.recommend;
 var apiRoutes = express.Router();
 
 app.all('*', function(req, res, next) {
@@ -52,6 +53,10 @@ apiRoutes.get('/goods', function (req, res) {
 
 apiRoutes.get('/ratings', function (req, res) {
   res.json(ratings);
+});
+
+apiRoutes.get('/recommend', function (req, res) {
+  res.json(recommend);
 });
 
 app.use(apiRoutes);
