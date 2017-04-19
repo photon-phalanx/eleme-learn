@@ -1,21 +1,21 @@
 <template>
   <div class="footer">
-    <router-link :to="{name: 'order'}" class="item order-wrapper">
+    <div class="item order-wrapper" @click="commitSlideAndGo('order')">
       <i class="iconfont icon-icon"></i>
       <div class="text">外卖</div>
-    </router-link>
-    <router-link :to="{name: 'find'}" class="item find-wrapper">
+    </div>
+    <div class="item find-wrapper" @click="commitSlideAndGo('find')">
       <i class="iconfont icon-faxian"></i>
       <div class="text">发现</div>
-    </router-link>
-    <router-link :to="{name: 'take-away'}" class="item order-list-wrapper"> <!--take-away是order-list里面的，但是orderlist已经没有名字了-->
+    </div>
+    <div class="item order-list-wrapper" @click="commitSlideAndGo('take-away')"> <!--take-away是order-list里面的，但是orderlist已经没有名字了-->
       <i class="iconfont icon-cshy-orders"></i>
       <div class="text">订单</div>
-    </router-link>
-    <router-link :to="{name: 'my'}" class="item my-wrapper">
+    </div>
+    <div class="item my-wrapper" @click="commitSlideAndGo('my')">
       <i class="iconfont icon-wode"></i>
       <div class="text">我的</div>
-    </router-link>
+    </div>
   </div>
 </template>
 
@@ -28,7 +28,12 @@
 
     },
     props: [],
-    methods: {}
+    methods: {
+      commitSlideAndGo (location) {
+        this.$store.commit('changeSlideWay', 0)
+        this.$router.push({name: location})
+      }
+    }
   }
 </script>
 

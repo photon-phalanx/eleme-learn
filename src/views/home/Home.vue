@@ -35,29 +35,27 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   .container {
+    transition: all 0.4s linear;
     &.slideRL-enter {
-      transition: all 0.4s linear;
       transform: translate(100%, 0);
     }
     &.slideRL-enter-to, &.slideRL-leave {
-      transition: all 0.4s linear;
       transform: translate(0, 0);
     }
     &.slideRL-leave-to {
-      transition: all 0.4s linear;
       transform: translate(-100%, 0);
     }
     &.slideLR-enter {
-      transition: all 0.4s linear;
       transform: translate(-100%, 0);
     }
     &.slideLR-enter-to, &.slideLR-leave {
-      transition: all 0.4s linear;
       transform: translate(0, 0);
     }
     &.slideLR-leave-to {
-      transition: all 0.4s linear;
       transform: translate(100%, 0);
+    }
+    &.noSlide-enter, &.noSlide-enter-to, &.noSlide-leave, &.noSlide-leave-to {
+      transition: none;
     }
   }
 </style>

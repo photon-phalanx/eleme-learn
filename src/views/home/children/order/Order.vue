@@ -167,7 +167,7 @@
    :name="item.name" :description="item.description" :deliveryTime="item.deliveryTime"
    :score="item." :serviceScore=""  :foodScore="item." :rankRate="item." :minPrice="item."
    :deliveryPrice="item." :ratingCount="item." :sellCount="" :
-  */
+   */
   import BScroll from 'better-scroll'
   import EasyPicItem from '../../../../components/easyPicItem/EasyPicItem.vue'
   import Split from '../../../../components/split/Split.vue'
@@ -227,9 +227,11 @@
         setTimeout(this.getTimerCount, 1000)
       },
       reCalc () {
-        this.$nextTick(() => {
-          this.orderScroll.refresh()
-        })
+        setTimeout(() => {
+          this.$nextTick(() => {
+            this.orderScroll.refresh()
+          })
+        }, 250)
       }
     },
     components: {

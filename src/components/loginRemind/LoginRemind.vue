@@ -6,7 +6,7 @@
     <div class="main-content">
       <div>asa</div>
       <div class="text">{{content}}</div>
-      <button class="login" @click="$router.push({name :'login'})">立即登录</button>
+      <button class="login" @click="commitSlideAndGo('login')">立即登录</button>
     </div>
   </div>
 </template>
@@ -20,7 +20,12 @@
 
     },
     props: ['content'],
-    methods: {}
+    methods: {
+      commitSlideAndGo (location) {
+        this.$store.commit('changeSlideWay', 1)
+        this.$router.push({name: location})
+      }
+    }
   }
 </script>
 
