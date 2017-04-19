@@ -38,10 +38,12 @@
               <i class="iconfont icon-shang" v-if="showFlag === true" key="shang"></i>
             </transition>
           </div>
-          <div v-for="(activity,index) in showList" :key="item" class="line">
-            <icon :sizeNum="3" :typeNum="activity.type"></icon>
-            <span class="description">{{activity.description}}</span>
-          </div>
+          <transition-group name="list" tag="div">
+            <div v-for="(activity,index) in showList" :key="activity" class="line">
+              <icon :sizeNum="3" :typeNum="activity.type"></icon>
+              <span class="description">{{activity.description}}</span>
+            </div>
+          </transition-group>
         </div>
       </div>
     </div>
@@ -51,6 +53,8 @@
 <script type="text/ecmascript-6">
   import Star from '../star/Star.vue'
   import Icon from '../icon/Icon.vue'
+  let originHeight = 0
+  let openHeight = 0
   export default {
     data () {
       return {
@@ -60,7 +64,8 @@
     mounted () {
       let shopItem = this.$refs.shopItem
       let shopItemWrapper = this.$refs.shopItemWrapper
-      shopItemWrapper.style.height = shopItem.offsetHeight + 'px'
+      originHeight = shopItem.offsetHeight
+      shopItemWrapper.style.height = originHeight + 'px'
     },
     props: ['item'],
     methods: {
@@ -68,9 +73,12 @@
         this.showFlag = !this.showFlag
         this.$emit('callReCalc')
         this.$nextTick(() => {
+          let height
           let shopItem = this.$refs.shopItem
           let shopItemWrapper = this.$refs.shopItemWrapper
-          shopItemWrapper.style.height = shopItem.offsetHeight + 'px'
+          if (!openHeight && this.showFlag === true) openHeight = shopItem.offsetHeight
+          height = this.showFlag ? openHeight : originHeight
+          shopItemWrapper.style.height = height + 'px'
         })
       }
     },
@@ -176,6 +184,14 @@
           }
           .line {
             padding: 1px 0;
+            transition: all 0.2s linear;
+            opacity: 1;
+            &.list-enter-to, &.list-leave {
+              opacity: 1;
+            }
+            &.list-enter, &.list-leave-to {
+              opacity: 0;
+            }
             .description {
               font-size: 12px;
               line-height: 1;
