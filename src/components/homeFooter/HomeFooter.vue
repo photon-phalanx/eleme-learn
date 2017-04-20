@@ -1,18 +1,19 @@
 <template>
   <div class="footer">
-    <div class="item order-wrapper" @click="commitSlideAndGo('order')">
+    <div class="item order-wrapper" @click="commitSlideAndGo('order')" :class="{'router-link-active': activeRoute === 'order'}">
       <i class="iconfont icon-icon"></i>
       <div class="text">外卖</div>
     </div>
-    <div class="item find-wrapper" @click="commitSlideAndGo('find')">
+    <div class="item find-wrapper" @click="commitSlideAndGo('find')" :class="{'router-link-active': activeRoute === 'find'}">
       <i class="iconfont icon-faxian"></i>
       <div class="text">发现</div>
     </div>
-    <div class="item order-list-wrapper" @click="commitSlideAndGo('take-away')"> <!--take-away是order-list里面的，但是orderlist已经没有名字了-->
+    <div class="item order-list-wrapper" @click="commitSlideAndGo('take-away')" :class="{'router-link-active': activeRoute === 'take-away'}">
+      <!--take-away是order-list里面的，但是orderlist已经没有名字了-->
       <i class="iconfont icon-cshy-orders"></i>
       <div class="text">订单</div>
     </div>
-    <div class="item my-wrapper" @click="commitSlideAndGo('my')">
+    <div class="item my-wrapper" @click="commitSlideAndGo('my')" :class="{'router-link-active': activeRoute === 'my'}">
       <i class="iconfont icon-wode"></i>
       <div class="text">我的</div>
     </div>
@@ -22,16 +23,19 @@
 <script type="text/ecmascript-6">
   export default {
     data () {
-      return {}
+      return {
+        activeRoute: ''
+      }
     },
     mounted () {
-
+      this.activeRoute = this.$router.currentRoute.name
     },
     props: [],
     methods: {
       commitSlideAndGo (location) {
         this.$store.commit('changeSlideWay', 0)
         this.$router.push({name: location})
+        this.activeRoute = this.$router.currentRoute.name
       }
     }
   }
@@ -39,6 +43,7 @@
 
 <style scoped lang="scss" rel="stylesheet/scss">
   @import "../../assets/css/color.scss";
+
   .footer {
     display: flex;
     position: fixed;
