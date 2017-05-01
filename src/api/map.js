@@ -25,6 +25,7 @@ function convertor (pointArr) {
   })
 }
 
+/*
 // 定位得到目前经纬度,用原生的html5吧……
 function getPosition () {
   return new Promise(function (resolve, reject) {
@@ -34,6 +35,22 @@ function getPosition () {
       resolve(point)
     }, function (err) {
       reject(err)
+    })
+  })
+}
+*/
+
+function getPosition () {
+  return new Promise(function (resolve, reject) {
+    let geolocation = new BMap.Geolocation()
+    geolocation.getCurrentPosition(function (r) {
+      if (this.getStatus() === 0) {
+        console.log(r.point)
+        resolve(r.point)
+      } else {
+        console.log('err')
+        reject(r)
+      }
     })
   })
 }

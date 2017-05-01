@@ -77,11 +77,12 @@
         let self = this
         self.$store.commit('changePos', 'pending')
         getPosition()
-          .then(convertor)
+          // .then(convertor)
           .then(geocoder)
           .then(function (rs) {
             self.$store.commit('changePos', rs)
           }).catch(function (err) {
+            console.log(convertor)
           let msg = ''
           if (err.message) msg = '\n原因:' + err.message
           self.$store.commit('changePos', 'fail')
