@@ -14,7 +14,10 @@ const store = {
     // 和商家有关的信息
     seller: null,
     goods: null,
-    ratings: null
+    ratings: null,
+    // 地理相关
+    position: null,
+    address: null
   },
   mutations: {
     commitMsg (state, msg) {
@@ -60,6 +63,12 @@ const store = {
     },
     updateRatings (state, data) {
       state.ratings = data
+    },
+    changePos (state, data) {
+      state.position = data
+    },
+    changeAddress (state, data) {
+      state.address = data
     }
   },
   getters

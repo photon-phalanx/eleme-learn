@@ -29,6 +29,12 @@ const getters = {
   },
   getRatings: state => {
     return state.ratings
+  },
+  getPos: state => {
+    return state.position
+  },
+  getAddress: state => {
+    return state.address
   }
 }
 

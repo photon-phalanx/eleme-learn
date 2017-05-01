@@ -30,8 +30,8 @@
             </div>
           </div>
         </div>
-        <div class="activity" v-if="item.supports.length > 0">
-          <div class="count" v-show="item.supports.length > 2" @click="changeShowFlag()">
+        <div class="activity" v-if="item.supports.length > 0" @click="changeShowFlag()">
+          <div class="count" v-show="item.supports.length > 2">
             {{item.supports.length}}个活动
             <transition name="fade" mode="out-in">
               <i class="iconfont icon-xia" v-if="showFlag === false" key="xia"></i>

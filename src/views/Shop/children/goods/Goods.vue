@@ -135,6 +135,9 @@
           .extra {
             .count {
               margin-right: 12px;
+              @media only screen and (max-width: 320px) {
+                margin-right: 6px;
+              }
             }
           }
           .price {

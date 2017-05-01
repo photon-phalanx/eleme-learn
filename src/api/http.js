@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import queryString from 'querystring'
 const host = 'http://127.0.0.1:8080/'
 /*
  async function get (url, params) {
@@ -35,7 +35,7 @@ const host = 'http://127.0.0.1:8080/'
 async function get (url, params) {
   let res
   try {
-    res = await axios.get(host + url, {params})
+    res = await axios.get(host + url + '?', queryString.stringify(params))
     if (res.data.r) {
       this.$store.commit('commitMsg', res.data.r)
     } else {
@@ -50,7 +50,7 @@ async function get (url, params) {
 async function post (url, params) {
   let res
   try {
-    res = await axios.post(host + url, params)
+    res = await axios.post(host + url, queryString.stringify(params))
     if (res.data.r) {
       this.$store.commit('commitMsg', res.data.r)
     } else {

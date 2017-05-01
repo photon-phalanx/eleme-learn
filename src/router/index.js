@@ -15,6 +15,7 @@ import Breakfast from '../views/home/children/orderList/children/breakfast/Break
 import TakeAway from '../views/home/children/orderList/children/takeAway/TakeAway.vue'
 import Detail from '../views/home/children/detail/Detail.vue'
 import Config from '../views/home/children/config/Config.vue'
+import Position from '../views/position/Position.vue'
 
 Vue.use(Router)
 
@@ -118,6 +119,10 @@ export default new Router({
           redirect: 'my'
         }
       ]
+    },
+    {
+      path: '/position',
+      component: Position
     },
     {
       path: '/',

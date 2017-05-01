@@ -1,3 +1,26 @@
+// 接受2种参数，id，{}或者id，key，value。对于前者，会把对象里的每一条存进去
+function commonSaveToLocal (id, key, value) {
+  let store = window.localStorage['__' + id + '__']
+  if (!store) store = {}
+  else store = JSON.parse(store)
+  if (value === undefined && typeof key === 'object') {
+    for (let i in key) {
+      store[i] = key[i]
+    }
+  } else {
+    store[key] = value
+  }
+  window.localStorage['__' + id + '__'] = JSON.stringify(store)
+}
+
+function commonLoadFromLocal (id, key) {
+  let store = window.localStorage['__' + id + '__']
+  if (!store) return undefined
+  store = JSON.parse(store)
+  if (!key) return store
+  else return store[key]
+}
+
 // id是商户名，key是存储的键名
 function sellerSaveToLocal (id, key, value) {
   let seller = window.localStorage.__seller__
@@ -27,4 +50,4 @@ function sellerLoadFromLocal (id, key, def) {
   return ret || def
 }
 
-export {sellerSaveToLocal, sellerLoadFromLocal}
+export {sellerSaveToLocal, sellerLoadFromLocal, commonSaveToLocal, commonLoadFromLocal}

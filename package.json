@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "better-scroll": "^0.1.15",
+    "querystring": "^0.2.0",
     "vue": "^2.1.10",
     "vue-router": "^2.2.0",
     "vuex": "^2.1.2"
