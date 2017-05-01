@@ -15,6 +15,7 @@ function getCity (self) {
 
 // 坐标转换
 function convertor (pointArr) {
+  if (!(pointArr instanceof Array)) pointArr = [pointArr]
   return new Promise(function (resolve, reject) {
     var convertor = new BMap.Convertor()
     convertor.translate(pointArr, 1, 5, function (data) {
@@ -24,31 +25,23 @@ function convertor (pointArr) {
   })
 }
 
-// 定位得到目前经纬度
-function getPosition (self) {
-  let geolocation = new BMap.Geolocation()
-  geolocation.getCurrentPosition(function (r) {
-    if (this.getStatus() === 0) {
-      let point = new BMap.Point(r.point.lng, r.point.lat)
-      convertor([point]).then((data) => {
-        // 这里拿到的是数组，但是这里只转换一项
-        data = data[0]
-        r.point.lng = data.lng
-        r.point.lat = data.lat
-        self.$store.commit('changePos', r)
-      }).catch(() => {
-        self.$store.commit('commitMsg', '坐标转换失败')
-        self.$store.commit('changePos', 'fail')
-      })
-    } else {
-      self.$store.commit('commitMsg', '获取地理位置失败')
-      self.$store.commit('changePos', 'fail')
-    }
+// 定位得到目前经纬度,用原生的html5吧……
+function getPosition () {
+  return new Promise(function (resolve, reject) {
+    window.navigator.geolocation.getCurrentPosition(function (position) {
+      let coords = position.coords
+      let point = {lat: coords.latitude, lng: coords.longitude}
+      resolve(point)
+    }, function (err) {
+      reject(err)
+    })
   })
 }
 
 // 逆地址解析，根据坐标得到所在位置
 function geocoder (point) {
+  // 有length 说明是数组
+  if (point.length) point = point[0]
   return new Promise(function (resolve, reject) {
     var geoc = new BMap.Geocoder()
     geoc.getLocation(point, function (rs) {

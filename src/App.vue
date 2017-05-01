@@ -45,6 +45,10 @@
 
 <style>
   @import "assets/css/global.scss";
+  input {
+    background-color: transparent;
+    FILTER: alpha(opacity=0);
+  }
 
   .error-headler {
     opacity: 1;

@@ -16,8 +16,7 @@ const store = {
     goods: null,
     ratings: null,
     // 地理相关
-    position: null,
-    address: null
+    position: null
   },
   mutations: {
     commitMsg (state, msg) {
@@ -66,9 +65,6 @@ const store = {
     },
     changePos (state, data) {
       state.position = data
-    },
-    changeAddress (state, data) {
-      state.address = data
     }
   },
   getters

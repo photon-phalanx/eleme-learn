@@ -16,6 +16,7 @@ import TakeAway from '../views/home/children/orderList/children/takeAway/TakeAwa
 import Detail from '../views/home/children/detail/Detail.vue'
 import Config from '../views/home/children/config/Config.vue'
 import Position from '../views/position/Position.vue'
+import AddAddress from '../views/addAddress/AddAddress.vue'
 
 Vue.use(Router)
 
@@ -122,7 +123,13 @@ export default new Router({
     },
     {
       path: '/position',
+      name: 'position',
       component: Position
+    },
+    {
+      path: '/addAddress',
+      name: 'addAddress',
+      component: AddAddress
     },
     {
       path: '/',

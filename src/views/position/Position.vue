@@ -11,15 +11,32 @@
         </div>
       </div>
     </header>
-    <div class="current-address">
-      {{getAddress}}
+    <div v-if="getPos && getPos !== 'pending'" class="current-address">
+      <div class="line-title">当前地址</div>
+      <div class="line-content">
+        <div class="address">{{getPos.address}}</div>
+        <div class="icon-box">
+          <i class="iconfont icon-fangdajing"></i>
+          <span class="text" @click="getCurrentPosition">重新定位</span>
+        </div>
+      </div>
+    </div>
+    <div class="receiving-address">
+      <div class="line-title">收货地址</div>
+      <div class="line-content">
+      </div>
+    </div>
+    <div class="nearby-address">
+      <div class="line-title">附近地址</div>
+      <div class="line-content">
+      </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import BMap from 'BMap'
-  import {getPosition, geocoder} from '../../api/map.js'
+  // import BMap from 'BMap'
+  import {getPosition, geocoder, convertor} from '../../api/map.js'
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
   import {mapGetters} from 'vuex'
   export default {
@@ -36,8 +53,7 @@
       }
     },
     mounted () {
-      getPosition(this)
-      console.log(BMap)
+      this.getCurrentPosition()
     },
     computed: {
       ...mapGetters([
@@ -45,20 +61,32 @@
         'getAddress'
       ]),
       posResult () {
-        if (this.getPos === null) return '获取中'
+        if (this.getPos === null || this.getPos === 'pending') return '获取中'
         else if (this.getPos === 'fail') return '获取失败'
         else {
-          geocoder(this.getPos.point).then(rs => {
-            this.$store.commit('changeAddress', rs.address)
-          })
-          return this.getPos.address.city
+          return this.getPos.addressComponents.city
         }
       }
     },
     props: [],
     methods: {
       dealAdvanceEvent () {
-        console.log('parent know it')
+        this.$router.push({name: 'addAddress'})
+      },
+      getCurrentPosition () {
+        let self = this
+        self.$store.commit('changePos', 'pending')
+        getPosition()
+          .then(convertor)
+          .then(geocoder)
+          .then(function (rs) {
+            self.$store.commit('changePos', rs)
+          }).catch(function (err) {
+          let msg = ''
+          if (err.message) msg = '\n原因:' + err.message
+          self.$store.commit('changePos', 'fail')
+          self.$store.commit('commitMsg', '定位失败,请手动选择位置' + msg)
+        })
       }
     },
     components: {
@@ -72,6 +100,7 @@
   @import "../../assets/css/mixin.scss";
 
   .position {
+    color: #666;
     .header {
       background-color: $blue;
       .line {
@@ -84,6 +113,7 @@
           flex: 0 0 80px;
           text-align: center;
           white-space: nowrap;
+          overflow: hidden;
           text-overflow: ellipsis;
         }
         .icon-xia {
@@ -101,6 +131,38 @@
             border-radius: 5px;
             vertical-align: top;
           }
+        }
+      }
+    }
+    .line-title {
+      height: 35px;
+      line-height: 35px;
+      font-size: 14px;
+      padding: 0 20px;
+      background-color: $bg;
+    }
+    .line-content {
+      height: 50px;
+      line-height: 50px;
+      font-size: 14px;
+      padding: 0 20px;
+    }
+    .current-address {
+      .line-content {
+        display: flex;
+        .address {
+          flex: 1;
+          line-height: 50px;
+          height: 50px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .icon-box {
+          flex: 0 0 80px;
+          line-height: 50px;
+          height: 50px;
+          color: $blue;
         }
       }
     }

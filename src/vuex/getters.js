@@ -32,9 +32,6 @@ const getters = {
   },
   getPos: state => {
     return state.position
-  },
-  getAddress: state => {
-    return state.address
   }
 }
 
