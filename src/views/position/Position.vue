@@ -13,22 +13,29 @@
     </header>
     <div v-if="getPos && getPos !== 'pending'" class="current-address">
       <div class="line-title">当前地址</div>
-      <div class="line-content">
-        <div class="address">{{getPos.address}}</div>
-        <div class="icon-box">
-          <i class="iconfont icon-fangdajing"></i>
-          <span class="text" @click="getCurrentPosition">重新定位</span>
+      <div class="content-wrapper">
+        <div class="line-content">
+          <div class="address">{{getPos.address}}</div>
+          <div class="icon-box">
+            <i class="iconfont icon-fangdajing"></i>
+            <span class="text" @click="getCurrentPosition">重新定位</span>
+          </div>
         </div>
       </div>
     </div>
     <div class="receiving-address">
       <div class="line-title">收货地址</div>
-      <div class="line-content">
+      <div class="content-wrapper">
+        <div class="line-content">
+        </div>
       </div>
     </div>
     <div class="nearby-address">
       <div class="line-title">附近地址</div>
-      <div class="line-content">
+      <div class="content-wrapper">
+        <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr">
+          {{nearbyAddress.title}}
+        </div>
       </div>
     </div>
   </div>
@@ -36,7 +43,7 @@
 
 <script type="text/ecmascript-6">
   // import BMap from 'BMap'
-  import {getPosition, geocoder, convertor} from '../../api/map.js'
+  import {getPosition, geocoder, searchNearby} from '../../api/map.js'
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
   import {mapGetters} from 'vuex'
   export default {
@@ -49,7 +56,8 @@
             'font-size': '20px',
             'text-align': 'center'
           }
-        }
+        },
+        nearbyArr: []
       }
     },
     mounted () {
@@ -57,8 +65,7 @@
     },
     computed: {
       ...mapGetters([
-        'getPos',
-        'getAddress'
+        'getPos'
       ]),
       posResult () {
         if (this.getPos === null || this.getPos === 'pending') return '获取中'
@@ -75,6 +82,7 @@
       },
       getCurrentPosition () {
         let self = this
+        self.nearbyArr = []
         self.$store.commit('changePos', 'pending')
         getPosition()
           // .then(convertor)
@@ -82,12 +90,23 @@
           .then(function (rs) {
             self.$store.commit('changePos', rs)
           }).catch(function (err) {
-            console.log(convertor)
           let msg = ''
           if (err.message) msg = '\n原因:' + err.message
           self.$store.commit('changePos', 'fail')
           self.$store.commit('commitMsg', '定位失败,请手动选择位置' + msg)
         })
+      }
+    },
+    watch: {
+      getPos (val, oldVal) {
+        let self = this
+        if (typeof val === 'object') {
+          console.log(val)
+          searchNearby(['政府', '街道', '大厦', '小区', '游乐场', '地铁', '公园', '教育', '机构'], val.point, 1000)
+            .then(function (rs) {
+              self.nearbyArr = rs
+            })
+        }
       }
     },
     components: {
@@ -101,6 +120,12 @@
   @import "../../assets/css/mixin.scss";
 
   .position {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $bg;
     color: #666;
     .header {
       background-color: $blue;
@@ -131,6 +156,16 @@
             height: 100%;
             border-radius: 5px;
             vertical-align: top;
+            color: #fff;
+            &::-webkit-input-placeholder {
+              color: #fff;
+            }
+            &:-ms-input-placeholder {
+              color: #fff;
+            }
+            &::-moz-placeholder {
+              color: #fff;
+            }
           }
         }
       }
@@ -142,11 +177,15 @@
       padding: 0 20px;
       background-color: $bg;
     }
-    .line-content {
-      height: 50px;
-      line-height: 50px;
-      font-size: 14px;
+    .content-wrapper {
       padding: 0 20px;
+      background-color: #fff;
+      .line-content {
+        height: 50px;
+        line-height: 50px;
+        font-size: 14px;
+        @include border-1px($bg);
+      }
     }
     .current-address {
       .line-content {

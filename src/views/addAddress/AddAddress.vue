@@ -42,12 +42,13 @@
       <div class="tag-line line border-1px">
         <div class="title">标签</div>
         <div class="content">
-          <tag class="tag-wrapper" title="家"></tag>
+          <tag class="tag-wrapper" :class="{'active': formObj.tag === '家'}" @click="dealTagChange('家')" title="家"></tag>
           <tag class="tag-wrapper" title="公司"></tag>
           <tag class="tag-wrapper" title="学校"></tag>
         </div>
       </div>
     </div>
+    <button class="button">确定</button>
   </div>
 </template>
 
@@ -56,7 +57,15 @@
   import Tag from '../../components/tag/Tag.vue'
   export default {
     data () {
-      return {}
+      return {
+        formObj: {
+          tag: '',
+          name: '',
+          nameTag: '',
+          tphone: '',
+          address: ''
+        }
+      }
     },
     mounted () {
 
@@ -66,7 +75,12 @@
       Tag
     },
     props: [],
-    methods: {}
+    methods: {
+      dealTagChange (text) {
+        console.log('click')
+        this.formObj.tag = text
+      }
+    }
   }
 </script>
 
@@ -75,7 +89,15 @@
   @import "../../assets/css/mixin.scss";
 
   .add-address {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $bg;
     .box {
+      background-color: #fff;
+      margin-top: 15px;
       .line {
         display: flex;
         padding: 10px 0;
@@ -107,8 +129,27 @@
         .tag-wrapper {
           line-height: 20px;
           height: 20px;
+          &.active {
+            border: 1px solid $blue;
+            background-color: #ccffff;
+          }
         }
       }
+    }
+
+    .button {
+      display: block;
+      margin: 20px auto;
+      width: 90%;
+      text-align: center;
+      line-height: 40px;
+      height: 40px;
+      background-color: $green;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
     }
   }
 </style>

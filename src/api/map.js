@@ -40,6 +40,10 @@ function getPosition () {
 }
 */
 
+/*
+* 因为不用https，手机端会被拦，所以只能用百度地图api了……
+* 但是用了百度地图的api后pc端炸了……o(︶︿︶)o 唉
+* */
 function getPosition () {
   return new Promise(function (resolve, reject) {
     let geolocation = new BMap.Geolocation()
@@ -51,6 +55,10 @@ function getPosition () {
         console.log('err')
         reject(r)
       }
+    }, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 10000
     })
   })
 }
@@ -67,4 +75,37 @@ function geocoder (point) {
   })
 }
 
-export {getPosition, geocoder, convertor}
+function searchNearby (keyword, center, radius) {
+  return new Promise(function (resolve, reject) {
+    let local = new BMap.LocalSearch(center, {
+      onSearchComplete: function (rs) {
+        if (rs.ur) resolve(rs)
+        else {
+          let arr = []
+          let rsLen = rs.length
+          for (let i = 0; i < rsLen; i++) {
+            // 每一个rs
+            let ur = rs[i].ur
+            let urLen = ur.length
+            for (let j = 0; j < urLen; j++) {
+              // 每一个ur，在保证ur不重复的情况下添加到数组里
+              let flag = true
+              for (let k = 0; k < arr.length; k++) {
+                if (ur[j].uid === arr[k].uid) {
+                  flag = false
+                  break
+                }
+              }
+              if (flag) arr.push(ur[j])
+            }
+          }
+          resolve(arr)
+        }
+      },
+      pageCapacity: 1
+    })
+    local.searchNearby(keyword, center, radius)
+  })
+}
+
+export {getPosition, geocoder, convertor, searchNearby}
