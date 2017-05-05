@@ -8,18 +8,22 @@
         <div class="title">联系人</div>
         <div class="content">
           <div class="content-line border-1px">
-            <input type="text" class="text" placeholder="姓名"/>
+            <input type="text" class="text" placeholder="姓名" v-model="formObj.name"/>
           </div>
           <div class="content-line">
-            <tag class="tag-wrapper" title="先生"></tag>
-            <tag class="tag-wrapper" title="女士"></tag>
+            <div class="tag-wrapper"  @click="dealTagChange('sex', 0)" :class="{'active': formObj.sex === 0}">
+              <tag title="先生"></tag>
+            </div>
+            <div class="tag-wrapper"  @click="dealTagChange('sex', 1)" :class="{'active': formObj.sex === 1}">
+              <tag title="女士"></tag>
+            </div>
           </div>
         </div>
       </div>
       <div class="tel line border-1px">
         <div class="title">电话</div>
         <div class="content">
-         <input type="tel" class="phone" placeholder="收货人电话"/>
+         <input type="tel" class="phone" placeholder="收货人电话" v-model="formObj.pNumber"/>
         </div>
       </div>
       <div class="address line border-1px">
@@ -27,24 +31,31 @@
         <div class="content">
           <div class="content-line border-1px">
             <input type="text" class="text" placeholder="小区/写字楼/学校等"/>
+            <i class="iconfont icon-you"></i>
           </div>
           <div class="content-line">
-            <input type="text" class="text" placeholder="详细地址"/>
+            <input type="text" class="text" placeholder="详细地址" v-model="formObj.address"/>
           </div>
         </div>
       </div>
-      <div class="tel line border-1px">
+      <div class="tablet line border-1px">
         <div class="title">门牌号</div>
         <div class="content">
-          <input type="text" class="text" placeholder="例:5号楼203室"/>
+          <input type="text" class="text" placeholder="例:5号楼203室" v-model="formObj.tablet"/>
         </div>
       </div>
       <div class="tag-line line border-1px">
         <div class="title">标签</div>
         <div class="content">
-          <tag class="tag-wrapper" :class="{'active': formObj.tag === '家'}" @click="dealTagChange('家')" title="家"></tag>
-          <tag class="tag-wrapper" title="公司"></tag>
-          <tag class="tag-wrapper" title="学校"></tag>
+          <div class="tag-wrapper" :class="{'active': formObj.tag === 0}" @click="dealTagChange('tag', 0)" >
+            <tag title="家"></tag>
+          </div>
+          <div class="tag-wrapper" :class="{'active': formObj.tag === 1}" @click="dealTagChange('tag', 1)">
+            <tag title="公司"></tag>
+          </div>
+          <div class="tag-wrapper" :class="{'active': formObj.tag === 2}" @click="dealTagChange('tag', 2)">
+            <tag title="学校"></tag>
+          </div>
         </div>
       </div>
     </div>
@@ -61,9 +72,10 @@
         formObj: {
           tag: '',
           name: '',
-          nameTag: '',
-          tphone: '',
-          address: ''
+          sex: -1,
+          pNumber: '',
+          address: '',
+          tablet: ''
         }
       }
     },
@@ -76,9 +88,8 @@
     },
     props: [],
     methods: {
-      dealTagChange (text) {
-        console.log('click')
-        this.formObj.tag = text
+      dealTagChange (key, value) {
+        this.formObj[key] = value
       }
     }
   }
@@ -95,9 +106,22 @@
     width: 100%;
     height: 100%;
     background-color: $bg;
+    input {
+      width: 90%;
+    }
     .box {
       background-color: #fff;
       margin-top: 15px;
+      .tag-wrapper {
+        display: inline-block;
+        border: 1px solid $bg;
+        border-radius: 5px;
+        &.active {
+          border: 1px solid $blue;
+          border-radius: 5px;
+          background-color: #ccffff;
+        }
+      }
       .line {
         display: flex;
         padding: 10px 0;
@@ -128,11 +152,7 @@
       .tag-line {
         .tag-wrapper {
           line-height: 20px;
-          height: 20px;
-          &.active {
-            border: 1px solid $blue;
-            background-color: #ccffff;
-          }
+          height: 30px;
         }
       }
     }

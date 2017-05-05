@@ -26,7 +26,7 @@
     padding: 5px 20px;
     font-size: 14px;
     color: $text;
-    border: 1px solid $bg;
+    border-radius: 5px;
     @media only screen and (max-width: 320px) {
       padding: 5px 10px;
     }

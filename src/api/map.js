@@ -108,4 +108,15 @@ function searchNearby (keyword, center, radius) {
   })
 }
 
-export {getPosition, geocoder, convertor, searchNearby}
+function search (keyword, center) {
+  return new Promise(function (resolve, reject) {
+    let local = new BMap.LocalSearch(center, {
+      onSearchComplete: function (rs) {
+        resolve(rs)
+      }
+    })
+    local.search(keyword)
+  })
+}
+
+export {getPosition, geocoder, convertor, searchNearby, search}

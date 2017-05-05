@@ -4,46 +4,54 @@
       <easy-header goBackClass="icon-iconcha" title="选择收货地址" :advance="advance"
                    @emitAdvanceEvent="dealAdvanceEvent"></easy-header>
       <div class="line">
-        <span class="city">{{posResult}}</span>
-        <i class="iconfont icon-xia"></i>
+        <span class="city" v-show="showFlag === 0">{{posResult}}</span>
+        <i class="iconfont icon-xia" v-show="showFlag === 0"></i>
         <div class="search-wrapper">
-          <input type="text" class="address-search" placeholder="请输入地址"/>
+          <input type="text" class="address-search" placeholder="请输入地址" v-model="searchText" @input="doSearch" @focus="searchFocus"/>
+          <div class="cancel" v-show="showFlag !== 0" @click="cancelClick">取消</div>
         </div>
       </div>
     </header>
-    <div v-if="getPos && getPos !== 'pending'" class="current-address">
-      <div class="line-title">当前地址</div>
-      <div class="content-wrapper">
-        <div class="line-content">
-          <div class="address">{{getPos.address}}</div>
-          <div class="icon-box">
-            <i class="iconfont icon-fangdajing"></i>
-            <span class="text" @click="getCurrentPosition">重新定位</span>
+    <div class="common-container" v-show="showFlag === 0">
+      <div v-if="getPos && getPos !== 'pending'" class="current-address">
+        <div class="line-title">当前地址</div>
+        <div class="content-wrapper">
+          <div class="line-content">
+            <div class="address">{{getPos.address}}</div>
+            <div class="icon-box">
+              <i class="iconfont icon-fangdajing"></i>
+              <span class="text" @click="getCurrentPosition">重新定位</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="receiving-address">
+        <div class="line-title">收货地址</div>
+        <div class="content-wrapper">
+          <div class="line-content">
+          </div>
+        </div>
+      </div>
+      <div class="nearby-address">
+        <div class="line-title">附近地址</div>
+        <div class="content-wrapper">
+          <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr">
+            {{nearbyAddress.title}}
           </div>
         </div>
       </div>
     </div>
-    <div class="receiving-address">
-      <div class="line-title">收货地址</div>
-      <div class="content-wrapper">
-        <div class="line-content">
-        </div>
-      </div>
+    <div class="local-container" v-show="showFlag === 1">
+      <div class="line-title">历史搜索</div>
+
     </div>
-    <div class="nearby-address">
-      <div class="line-title">附近地址</div>
-      <div class="content-wrapper">
-        <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr">
-          {{nearbyAddress.title}}
-        </div>
-      </div>
-    </div>
+    <div class="search-container" v-show="showFlag === 2"></div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   // import BMap from 'BMap'
-  import {getPosition, geocoder, searchNearby} from '../../api/map.js'
+  import {getPosition, geocoder, searchNearby, search} from '../../api/map.js'
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
   import {mapGetters} from 'vuex'
   export default {
@@ -57,7 +65,9 @@
             'text-align': 'center'
           }
         },
-        nearbyArr: []
+        nearbyArr: [],
+        showFlag: 0, // 0是common，1是local，2是search
+        searchText: ''
       }
     },
     mounted () {
@@ -77,6 +87,21 @@
     },
     props: [],
     methods: {
+      searchFocus () {
+        this.showFlag = 1
+      },
+      doSearch () {
+        if (this.searchText !== '' && (typeof this.getPos) === 'object') {
+          search(this.searchText, this.getPos.addressComponents.city).then((rs) => {
+            console.log(this)
+            console.log(rs)
+          })
+        }
+      },
+      cancelClick () {
+        this.searchText = ''
+        this.showFlag = 0
+      },
       dealAdvanceEvent () {
         this.$router.push({name: 'addAddress'})
       },
@@ -149,23 +174,31 @@
         }
         .search-wrapper {
           position: relative;
+          display: flex;
           flex: 1;
           padding: 5px 15px;
           .address-search {
+            flex: 1;
             width: 100%;
-            height: 100%;
             border-radius: 5px;
             vertical-align: top;
-            color: #fff;
+            color: #666;
+            background-color: #fff;
+            margin-right: 10px;
             &::-webkit-input-placeholder {
-              color: #fff;
+              color: #666;
             }
             &:-ms-input-placeholder {
-              color: #fff;
+              color: #666;
             }
             &::-moz-placeholder {
-              color: #fff;
+              color: #666;
             }
+          }
+          .cancel {
+            flex: 0 0 50px;
+            height: 30px;
+            line-height: 30px;
           }
         }
       }
