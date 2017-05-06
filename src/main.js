@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router/out'
 import Vuex from 'vuex'
+import VueForm from 'vue-form'
 import state from './vuex/state'
 import {get, post} from './api/http'
 /* 我希望引入vuex，这样可以在api里去提交错误信息，然后再app里的错误组件可以拿到它并作相应反应
@@ -11,6 +12,7 @@ import {get, post} from './api/http'
 */
 /* 将axios挂在vue的原型上，稍微好看一点 */
 Vue.use(Vuex)
+Vue.use(VueForm)
 const store = new Vuex.Store(state)
 Vue.prototype.$get = get
 Vue.prototype.$post = post

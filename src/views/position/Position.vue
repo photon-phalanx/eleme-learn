@@ -12,44 +12,50 @@
         </div>
       </div>
     </header>
-    <div class="common-container" v-show="showFlag === 0">
-      <div v-if="getPos && getPos !== 'pending'" class="current-address">
-        <div class="line-title">当前地址</div>
-        <div class="content-wrapper">
-          <div class="line-content">
-            <div class="address">{{getPos.address}}</div>
-            <div class="icon-box">
-              <i class="iconfont icon-fangdajing"></i>
-              <span class="text" @click="getCurrentPosition">重新定位</span>
+    <div class="bs-common-wrapper" ref="commonWrapper" :class="{active: showFlag === 0}">
+      <div class="common-container" v-show="showFlag === 0">
+        <div v-if="getPos && getPos !== 'pending'" class="current-address">
+          <div class="line-title">当前地址</div>
+          <div class="content-wrapper">
+            <div class="line-content">
+              <div class="address">{{getPos.address}}</div>
+              <div class="icon-box">
+                <i class="iconfont icon-fangdajing"></i>
+                <span class="text" @click="getCurrentPosition">重新定位</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="receiving-address" v-if="receivingAddress.length">
+          <div class="line-title">收货地址</div>
+          <div class="content-wrapper">
+            <div class="line-content">
+            </div>
+          </div>
+        </div>
+        <div class="nearby-address" v-if="nearbyArr.length">
+          <div class="line-title">附近地址</div>
+          <div class="content-wrapper">
+            <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr">
+              {{nearbyAddress.title}}
             </div>
           </div>
         </div>
       </div>
-      <div class="receiving-address">
-        <div class="line-title">收货地址</div>
-        <div class="content-wrapper">
-          <div class="line-content">
-          </div>
-        </div>
-      </div>
-      <div class="nearby-address">
-        <div class="line-title">附近地址</div>
-        <div class="content-wrapper">
-          <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr">
-            {{nearbyAddress.title}}
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="local-container" v-show="showFlag === 1">
-      <div class="line-title">历史搜索</div>
+    <div class="bs-local-wrapper" ref="localWrapper" :class="{active: showFlag === 1}">
+      <div class="local-container" v-show="showFlag === 1">
+        <div class="line-title">历史搜索</div>
 
+      </div>
     </div>
-    <div class="search-container" v-show="showFlag === 2">
-      <div class="content-wrapper">
-        <div class="line-content" v-for="rs in searchResult">
-          <div class="rs-title">{{rs.title}}</div>
-          <div class="rs-address">{{rs.address}}</div>
+    <div class="bs-search-wrapper" ref="searchWrapper" :class="{active: showFlag === 2}">
+      <div class="search-container" v-show="showFlag === 2">
+        <div class="content-wrapper">
+          <div class="line-content" v-for="rs in searchResult">
+            <div class="rs-title">{{rs.title}}</div>
+            <div class="rs-address">{{rs.address}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -58,9 +64,10 @@
 
 <script type="text/ecmascript-6">
   // import BMap from 'BMap'
-  import {getPosition, geocoder, searchNearby, search} from '../../api/map.js'
+  import {getPosition, geocoder, search} from '../../api/map.js'
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
   import {mapGetters} from 'vuex'
+  import BScroll from 'better-scroll'
   export default {
     data () {
       return {
@@ -75,11 +82,23 @@
         nearbyArr: [],
         showFlag: 0, // 0是common，1是local，2是search
         searchText: '',
-        searchResult: [] // 自动补全的结果
+        searchResult: [], // 自动补全的结果
+        receivingAddress: []
       }
     },
     mounted () {
       this.getCurrentPosition()
+      this.$nextTick(() => {
+        this.commonScroll = new BScroll(this.$refs.commonWrapper, {
+          click: true
+        })
+        this.localScroll = new BScroll(this.$refs.localWrapper, {
+          click: true
+        })
+        this.searchScroll = new BScroll(this.$refs.searchWrapper, {
+          click: true
+        })
+      })
     },
     computed: {
       ...mapGetters([
@@ -104,6 +123,9 @@
         if (this.searchText !== '' && (typeof this.getPos) === 'object') {
           search(this.searchText, this.getPos.addressComponents.city).then((rs) => {
             this.searchResult = rs.ur
+            this.$nextTick(() => {
+              this.searchScroll.refresh()
+            })
           })
         }
       },
@@ -134,13 +156,12 @@
     },
     watch: {
       getPos (val, oldVal) {
-        let self = this
         if (typeof val === 'object') {
           console.log(val)
-          searchNearby(['政府', '街道', '大厦', '小区', '游乐场', '地铁', '公园', '教育', '机构'], val.point, 1000)
-            .then(function (rs) {
-              self.nearbyArr = rs
-            })
+          this.nearbyArr = this.getPos.surroundingPois
+          this.$nextTick(() => {
+            this.commonScroll.refresh()
+          })
         }
       }
     },
@@ -228,6 +249,20 @@
         line-height: 50px;
         font-size: 14px;
         @include border-1px($bg);
+      }
+    }
+
+    // 这些是为了better-scroll准备的wrapper
+    .bs-common-wrapper,.bs-local-wrapper,.bs-search-wrapper {
+      position: absolute;
+      top: 80px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: -1;
+      overflow: hidden;
+      &.active {
+        z-index: 0;
       }
     }
 

@@ -67,7 +67,11 @@
         <i class="iconfont icon-zuo"></i>
         <span class="city">杭州市</span>
       </header>
-      <div id="map-box">我是测试的字</div>
+      <div id="map-box">加载中</div>
+      <div class="nearby-line border-1px" v-for="rs in nearbyArr">
+        <div class="title">{{rs.title}}</div>
+        <div class="address">{{rs.address}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -82,6 +86,7 @@
     data () {
       return {
         showDetailFlag: false,
+        nearbyArr: [],
         formObj: {
           tag: '',
           name: '',
@@ -111,12 +116,13 @@
     },
     methods: {
       initMap () {
+        let self = this
         this.map = new BMap.Map('map-box')
         if (this.getPos && typeof this.getPos === 'object') {
           this.map.centerAndZoom(this.getPos.point, 18)
           this.map.addEventListener('click', function (e) {
             geocoder(e.point).then(function (rs) {
-              console.log(rs)
+              self.nearbyArr = rs.surroundingPois
             })
           })
         }
@@ -232,7 +238,20 @@
       }
       #map-box {
         width: 100%;
-        height: 400px;
+        height: 300px;
+      }
+      .nearby-line {
+        background-color: #fff;
+        padding: 10px;
+        @include border-1px($border);
+        .title,.address {
+          font-size: 14px;
+          line-height: 1.5;
+          height: 1.5em;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
   }

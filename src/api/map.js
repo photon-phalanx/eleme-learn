@@ -75,6 +75,7 @@ function geocoder (point) {
   })
 }
 
+// 这个searchNearby最初是为了搜索附近地址，但是发现可以逆定位，他的用处就没有这么大了？可以用来搜索
 function searchNearby (keyword, center, radius = 1000, pageCapacity = pageCapacity) {
   return new Promise(function (resolve, reject) {
     let local = new BMap.LocalSearch(center, {
