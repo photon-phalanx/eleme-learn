@@ -5,7 +5,7 @@
         <div class="title-line">
           <div class="title-wrapper">
             <i class="iconfont icon-dizhi"></i>
-            <div class="title">西湖区浙江工业大学</div>
+            <div class="title" @click="goPosition()">西湖区浙江工业大学</div>
             <div class="iconfont icon-xia"></div>
           </div>
           <div class="weather-wrapper">
@@ -218,6 +218,9 @@
     },
     props: [],
     methods: {
+      goPosition () {
+        this.$router.push({name: 'position'})
+      },
       getTimerCount () {
         let date = new Date()
         let timeStamp = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59).valueOf() - date.valueOf()

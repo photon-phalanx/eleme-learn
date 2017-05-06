@@ -45,7 +45,14 @@
       <div class="line-title">历史搜索</div>
 
     </div>
-    <div class="search-container" v-show="showFlag === 2"></div>
+    <div class="search-container" v-show="showFlag === 2">
+      <div class="content-wrapper">
+        <div class="line-content" v-for="rs in searchResult">
+          <div class="rs-title">{{rs.title}}</div>
+          <div class="rs-address">{{rs.address}}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -67,7 +74,8 @@
         },
         nearbyArr: [],
         showFlag: 0, // 0是common，1是local，2是search
-        searchText: ''
+        searchText: '',
+        searchResult: [] // 自动补全的结果
       }
     },
     mounted () {
@@ -81,7 +89,7 @@
         if (this.getPos === null || this.getPos === 'pending') return '获取中'
         else if (this.getPos === 'fail') return '获取失败'
         else {
-          return this.getPos.addressComponents.city
+          return this.getPos.city || this.getPos.addressComponents.city
         }
       }
     },
@@ -91,15 +99,17 @@
         this.showFlag = 1
       },
       doSearch () {
+        this.showFlag = 2
+        this.searchResult = []
         if (this.searchText !== '' && (typeof this.getPos) === 'object') {
           search(this.searchText, this.getPos.addressComponents.city).then((rs) => {
-            console.log(this)
-            console.log(rs)
+            this.searchResult = rs.ur
           })
         }
       },
       cancelClick () {
         this.searchText = ''
+        this.searchResult = []
         this.showFlag = 0
       },
       dealAdvanceEvent () {
@@ -220,22 +230,40 @@
         @include border-1px($bg);
       }
     }
-    .current-address {
+
+    // 以下是独立样式
+    .common-container {
+      .current-address {
+        .line-content {
+          display: flex;
+          .address {
+            flex: 1;
+            line-height: 50px;
+            height: 50px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .icon-box {
+            flex: 0 0 80px;
+            line-height: 50px;
+            height: 50px;
+            color: $blue;
+          }
+        }
+      }
+    }
+    .search-container {
       .line-content {
-        display: flex;
-        .address {
-          flex: 1;
-          line-height: 50px;
-          height: 50px;
+        height: auto;
+        padding: 10px 0;
+        .rs-title,.rs-address {
+          font-size: 14px;
+          line-height: 1.5;
+          height: 1.5em;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
-        .icon-box {
-          flex: 0 0 80px;
-          line-height: 50px;
-          height: 50px;
-          color: $blue;
         }
       }
     }

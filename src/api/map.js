@@ -75,7 +75,7 @@ function geocoder (point) {
   })
 }
 
-function searchNearby (keyword, center, radius) {
+function searchNearby (keyword, center, radius = 1000, pageCapacity = pageCapacity) {
   return new Promise(function (resolve, reject) {
     let local = new BMap.LocalSearch(center, {
       onSearchComplete: function (rs) {
@@ -102,7 +102,7 @@ function searchNearby (keyword, center, radius) {
           resolve(arr)
         }
       },
-      pageCapacity: 1
+      pageCapacity: pageCapacity
     })
     local.searchNearby(keyword, center, radius)
   })
