@@ -12,10 +12,10 @@
               <input type="text" class="text" placeholder="姓名" v-model="formObj.name"/>
             </div>
             <div class="content-line">
-              <div class="tag-wrapper"  @click="dealTagChange('sex', 0)" :class="{'active': formObj.sex === 0}">
+              <div class="tag-wrapper" @click="dealTagChange('sex', 0)" :class="{'active': formObj.sex === 0}">
                 <tag title="先生"></tag>
               </div>
-              <div class="tag-wrapper"  @click="dealTagChange('sex', 1)" :class="{'active': formObj.sex === 1}">
+              <div class="tag-wrapper" @click="dealTagChange('sex', 1)" :class="{'active': formObj.sex === 1}">
                 <tag title="女士"></tag>
               </div>
             </div>
@@ -48,7 +48,7 @@
         <div class="tag-line line border-1px">
           <div class="title">标签</div>
           <div class="content">
-            <div class="tag-wrapper" :class="{'active': formObj.tag === 0}" @click="dealTagChange('tag', 0)" >
+            <div class="tag-wrapper" :class="{'active': formObj.tag === 0}" @click="dealTagChange('tag', 0)">
               <tag title="家"></tag>
             </div>
             <div class="tag-wrapper" :class="{'active': formObj.tag === 1}" @click="dealTagChange('tag', 1)">
@@ -64,24 +64,30 @@
     </div>
     <div class="map-detail" v-show="showDetailFlag">
       <header class="header">
-        <i class="iconfont icon-zuo"></i>
+        <i class="iconfont icon-fangxiang"></i>
         <span class="city">杭州市</span>
       </header>
       <div id="map-box">加载中</div>
-      <div class="nearby-line border-1px" v-for="rs in nearbyArr">
-        <div class="title">{{rs.title}}</div>
-        <div class="address">{{rs.address}}</div>
+      <div class="nearby-wrapper" ref="nearbyWrapper">
+        <div class="nearby-box">
+          <div class="nearby-line border-1px" v-for="rs in nearbyArr" @click="updateCurrentAddress(rs.point)">
+            <div class="title">{{rs.title}}</div>
+            <div class="address">{{rs.address}}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import BMap from 'BMap'
+  import BScroll from 'better-scroll'
+  import {mapGetters} from 'vuex'
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
   import Tag from '../../components/tag/Tag.vue'
-  import {geocoder} from '../../api/map'
-  import BMap from 'BMap'
-  import {mapGetters} from 'vuex'
+  import {geocoder, getSelectedDetail} from '../../api/map'
+
   export default {
     data () {
       return {
@@ -98,6 +104,11 @@
       }
     },
     mounted () {
+      this.$nextTick(() => {
+        this.nearbyScroll = new BScroll(this.$refs.nearbyWrapper, {
+          click: true
+        })
+      })
     },
     watch: {
       getPos (val) {
@@ -123,6 +134,9 @@
           this.map.addEventListener('click', function (e) {
             geocoder(e.point).then(function (rs) {
               self.nearbyArr = rs.surroundingPois
+              self.$nextTick(() => {
+                self.nearbyScroll.refresh()
+              })
             })
           })
         }
@@ -135,6 +149,13 @@
       },
       dealTagChange (key, value) {
         this.formObj[key] = value
+      },
+      updateCurrentAddress (point) {
+        getSelectedDetail(point).then((rs) => {
+          console.log(rs)
+          this.$store.commit('changePos', rs)
+          this.$router.push({name: 'order'})
+        })
       }
     }
   }
@@ -224,7 +245,8 @@
         background-color: $blue;
         line-height: 30px;
         height: 30px;
-        .icon-zuo {
+        color: #fff;
+        .icon-fangxiang {
           flex: 0 0 50px;
           font-size: 18px;
         }
@@ -239,18 +261,29 @@
       #map-box {
         width: 100%;
         height: 300px;
+        margin-bottom: 10px;
       }
-      .nearby-line {
-        background-color: #fff;
-        padding: 10px;
-        @include border-1px($border);
-        .title,.address {
-          font-size: 14px;
-          line-height: 1.5;
-          height: 1.5em;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+      .nearby-wrapper {
+        position: fixed;
+        top: 340px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: hidden;
+        .nearby-box {
+          .nearby-line {
+            background-color: #fff;
+            padding: 10px;
+            @include border-1px($border);
+            .title, .address {
+              font-size: 14px;
+              line-height: 1.5;
+              height: 1.5em;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
         }
       }
     }

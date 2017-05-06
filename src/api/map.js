@@ -120,4 +120,25 @@ function search (keyword, center) {
   })
 }
 
-export {getPosition, geocoder, convertor, searchNearby, search}
+// 为了统一一致，需要用地址逆解析
+function getSelectedDetail (point) {
+  return geocoder(point)
+}
+
+function getCurrentPosition () {
+  let self = this
+  self.nearbyArr = []
+  self.$store.commit('changePos', 'pending')
+  getPosition()
+  // .then(convertor)
+    .then(geocoder)
+    .then(function (rs) {
+      self.$store.commit('changePos', rs)
+    }).catch(function (err) {
+    let msg = ''
+    if (err.message) msg = '\n原因:' + err.message
+    self.$store.commit('changePos', 'fail')
+    self.$store.commit('commitMsg', '定位失败,请手动选择位置' + msg)
+  })
+}
+export {getPosition, geocoder, convertor, searchNearby, search, getCurrentPosition, getSelectedDetail}

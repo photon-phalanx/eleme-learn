@@ -26,17 +26,17 @@
             </div>
           </div>
         </div>
-        <div class="receiving-address" v-if="receivingAddress.length">
+        <div class="receiving-address" v-if="receivingAddress.length > 0">
           <div class="line-title">收货地址</div>
           <div class="content-wrapper">
             <div class="line-content">
             </div>
           </div>
         </div>
-        <div class="nearby-address" v-if="nearbyArr.length">
+        <div class="nearby-address">
           <div class="line-title">附近地址</div>
           <div class="content-wrapper">
-            <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr">
+            <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr" @click="updateCurrentAddress(nearbyAddress.point)">
               {{nearbyAddress.title}}
             </div>
           </div>
@@ -63,8 +63,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  // import BMap from 'BMap'
-  import {getPosition, geocoder, search} from '../../api/map.js'
+  import {search, getCurrentPosition, getSelectedDetail} from '../../api/map.js'
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
   import {mapGetters} from 'vuex'
   import BScroll from 'better-scroll'
@@ -87,7 +86,7 @@
       }
     },
     mounted () {
-      this.getCurrentPosition()
+      this.nearbyArr = this.getPos ? this.getPos.surroundingPois : []
       this.$nextTick(() => {
         this.commonScroll = new BScroll(this.$refs.commonWrapper, {
           click: true
@@ -114,6 +113,9 @@
     },
     props: [],
     methods: {
+      getCurrentPosition () {
+        getCurrentPosition.call(this)
+      },
       searchFocus () {
         this.showFlag = 1
       },
@@ -137,27 +139,17 @@
       dealAdvanceEvent () {
         this.$router.push({name: 'addAddress'})
       },
-      getCurrentPosition () {
-        let self = this
-        self.nearbyArr = []
-        self.$store.commit('changePos', 'pending')
-        getPosition()
-          // .then(convertor)
-          .then(geocoder)
-          .then(function (rs) {
-            self.$store.commit('changePos', rs)
-          }).catch(function (err) {
-          let msg = ''
-          if (err.message) msg = '\n原因:' + err.message
-          self.$store.commit('changePos', 'fail')
-          self.$store.commit('commitMsg', '定位失败,请手动选择位置' + msg)
+      updateCurrentAddress (point) {
+        getSelectedDetail(point).then((rs) => {
+          console.log(rs)
+          this.$store.commit('changePos', rs)
+          this.$router.push({name: 'order'})
         })
       }
     },
     watch: {
       getPos (val, oldVal) {
         if (typeof val === 'object') {
-          console.log(val)
           this.nearbyArr = this.getPos.surroundingPois
           this.$nextTick(() => {
             this.commonScroll.refresh()

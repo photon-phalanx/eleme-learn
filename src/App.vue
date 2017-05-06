@@ -13,6 +13,7 @@
   import {host} from 'api/http.js'
   import ErrorHandler from './components/errorHandler/ErrorHandler.vue'
   import Loading from './components/loading/Loading.vue'
+  import {getCurrentPosition} from './api/map.js'
 
   import {mapGetters} from 'vuex'
   export default {
@@ -22,6 +23,7 @@
     },
     async mounted () {
       window.VueRootComponent = this
+      this.getCurrentPosition()
       try {
         let res = await axios.post(host + 'login', {confirm: 'confirm'})
         console.log(res)
@@ -29,6 +31,11 @@
           this.$store.commit('updateUid', res.data.data)
         }
       } catch (e) {
+      }
+    },
+    methods: {
+      getCurrentPosition () {
+        getCurrentPosition.call(this)
       }
     },
     computed: {
