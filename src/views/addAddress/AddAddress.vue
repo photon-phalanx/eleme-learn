@@ -31,7 +31,7 @@
           <div class="title">地址</div>
           <div class="content">
             <div class="content-line border-1px" @click="changeDetailFlag()">
-              <input type="text" class="text" placeholder="小区/写字楼/学校等"/>
+              <input type="text" class="text" v-model="positionedAddress" placeholder="小区/写字楼/学校等"/>
               <i class="iconfont icon-you"></i>
             </div>
             <div class="content-line">
@@ -64,19 +64,27 @@
     </div>
     <div class="map-detail" v-show="showDetailFlag">
       <header class="header">
-        <i class="iconfont icon-fangxiang"></i>
+        <i class="iconfont icon-fangxiang" @click="changeDetailFlag()"></i>
         <span class="city" v-if="getPos">{{getPos.addressComponents.city}}</span>
-        <input type="text" v-if="getPos" class="address-search" placeholder="小区/写字楼/学校等">
+        <input type="text" v-if="getPos" class="address-search" placeholder="小区/写字楼/学校等" v-model="searchText" @input="doSearch()">
       </header>
       <div id="map-box">加载中</div>
       <div class="nearby-wrapper" ref="nearbyWrapper">
         <div class="nearby-box">
-          <div class="nearby-line border-1px" v-for="rs in nearbyArr" @click="updateCurrentAddress(rs.point)">
+          <div class="nearby-line border-1px" v-for="rs in nearbyArr" @click="getCurrentAddress(rs.point)">
             <i class="iconfont icon-dizhi"></i>
             <div class="nearby-right">
               <div class="title">{{rs.title}}</div>
               <div class="address">{{rs.address}}</div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div v-show="searchFlag" class="search-box-wrapper" ref="searchBoxWrapper">
+        <div class="search-box">
+          <div class="search-line" v-for="rs in searchResult" @click="updateCurrentAddress(rs.point)">
+            <div class="title">{{rs.title}}</div>
+            <div class="address">{{rs.address}}</div>
           </div>
         </div>
       </div>
@@ -90,13 +98,17 @@
   import {mapGetters} from 'vuex'
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
   import Tag from '../../components/tag/Tag.vue'
-  import {geocoder, getSelectedDetail} from '../../api/map'
+  import {geocoder, getSelectedDetail, search} from '../../api/map'
 
   export default {
     data () {
       return {
         showDetailFlag: false,
+        searchFlag: false,
         nearbyArr: [],
+        searchText: '',
+        searchResult: [],
+        positionedAddress: '',
         formObj: {
           tag: '',
           name: '',
@@ -110,6 +122,9 @@
     mounted () {
       this.$nextTick(() => {
         this.nearbyScroll = new BScroll(this.$refs.nearbyWrapper, {
+          click: true
+        })
+        this.searchBoxScroll = new BScroll(this.$refs.searchBoxWrapper, {
           click: true
         })
       })
@@ -134,8 +149,11 @@
         let self = this
         this.map = new BMap.Map('map-box')
         if (this.getPos && typeof this.getPos === 'object') {
-          this.map.centerAndZoom(this.getPos.point, 18)
-          this.map.addEventListener('click', function (e) {
+          this.map.centerAndZoom(this.getPos.point, 15)
+          this.map.addEventListener('dragend', function (e) {
+            self.map.clearOverlays()
+            let marker = new BMap.Marker(self.map.getCenter())
+            self.map.addOverlay(marker)
             geocoder(e.point).then(function (rs) {
               self.nearbyArr = rs.surroundingPois
               self.$nextTick(() => {
@@ -160,6 +178,26 @@
           this.$store.commit('changePos', rs)
           this.$router.push({name: 'order'})
         })
+      },
+      getCurrentAddress (point) {
+        getSelectedDetail(point).then((rs) => {
+          this.positionedAddress = rs.address
+          this.changeDetailFlag()
+        })
+      },
+      doSearch () {
+        let self = this
+        if (this.searchText !== '' && this.getPos && typeof this.getPos === 'object') {
+          this.searchFlag = true
+          search(this.searchText, this.getPos.addressComponents.city).then((rs) => {
+            this.searchResult = rs.ur
+            self.$nextTick(() => {
+              self.searchBoxScroll.refresh()
+            })
+          })
+        } else {
+          this.searchFlag = false
+        }
       }
     }
   }
@@ -269,7 +307,9 @@
 
         .address-search {
           flex: 1;
-          margin: 3px 10px 3px 0;
+          font-size: 14px;
+          margin: 5px 10px 0 0;
+          height: 20px;
           background-color: #fff;
           border-radius: 5px;
           &::-moz-placeholder {
@@ -283,11 +323,30 @@
           }
         }
       }
+
       #map-box {
         width: 100%;
         height: 300px;
         margin-bottom: 10px;
       }
+
+      // 想要复用的样式
+      .title, .address {
+        line-height: 1.5;
+        height: 1.5em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .address {
+        color: #ccc;
+        font-size: 12px;
+      }
+      .title {
+        font-size: 14px;
+        color: #666;
+      }
+
       .nearby-wrapper {
         position: fixed;
         top: 340px;
@@ -311,22 +370,26 @@
             }
             @include border-1px($border);
             .nearby-right {
-              .title, .address {
-                line-height: 1.5;
-                height: 1.5em;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-              .address {
-                color: #ccc;
-                font-size: 12px;
-              }
-              .title {
-                font-size: 14px;
-                color: #666;
-              }
+              flex: 1;
+              margin-right: 10px;
+              width: 80%;
             }
+          }
+        }
+      }
+      .search-box-wrapper {
+        position: fixed;
+        top: 30px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background-color: $bg;
+        overflow: hidden;
+        .search-box {
+          .search-line {
+            background-color: #fff;
+            padding: 10px;
           }
         }
       }
