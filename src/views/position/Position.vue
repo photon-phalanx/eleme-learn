@@ -209,12 +209,15 @@
             background-color: #fff;
             margin-right: 10px;
             &::-webkit-input-placeholder {
+              text-align: center;
               color: #666;
             }
             &:-ms-input-placeholder {
+              text-align: center;
               color: #666;
             }
             &::-moz-placeholder {
+              text-align: center;
               color: #666;
             }
           }

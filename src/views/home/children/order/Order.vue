@@ -5,7 +5,7 @@
         <div class="title-line">
           <div class="title-wrapper">
             <i class="iconfont icon-dizhi"></i>
-            <div class="title" @click="goPosition()">西湖区浙江工业大学</div>
+            <div class="title" @click="goPosition()" v-if="getPos && typeof getPos === 'object'">{{getPos.address}}</div>
             <div class="iconfont icon-xia"></div>
           </div>
           <div class="weather-wrapper">
@@ -169,6 +169,7 @@
    :deliveryPrice="item." :ratingCount="item." :sellCount="" :
    */
   import BScroll from 'better-scroll'
+  import {mapGetters} from 'vuex'
   import EasyPicItem from '../../../../components/easyPicItem/EasyPicItem.vue'
   import Split from '../../../../components/split/Split.vue'
   import ShopItem from '../../../../components/shopItem/ShopItem.vue'
@@ -190,6 +191,11 @@
         second: 0,
         recommend: []
       }
+    },
+    computed: {
+      ...mapGetters([
+        'getPos'
+      ])
     },
     async mounted () {
       let that = this
