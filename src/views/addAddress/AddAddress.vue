@@ -65,14 +65,18 @@
     <div class="map-detail" v-show="showDetailFlag">
       <header class="header">
         <i class="iconfont icon-fangxiang"></i>
-        <span class="city">杭州市</span>
+        <span class="city" v-if="getPos">{{getPos.addressComponents.city}}</span>
+        <input type="text" v-if="getPos" class="address-search" placeholder="小区/写字楼/学校等">
       </header>
       <div id="map-box">加载中</div>
       <div class="nearby-wrapper" ref="nearbyWrapper">
         <div class="nearby-box">
           <div class="nearby-line border-1px" v-for="rs in nearbyArr" @click="updateCurrentAddress(rs.point)">
-            <div class="title">{{rs.title}}</div>
-            <div class="address">{{rs.address}}</div>
+            <i class="iconfont icon-dizhi"></i>
+            <div class="nearby-right">
+              <div class="title">{{rs.title}}</div>
+              <div class="address">{{rs.address}}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -247,15 +251,36 @@
         height: 30px;
         color: #fff;
         .icon-fangxiang {
-          flex: 0 0 50px;
-          font-size: 18px;
+          padding: 0 5px;
+          flex: 0 0 30px;
+          font-size: 30px;
+          height: 30px;
+          line-height: 30px;
         }
+
         .city {
-          flex: 0 0 150px;
+          flex: 0 0 80px;
           width: 150px;
+          font-size: 14px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+
+        .address-search {
+          flex: 1;
+          margin: 3px 10px 3px 0;
+          background-color: #fff;
+          border-radius: 5px;
+          &::-moz-placeholder {
+            text-align: center;
+          }
+          &:-ms-input-placeholder {
+            text-align: center;
+          }
+          &::-webkit-input-placeholder {
+            text-align: center;
+          }
         }
       }
       #map-box {
@@ -272,16 +297,35 @@
         overflow: hidden;
         .nearby-box {
           .nearby-line {
+            display: flex;
             background-color: #fff;
-            padding: 10px;
-            @include border-1px($border);
-            .title, .address {
-              font-size: 14px;
+            padding: 10px 0;
+            .icon-dizhi {
+              color: #ccc;
+              flex: 0 0 20px;
+              padding: 0 10px;
+              width: 20px;
+              font-size: 20px;
               line-height: 1.5;
               height: 1.5em;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
+            }
+            @include border-1px($border);
+            .nearby-right {
+              .title, .address {
+                line-height: 1.5;
+                height: 1.5em;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+              .address {
+                color: #ccc;
+                font-size: 12px;
+              }
+              .title {
+                font-size: 14px;
+                color: #666;
+              }
             }
           }
         }

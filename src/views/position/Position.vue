@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="nearby-address">
-          <div class="line-title">附近地址</div>
+          <div class="line-title" v-show="nearbyArr.length > 0">附近地址</div>
           <div class="content-wrapper">
             <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr" @click="updateCurrentAddress(nearbyAddress.point)">
               {{nearbyAddress.title}}
@@ -86,7 +86,7 @@
       }
     },
     mounted () {
-      this.nearbyArr = this.getPos ? this.getPos.surroundingPois : []
+      this.nearbyArr = this.getPos && this.getPos.surroundingPois ? this.getPos.surroundingPois : []
       this.$nextTick(() => {
         this.commonScroll = new BScroll(this.$refs.commonWrapper, {
           click: true
@@ -122,7 +122,7 @@
       doSearch () {
         this.showFlag = 2
         this.searchResult = []
-        if (this.searchText !== '' && (typeof this.getPos) === 'object') {
+        if (this.searchText !== '' && this.getPos !== null && (typeof this.getPos) === 'object') {
           search(this.searchText, this.getPos.addressComponents.city).then((rs) => {
             this.searchResult = rs.ur
             this.$nextTick(() => {
@@ -149,7 +149,7 @@
     },
     watch: {
       getPos (val, oldVal) {
-        if (typeof val === 'object') {
+        if (val && typeof val === 'object') {
           this.nearbyArr = this.getPos.surroundingPois
           this.$nextTick(() => {
             this.commonScroll.refresh()
