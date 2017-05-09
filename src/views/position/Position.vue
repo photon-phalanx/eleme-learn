@@ -36,7 +36,7 @@
         <div class="nearby-address">
           <div class="line-title" v-show="nearbyArr.length > 0">附近地址</div>
           <div class="content-wrapper">
-            <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr" @click="updateCurrentAddress(nearbyAddress.point)">
+            <div class="line-content border-1px" v-for="(nearbyAddress, index) in nearbyArr" @click="updateCurrentAddress(nearbyAddress, false)">
               {{nearbyAddress.title}}
             </div>
           </div>
@@ -46,13 +46,17 @@
     <div class="bs-local-wrapper" ref="localWrapper" :class="{active: showFlag === 1}">
       <div class="local-container" v-show="showFlag === 1">
         <div class="line-title">历史搜索</div>
-
+        <div class="content-wrapper">
+          <div class="line-content" v-for="history in historyArr" @click="updateCurrentAddress(history, false)">
+            <div class="rs-address">{{history.address}}</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="bs-search-wrapper" ref="searchWrapper" :class="{active: showFlag === 2}">
       <div class="search-container" v-show="showFlag === 2">
         <div class="content-wrapper">
-          <div class="line-content" v-for="rs in searchResult">
+          <div class="line-content" v-for="rs in searchResult" @click="updateCurrentAddress(rs, true)">
             <div class="rs-title">{{rs.title}}</div>
             <div class="rs-address">{{rs.address}}</div>
           </div>
@@ -63,10 +67,13 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {search, getCurrentPosition, getSelectedDetail} from '../../api/map.js'
-  import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
-  import {mapGetters} from 'vuex'
+  import BMap from 'BMap'
   import BScroll from 'better-scroll'
+  import {mapGetters} from 'vuex'
+  import {search, getCurrentPosition, getSelectedDetail} from '../../api/map.js'
+  import {commonLoadFromLocal, commonAddToLocal} from '../../api/store.js'
+  import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
+
   export default {
     data () {
       return {
@@ -78,6 +85,7 @@
             'text-align': 'center'
           }
         },
+        historyArr: [],
         nearbyArr: [],
         showFlag: 0, // 0是common，1是local，2是search
         searchText: '',
@@ -87,6 +95,7 @@
     },
     mounted () {
       this.nearbyArr = this.getPos && this.getPos.surroundingPois ? this.getPos.surroundingPois : []
+      this.historyArr = commonLoadFromLocal('history') || []
       this.$nextTick(() => {
         this.commonScroll = new BScroll(this.$refs.commonWrapper, {
           click: true
@@ -139,9 +148,16 @@
       dealAdvanceEvent () {
         this.$router.push({name: 'addAddress'})
       },
-      updateCurrentAddress (point) {
-        getSelectedDetail(point).then((rs) => {
-          console.log(rs)
+      updateCurrentAddress (ur, localFlag) {
+        // 因为被localStorage存储后,对象不再是原来的对象(instanceof不通过),比如原来的百度地图的point是H,现在只是Object
+        // 所以永远不相信point的来源,一律用Point做转换
+        // 看来百度对这个point没有使用鸭子辨型,而是以类判断,这样准确性较好?有点不明
+        getSelectedDetail(new BMap.Point(ur.point.lng, ur.point.lat)).then((rs) => {
+          rs.address = ur.title
+          if (localFlag) {
+            rs.title = ur.title
+            commonAddToLocal('history', rs, 8)
+          }
           this.$store.commit('changePos', rs)
           this.$router.push({name: 'order'})
         })
@@ -283,7 +299,7 @@
         }
       }
     }
-    .search-container {
+    .search-container, .local-container {
       .line-content {
         height: auto;
         padding: 10px 0;

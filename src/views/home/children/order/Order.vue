@@ -5,8 +5,7 @@
         <div class="title-line">
           <div class="title-wrapper">
             <i class="iconfont icon-dizhi"></i>
-            <div class="title" @click="goPosition()" v-if="getPos && typeof getPos === 'object'">{{getPos.address}}</div>
-            <div class="iconfont icon-xia"></div>
+            <div class="title" @click="goPosition()" v-if="getPos && typeof getPos === 'object'">{{getShowAddress}}</div>
           </div>
           <div class="weather-wrapper">
             <div class="temperature">19°</div>
@@ -195,7 +194,14 @@
     computed: {
       ...mapGetters([
         'getPos'
-      ])
+      ]),
+      getShowAddress () {
+        if (this.getPos && typeof this.getPos === 'object') {
+          return this.getPos.address
+        } else {
+         return '获取中请稍后'
+        }
+      }
     },
     async mounted () {
       let that = this
@@ -285,18 +291,14 @@
             .title {
               display: inline-block;
               vertical-align: top;
-              font-size: 20px;
-              max-width: 150px;
+              font-size: 16px;
               white-space: nowrap;
+              max-width: calc(100% - 50px);
               overflow: hidden;
               text-overflow: ellipsis;
-            }
-            .icon-xia {
-              display: inline-block;
-              vertical-align: top;
-              width: 16px;
-              line-height: 30px;
-              font-size: 16px;
+              @media screen and (max-width: 320px) {
+                font-size: 14px;
+              }
             }
           }
           .weather-wrapper {
