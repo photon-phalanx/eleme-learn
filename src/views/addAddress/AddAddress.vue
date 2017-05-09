@@ -31,7 +31,7 @@
           <div class="title">地址</div>
           <div class="content">
             <div class="content-line border-1px" @click="changeDetailFlag()">
-              <input type="text" class="text" v-model="positionedAddress" placeholder="小区/写字楼/学校等"/>
+              <input type="text" class="text" v-model="formObj.positionedAddress.address" placeholder="小区/写字楼/学校等"/>
               <i class="iconfont icon-you"></i>
             </div>
             <div class="content-line">
@@ -71,7 +71,7 @@
       <div id="map-box">加载中</div>
       <div class="nearby-wrapper" ref="nearbyWrapper">
         <div class="nearby-box">
-          <div class="nearby-line border-1px" v-for="rs in nearbyArr" @click="getCurrentAddress(rs.point)">
+          <div class="nearby-line border-1px" v-for="rs in nearbyArr" @click="getCurrentAddress(rs)">
             <i class="iconfont icon-dizhi"></i>
             <div class="nearby-right">
               <div class="title">{{rs.title}}</div>
@@ -82,7 +82,7 @@
       </div>
       <div v-show="searchFlag" class="search-box-wrapper" ref="searchBoxWrapper">
         <div class="search-box">
-          <div class="search-line" v-for="rs in searchResult" @click="updateCurrentAddress(rs.point)">
+          <div class="search-line" v-for="rs in searchResult" @click="updateCurrentAddress(rs)">
             <div class="title">{{rs.title}}</div>
             <div class="address">{{rs.address}}</div>
           </div>
@@ -108,8 +108,8 @@
         nearbyArr: [],
         searchText: '',
         searchResult: [],
-        positionedAddress: '',
         formObj: {
+          positionedAddress: {},
           tag: '',
           name: '',
           sex: -1,
@@ -172,16 +172,17 @@
       dealTagChange (key, value) {
         this.formObj[key] = value
       },
-      updateCurrentAddress (point) {
-        getSelectedDetail(point).then((rs) => {
-          console.log(rs)
-          this.$store.commit('changePos', rs)
+      updateCurrentAddress (rs) {
+        getSelectedDetail(rs.point).then((result) => {
+          result.address = rs.title
+          this.$store.commit('changePos', result)
           this.$router.push({name: 'order'})
         })
       },
-      getCurrentAddress (point) {
-        getSelectedDetail(point).then((rs) => {
-          this.positionedAddress = rs.address
+      getCurrentAddress (rs) {
+        getSelectedDetail(rs.point).then((result) => {
+          result.address = rs.title
+          this.formObj.positionedAddress = result
           this.changeDetailFlag()
         })
       },

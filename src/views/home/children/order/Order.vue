@@ -357,11 +357,12 @@
         width: 100%;
         height: 200px;
         .classify-box {
-          width: calc(200% + 5px);
+          width: 200%;
+          white-space: nowrap;
           .page-wrapper {
             display: inline-block;
             box-sizing: border-box;
-            width: calc((100% - 5px) / 2);
+            width: 50%;
             .line {
               display: flex;
               padding: 10px 0;
