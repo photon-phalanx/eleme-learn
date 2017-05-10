@@ -11,6 +11,7 @@
 <script>
   import axios from 'axios'
   import {host} from 'api/http.js'
+  import queryString from 'querystring'
   import ErrorHandler from './components/errorHandler/ErrorHandler.vue'
   import Loading from './components/loading/Loading.vue'
   import {getCurrentPosition} from './api/map.js'
@@ -25,7 +26,7 @@
       window.VueRootComponent = this
       this.getCurrentPosition()
       try {
-        let res = await axios.post(host + 'login', {confirm: 'confirm'})
+          let res = await axios.post(host + 'loginP', queryString.stringify({confirm: 'confirm'}))
         console.log(res)
         if (!res.data.r) {
           this.$store.commit('updateUid', res.data.data)

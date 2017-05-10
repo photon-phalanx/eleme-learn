@@ -1,6 +1,10 @@
 import axios from 'axios'
 import queryString from 'querystring'
-const host = 'http://127.0.0.1:8080/'
+// const host = 'http://127.0.0.1:8080/'
+const host = 'http://118.89.150.117:8080/elemeBackend/'
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded'
+// axios.defaults.withCredentials = true
 /*
  async function get (url, params) {
  let res

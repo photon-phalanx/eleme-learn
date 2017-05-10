@@ -74,7 +74,7 @@
         let that = this
         this.disabled = true
         // todo 这里只是和后台对接前的测试
-        this.$store.commit('updateUid', {uid: 12324, pNumber: 17816161616})
+        // this.$store.commit('updateUid', {uid: 12324, pNumber: 17816161616})
         // ajax
         this.count = 30
         let timeCount = setInterval(function () {
@@ -89,10 +89,13 @@
         if (this.loginDisabled) return
         if (!this.getPhoneAuth()) return
         this.loginDisabled = true
-        let res = await this.$post('login', this.obj)
+        let res = await this.$post('loginP', this.obj)
         if (!res) this.loginDisabled = false
         else {
           // 这里做跳转逻辑
+          console.log(res)
+          this.$store.commit('updateUid', {uid: res.data.uid, pNumber: this.obj.pNumber})
+          this.$router.push({name: 'my'})
         }
       }
     }

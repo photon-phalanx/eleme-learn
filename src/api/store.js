@@ -71,4 +71,9 @@ function sellerLoadFromLocal (id, key, def) {
   return ret || def
 }
 
-export {sellerSaveToLocal, commonAddToLocal, sellerLoadFromLocal, commonSaveToLocal, commonLoadFromLocal}
+function cleanLocalStorage (id) {
+  if (id) window.localStorage.removeItem('__' + id + '__')
+  else window.localStorage.clear()
+}
+
+export {sellerSaveToLocal, commonAddToLocal, sellerLoadFromLocal, commonSaveToLocal, commonLoadFromLocal, cleanLocalStorage}

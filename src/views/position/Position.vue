@@ -45,7 +45,10 @@
     </div>
     <div class="bs-local-wrapper" ref="localWrapper" :class="{active: showFlag === 1}">
       <div class="local-container" v-show="showFlag === 1">
-        <div class="line-title">历史搜索</div>
+        <div class="line-title">
+          历史搜索
+          <i class="iconfont icon-you" @click="cleanLocalStorage()"></i>
+        </div>
         <div class="content-wrapper">
           <div class="line-content" v-for="history in historyArr" @click="updateCurrentAddress(history, false)">
             <div class="rs-address">{{history.address}}</div>
@@ -71,7 +74,7 @@
   import BScroll from 'better-scroll'
   import {mapGetters} from 'vuex'
   import {search, getCurrentPosition, getSelectedDetail} from '../../api/map.js'
-  import {commonLoadFromLocal, commonAddToLocal} from '../../api/store.js'
+  import {commonLoadFromLocal, commonAddToLocal, cleanLocalStorage} from '../../api/store.js'
   import EasyHeader from '../../components/easyHeader/EasyHeader.vue'
 
   export default {
@@ -122,6 +125,10 @@
     },
     props: [],
     methods: {
+      cleanLocalStorage () {
+        cleanLocalStorage('history')
+        this.historyArr = []
+      },
       getCurrentPosition () {
         getCurrentPosition.call(this)
       },
@@ -155,8 +162,12 @@
         getSelectedDetail(new BMap.Point(ur.point.lng, ur.point.lat)).then((rs) => {
           rs.address = ur.title
           if (localFlag) {
-            rs.title = ur.title
-            commonAddToLocal('history', rs, 8)
+            try {
+              rs.title = ur.title
+              commonAddToLocal('history', rs, 8)
+            } catch (e) {
+              this.$store.commit('commitMsg', e)
+            }
           }
           this.$store.commit('changePos', rs)
           this.$router.push({name: 'order'})
@@ -310,6 +321,16 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+      }
+    }
+    .local-container {
+      .line-title {
+        .iconfont {
+          display: inline-block;
+          float: right;
+          font-size: 20px;
+          line-height: 35px;
         }
       }
     }
