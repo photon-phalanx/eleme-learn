@@ -11,7 +11,7 @@
       <easy-line title="关于饿了么"></easy-line>
     </div>
     <split></split>
-    <button class="logout-button" @click="logout">退出登录</button>
+    <button class="logout-button" @click="logout" v-show="getUid">退出登录</button>
   </div>
 </template>
 
@@ -19,6 +19,7 @@
   import EasyHeader from '../../../../components/easyHeader/EasyHeader.vue'
   import EasyLine from '../../../../components/easyLine/EasyLine.vue'
   import Split from '../../../../components/split/Split.vue'
+  import {mapGetters} from 'vuex'
 
   export default {
     data () {
@@ -31,6 +32,11 @@
       EasyHeader,
       EasyLine,
       Split
+    },
+    computed: {
+      ...mapGetters([
+        'getUid'
+      ])
     },
     props: [],
     methods: {

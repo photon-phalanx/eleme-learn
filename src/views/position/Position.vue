@@ -20,7 +20,7 @@
             <div class="line-content">
               <div class="address">{{getPos.address}}</div>
               <div class="icon-box">
-                <i class="iconfont icon-fangdajing"></i>
+                <i class="iconfont icon-dingwei1"></i>
                 <span class="text" @click="getCurrentPosition">重新定位</span>
               </div>
             </div>
@@ -45,9 +45,9 @@
     </div>
     <div class="bs-local-wrapper" ref="localWrapper" :class="{active: showFlag === 1}">
       <div class="local-container" v-show="showFlag === 1">
-        <div class="line-title">
+        <div class="line-title" v-show="historyArr && historyArr.length > 0">
           历史搜索
-          <i class="iconfont icon-you" @click="cleanLocalStorage()"></i>
+          <i class="iconfont icon-trash" @click="cleanLocalStorage()"></i>
         </div>
         <div class="content-wrapper">
           <div class="line-content" v-for="history in historyArr" @click="updateCurrentAddress(history, false)">

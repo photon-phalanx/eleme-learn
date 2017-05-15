@@ -94,7 +94,7 @@
         else {
           // 这里做跳转逻辑
           console.log(res)
-          this.$store.commit('updateUid', {uid: res.data.uid, pNumber: this.obj.pNumber})
+          this.$store.commit('updateUid', {uid: res.uid, pNumber: this.obj.pNumber})
           this.$router.push({name: 'my'})
         }
       }

@@ -24,7 +24,7 @@
         <div class="content">
           <div class="main-text">{{getUid.uid}}</div>
           <div class="info">
-            <i v-if="getUid.pNumber" class="iconfont icon-shezhi"></i>
+            <i v-if="getUid.pNumber" class="iconfont icon-shouji"></i>
             <span class="tel-number">{{getUid.pNumber}}</span>
           </div>
         </div>
