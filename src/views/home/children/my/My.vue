@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="block">
-          <EasyLine icon="icon-dizhi" color="#3190e8" title="收货地址"></EasyLine>
+          <EasyLine icon="icon-dizhi" color="#3190e8" title="收货地址" @click.native="$router.push({name: 'address'})"></EasyLine>
           <EasyLine icon="icon-weibiaoti2" color="#ff5f3e" title="我的收藏"></EasyLine>
           <EasyLine v-if="!getUid" icon="icon-icon" color="#3190e8" title="美食相册"></EasyLine>
         </div>

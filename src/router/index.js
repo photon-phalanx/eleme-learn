@@ -17,6 +17,7 @@ import Detail from '../views/home/children/detail/Detail.vue'
 import Config from '../views/home/children/config/Config.vue'
 import Position from '../views/position/Position.vue'
 import AddAddress from '../views/addAddress/AddAddress.vue'
+import Address from '../views/home/children/address/Address.vue'
 
 Vue.use(Router)
 
@@ -105,6 +106,14 @@ export default new Router({
           component: Login,
           meta: {
             noRequireAuth: true
+          }
+        },
+        {
+          path: 'address',
+          name: 'address',
+          component: Address,
+          meta: {
+            requireAuth: true
           }
         },
         {
