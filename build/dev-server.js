@@ -47,6 +47,10 @@ apiRoutes.get('/seller', function (req, res) {
   res.json(seller);
 });
 
+apiRoutes.post('/seller', function (req, res) {
+  res.json(seller);  // 这是一个应急中的应急的测试，完成后应该立刻删去
+});
+
 apiRoutes.get('/goods', function (req, res) {
   res.json(goods);
 });

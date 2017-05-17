@@ -60,7 +60,7 @@
           </div>
         </div>
       </div>
-      <button class="button">确定</button>
+      <button class="button" @click="postForm()" :class="{disabled: formObj.buttonDisabled}">确定</button>
     </div>
     <div class="map-detail" v-show="showDetailFlag">
       <header class="header">
@@ -71,7 +71,7 @@
       <div id="map-box">加载中</div>
       <div class="nearby-wrapper" ref="nearbyWrapper">
         <div class="nearby-box">
-          <div class="nearby-line border-1px" v-for="rs in nearbyArr" @click="getCurrentAddress(rs)">
+          <div class="nearby-line border-1px" v-for="rs in nearbyArr" @click="getCurrentAddress(rs, $event)">
             <i class="iconfont icon-dizhi"></i>
             <div class="nearby-right">
               <div class="title">{{rs.title}}</div>
@@ -115,7 +115,8 @@
           sex: -1,
           pNumber: '',
           address: '',
-          tablet: ''
+          tablet: '',
+          buttonDisabled: false
         }
       }
     },
@@ -179,7 +180,8 @@
           this.$router.push({name: 'order'})
         })
       },
-      getCurrentAddress (rs) {
+      getCurrentAddress (rs, event) {
+        if (!event._constructed) return
         getSelectedDetail(rs.point).then((result) => {
           result.address = rs.title
           this.formObj.positionedAddress = result
@@ -199,6 +201,21 @@
         } else {
           this.searchFlag = false
         }
+      },
+      async postForm () {
+        if (this.formObj.buttonDisabled) return
+        this.formObj.buttonDisabled = true
+        let obj = {}
+        obj.name = this.formObj.name
+        obj.sex = this.formObj.sex
+        obj.lat = this.formObj.positionedAddress.point.lat
+        obj.lng = this.formObj.positionedAddress.point.lng
+        obj.tag = this.formObj.tag
+        obj.pNumber = this.formObj.pNumber
+        obj.address = this.formObj.positionedAddress.address + this.formObj.address + this.formObj.tablet
+        let res = await this.$post('addAddress', obj)
+        if (!res) this.formObj.buttonDisabled = false
+        else this.$router.push({name: 'order'})
       }
     }
   }
@@ -219,6 +236,9 @@
       width: 90%;
     }
     .add-address {
+      input {
+        line-height: 30px;
+      }
       .box {
         background-color: #fff;
         margin-top: 15px;
@@ -280,6 +300,10 @@
         color: #fff;
         font-size: 14px;
         font-weight: bold;
+        &.disabled {
+          background-color: #bbb;
+          cursor: not-allowed;
+        }
       }
     }
     .map-detail {
