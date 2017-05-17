@@ -18,6 +18,7 @@ import Config from '../views/home/children/config/Config.vue'
 import Position from '../views/position/Position.vue'
 import AddAddress from '../views/addAddress/AddAddress.vue'
 import Address from '../views/home/children/address/Address.vue'
+import Test from '../views/test/Test.vue'
 
 Vue.use(Router)
 
@@ -139,6 +140,11 @@ export default new Router({
       path: '/addAddress',
       name: 'addAddress',
       component: AddAddress
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: Test
     },
     {
       path: '/',

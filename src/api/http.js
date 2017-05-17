@@ -37,9 +37,10 @@ axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded'
  }
  */
 async function get (url, params) {
+  let address = ~url.indexOf('http') ? url : host + url
   let res
   try {
-    res = await axios.get(host + url + '?', queryString.stringify(params))
+    res = await axios.get(address + '?', queryString.stringify(params))
     if (res.data.r) {
       this.$store.commit('commitMsg', res.data.r)
     } else {
@@ -52,9 +53,10 @@ async function get (url, params) {
 }
 
 async function post (url, params) {
+  let address = ~url.indexOf('http') ? url : host + url
   let res
   try {
-    res = await axios.post(host + url, queryString.stringify(params))
+    res = await axios.post(address, queryString.stringify(params))
     if (res.data.r) {
       this.$store.commit('commitMsg', res.data.r)
     } else {
