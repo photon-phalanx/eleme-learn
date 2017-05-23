@@ -25,7 +25,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/shop',
+      path: '/shop/:sid',
       name: 'shop',
       component: Shop,
       children: [

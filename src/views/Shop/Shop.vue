@@ -22,6 +22,8 @@
       }
     },
     async mounted () {
+      let query = this.$router
+      console.log(query)
       this.$store.commit('updateLoadingState', true)
       let [seller, goods, ratings] = await Promise.all([this.$get('seller'), this.$get('goods'), this.$get('ratings')])
       this.$store.commit('updateSeller', seller)

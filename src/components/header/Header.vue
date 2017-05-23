@@ -1,5 +1,6 @@
 <template>
   <div class="header">
+    <i class="iconfont icon-fangxiang" @click="goBack()"></i>
     <div class="background">
       <img :src="seller.avatar"/>
     </div>
@@ -68,6 +69,12 @@
     color: #ffffff;
     background-color: rgba(7, 17, 27, 0.5);
     overflow: hidden; //用于解决滤镜超出header部分的阴影问题
+    >.iconfont {
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      z-index: 100;
+    }
     .background {
       position: absolute;
       top: 0;
@@ -273,6 +280,9 @@
       this.seller = await this.$get('seller')
     },
     methods: {
+      goBack () {
+        this.$router.push({name: 'order'})
+      },
       toggleDetail () {
         this.isDetailShow = !this.isDetailShow
       }

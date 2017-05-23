@@ -196,23 +196,27 @@
         'getPos'
       ]),
       getShowAddress () {
+        var that = this
         if (this.getPos && typeof this.getPos === 'object') {
+          this.$get('recommend').then(function (res) {
+            if (res) {
+              that.recommend = res
+            }
+            that.$store.commit('updateLoadingState', false)
+            that.$nextTick(() => {
+              that.orderScroll.refresh()
+            })
+          })
           return this.getPos.address
-        } else {
-         return '获取中请稍后'
         }
+        return '获取中请稍后'
       }
     },
-    async mounted () {
+    mounted () {
       let that = this
-      this.$store.commit('updateLoadingState', true)
-      let res = await this.$get('recommend')
-      if (res) {
-        this.recommend = res
-      }
       this.$store.commit('changeBottomShow', true)
+      this.$store.commit('updateLoadingState', true)
       this.getTimerCount()
-      this.$store.commit('updateLoadingState', false)
       this.$nextTick(() => {
         this.orderScroll = new BScroll(this.$refs.orderWrapper, {
           click: true
@@ -251,7 +255,7 @@
       goToShop (sid, event) {
         this.$router.push({
           name: 'shop',
-          query: {sid: sid}
+          params: {sid: sid}
         })
       }
     },

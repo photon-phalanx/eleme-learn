@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <div class="activity" v-if="item.supports.length > 0" @click="changeShowFlag()">
+        <div class="activity" v-if="item.supports.length > 0" @click.stop="changeShowFlag()">
           <div class="count" v-show="item.supports.length > 2">
             {{item.supports.length}}个活动
             <transition name="fade" mode="out-in">
