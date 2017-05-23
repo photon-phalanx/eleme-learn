@@ -7,8 +7,8 @@ var avatarProfix = 'https://fuss10.elemecdn.com/'
 var detailProfix = 'https://mainsite-restapi.ele.me/shopping/v2/menu?restaurant_id='
 var avatarLessSize = '?imageView2/1/w/180/h/180'
 var query = {
-  latitude: 30.22492,
-  longitude: 120.036888,
+  latitude: 30.230946,
+  longitude: 120.043332,
   limit: 5,
   offset: 0
 }
@@ -25,12 +25,12 @@ function getDetailFoods (sid) {
 function dealSingleFood (food) {
   // console.log(food)
   var length = food.foods.length
-  console.log('totle' + length)
+  // console.log('totle' + length)
   var foodList = []
   for (var i = 0; i < length; i++) {
     var obj = {}
-    console.log('now' + i)
-    console.log(food.foods[i])
+    // console.log('now' + i)
+    // console.log(food.foods[i])
     obj.name = food.foods[i].name
     obj.description = food.foods[i].description
     obj.sellCount = food.foods[i].month_sales
@@ -54,13 +54,14 @@ function dealSingleFood (food) {
     foodList.push(obj)
   }
   food.foods = foodList
+  console.log(food)
   return axios.post('http://127.0.0.1:8080/seller', queryString.stringify(food))
   // return Promise.resolve('hello')
 }
 
 function dealWholeFood (foods, i, data, count) {
   var length = foods.length
-  console.log(i, length)
+  // console.log(i, length)
   if (i === length) {
     dealMsgWhole(count + 1, data)
   } else {
@@ -77,6 +78,9 @@ function dealMsgWhole (i, data) {
     .then(function (res) {
       getDetailFoods(obj.sid).then(function (result) {
         var data2 = result.data
+        for (var item = 0; item < data2.length; item++) {
+          data2[item].sid = obj.sid
+        }
         dealWholeFood(data2, 0, data, i)
       })
     }).catch(function (err) {
@@ -107,8 +111,8 @@ function dealMsg (selfData) {
   obj.serviceScore = obj.score
   obj.pics = []
   obj.supports = []
-  obj.lat = selfData.latitude
-  obj.lng = selfData.longitude
+  obj.lat = (selfData.latitude * 1000000 + Math.floor(Math.random() * 200) - 100) / 1000000
+  obj.lng = (selfData.longitude * 1000000 + Math.floor(Math.random() * 200) - 100) / 1000000
   obj.sid = selfData.id
   for (var i in selfData.activities) {
     var smallObj = {}
@@ -117,6 +121,7 @@ function dealMsg (selfData) {
     smallObj.description = selfData.activities[i].description
     obj.supports.push(smallObj)
   }
+  console.log('商家', obj)
   return obj
 }
 

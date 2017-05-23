@@ -26,6 +26,7 @@ export default new Router({
   routes: [
     {
       path: '/shop',
+      name: 'shop',
       component: Shop,
       children: [
         {

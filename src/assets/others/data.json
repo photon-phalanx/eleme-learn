@@ -1391,6 +1391,7 @@
       "ratingCount": 24,
       "sellCount": 90,
       "distance": 852,
+      "sid": 123456,
       "avatar": "http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg",
       "supports": [
         {

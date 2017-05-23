@@ -155,7 +155,7 @@
       </div>
       <split :height="8"></split>
       <div class="recommend">
-        <ShopItem v-for="item in recommend" :item="item" @callReCalc="reCalc"></ShopItem>
+        <ShopItem v-for="item in recommend" :item="item" @callReCalc="reCalc" @click.native="goToShop(item.sid, $event)"></ShopItem>
       </div>
     </div>
   </div>
@@ -247,6 +247,12 @@
             this.orderScroll.refresh()
           })
         }, 250)
+      },
+      goToShop (sid, event) {
+        this.$router.push({
+          name: 'shop',
+          query: {sid: sid}
+        })
       }
     },
     components: {
