@@ -40,7 +40,9 @@ async function get (url, params) {
   let address = ~url.indexOf('http') ? url : host + url
   let res
   try {
-    res = await axios.get(address + '?', queryString.stringify(params))
+    let sub = ''
+    if (params) sub = '?' + queryString.stringify(params)
+    res = await axios.get(address + sub)
     if (res.data.r) {
       this.$store.commit('commitMsg', res.data.r)
     } else {
@@ -57,6 +59,7 @@ async function post (url, params) {
   let res
   try {
     res = await axios.post(address, queryString.stringify(params))
+    console.log(res)
     if (res.data.r) {
       this.$store.commit('commitMsg', res.data.r)
     } else {

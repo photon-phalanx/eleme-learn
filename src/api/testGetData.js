@@ -14,7 +14,7 @@ var query = {
 }
 
 function sendToBack (obj) {
-  return axios.post('http://127.0.0.1:8080/seller', queryString.stringify(obj))
+  return axios.post('http://192.168.1.102:8080/seller', queryString.stringify(obj))
   // return Promise.resolve('Hello')
 }
 
@@ -41,11 +41,11 @@ function dealSingleFood (food) {
     if (food.foods[i].image_path) {
       obj.image = avatarProfix + food.foods[i].image_path.substring(0, 1) + '/' + food.foods[i].image_path.substring(1, 3) + '/' +
         food.foods[i].image_path.substring(3) + '.' +
-        food.foods[i].image_path.substring(food.foods[i].image_path.search(/gif|jpeg|jpg|tiff|psd|raw/i)) +
+        food.foods[i].image_path.substring(food.foods[i].image_path.search(/png|gif|jpeg|jpg|tiff|psd|raw/i)) +
         '?imageView2/1/w/750/h/750'
       obj.icon = avatarProfix + food.foods[i].image_path.substring(0, 1) + '/' + food.foods[i].image_path.substring(1, 3) + '/' +
         food.foods[i].image_path.substring(3) + '.' +
-        food.foods[i].image_path.substring(food.foods[i].image_path.search(/gif|jpeg|jpg|tiff|psd|raw/i)) +
+        food.foods[i].image_path.substring(food.foods[i].image_path.search(/png|gif|jpeg|jpg|tiff|psd|raw/i)) +
         '?imageView2/1/w/114/h/114'
     } else {
       obj.image = undefined
@@ -55,7 +55,7 @@ function dealSingleFood (food) {
   }
   food.foods = foodList
   console.log(food)
-  return axios.post('http://127.0.0.1:8080/seller', queryString.stringify(food))
+  return axios.post('http://192.168.1.102:8080/seller', queryString.stringify(food))
   // return Promise.resolve('hello')
 }
 

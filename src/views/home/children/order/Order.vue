@@ -198,7 +198,11 @@
       getShowAddress () {
         var that = this
         if (this.getPos && typeof this.getPos === 'object') {
-          this.$get('recommend').then(function (res) {
+          let obj = {
+            lat: 30.225327,
+            lng: 120.04199
+          }
+          this.$post('distance', obj).then(function (res) {
             if (res) {
               that.recommend = res
             }
@@ -267,7 +271,7 @@
   }
 </script>
 
-<style scoped lang="scss" rel="stylesheet/scss">
+<style scoped lang="scss" type="text/scss">
   @import "../../../../assets/css/color.scss";
   @import "../../../../assets/css/mixin.scss";
 

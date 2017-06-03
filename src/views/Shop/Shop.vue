@@ -22,10 +22,11 @@
       }
     },
     async mounted () {
-      let query = this.$router
-      console.log(query)
+      let sid = this.$route.params.sid
+      console.log(sid)
+      let obj = {sid}
       this.$store.commit('updateLoadingState', true)
-      let [seller, goods, ratings] = await Promise.all([this.$get('seller'), this.$get('goods'), this.$get('ratings')])
+      let [seller, goods, ratings] = await Promise.all([this.$post('getSeller', obj), this.$post('getGoods', obj), this.$post('getRatings', obj)])
       this.$store.commit('updateSeller', seller)
       this.$store.commit('updateGoods', goods)
       this.$store.commit('updateRatings', ratings)
@@ -34,14 +35,9 @@
     },
     computed: {
       ...mapGetters([
-        'getLoadingState'
+        'getLoadingState',
+        'getPos'
       ])
-    },
-    watch: {
-      getSeller () {
-        console.log(this)
-        console.log('change')
-      }
     },
     props: [],
     methods: {},
