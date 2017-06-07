@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-if="showFlag">
-    <shop-header></shop-header>
+    <shop-header v-if="showFlag"></shop-header>
     <shop-middle></shop-middle>
     <keep-alive>
       <router-view></router-view>

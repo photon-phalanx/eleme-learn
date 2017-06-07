@@ -15,7 +15,7 @@
         <div class="description">
           {{seller.description}}/{{seller.deliveryTime}}分钟送达
         </div>
-        <div class="support" v-if="seller.supports" @click="toggleDetail">
+        <div class="support" v-if="seller.supports.length" @click="toggleDetail">
           <Icon :typeNum="seller.supports[0].type" :sizeNum="1"></Icon>
           <span class="text">{{seller.supports[0].description}}</span>
         </div>
@@ -73,7 +73,7 @@
       position: absolute;
       left: 5px;
       top: 5px;
-      z-index: 100;
+      z-index: 3;
     }
     .background {
       position: absolute;
@@ -269,15 +269,20 @@
   import Star from '../star/Star.vue'
   import Icon from '../icon/Icon.vue'
   import SubTitle from '../subTitle/SubTitle.vue'
+  import {mapGetters} from 'vuex'
   export default{
     data () {
       return {
-        seller: '',
         isDetailShow: false
       }
     },
+    computed: {
+      ...mapGetters({
+        seller: 'getSeller'
+      })
+    },
     async mounted () {
-      this.seller = await this.$get('seller')
+      // this.seller = await this.$get('seller')
     },
     methods: {
       goBack () {
